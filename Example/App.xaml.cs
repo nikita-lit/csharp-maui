@@ -11,7 +11,10 @@ namespace Example
 
         protected override Window CreateWindow(IActivationState? activationState)
         {
-            return new Window(new AppShell());
+            var window = new Window(new AppShell());
+            window.Width = 500;
+            window.Height = 900;
+            return window;
         }
     }
 }

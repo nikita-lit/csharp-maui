@@ -66,6 +66,9 @@
 	  <Compile Update="TextPage.xaml.cs">
 	    <DependentUpon>TextPage.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="RGBPage.xaml.cs">
+	    <DependentUpon>RGBPage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="ValgusfoorPage.xaml.cs">
 	    <DependentUpon>ValgusfoorPage.xaml</DependentUpon>
 	  </Compile>
@@ -79,6 +82,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="TextPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="RGBPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="ValgusfoorPage.xaml">

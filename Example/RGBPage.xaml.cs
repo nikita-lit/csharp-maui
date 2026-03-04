@@ -1,6 +1,6 @@
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Layouts;
-using static System.Net.Mime.MediaTypeNames;
+using Microsoft.Maui.Controls.Shapes;
 
 namespace Example;
 
@@ -8,8 +8,8 @@ public partial class RGBPage : ContentPage
 {
     private Slider _redSlider, _greenSlider, _blueSlider;
     private Label _redLabel, _greenLabel, _blueLabel;
-    private BoxView _boxView;
-    private BoxView _redBox, _greenBox, _blueBox;
+    private Rectangle _boxView;
+    private Rectangle _redBox, _greenBox, _blueBox;
     private Stepper _rgbStepper;
     private Label _title;
 
@@ -50,14 +50,16 @@ public partial class RGBPage : ContentPage
             _greenSlider.Value = Random.Shared.Next(0, 256);
             _blueSlider.Value = Random.Shared.Next(0, 256);
         };
-        AbsoluteLayout.SetLayoutBounds(rndBut, new Rect(0.2, 0.525 + offsetY, 150, 50));
+        AbsoluteLayout.SetLayoutBounds(rndBut, new Rect(0.2, 0.525 + offsetY, 120, 50));
         AbsoluteLayout.SetLayoutFlags(rndBut, AbsoluteLayoutFlags.PositionProportional);
 
         // ----------------------------------------------
-        _boxView = new BoxView
+        _boxView = new Rectangle
         {
-            Color = Colors.Black,
-            CornerRadius = 15,
+            Fill = Colors.Black,
+            BackgroundColor = Colors.Transparent, 
+            Stroke = Colors.Black,
+            StrokeThickness = 4,
         };
         AbsoluteLayout.SetLayoutBounds(_boxView, new Rect(0.5, 0.15, 180, 180));
         AbsoluteLayout.SetLayoutFlags(_boxView, AbsoluteLayoutFlags.PositionProportional);
@@ -71,7 +73,7 @@ public partial class RGBPage : ContentPage
             Value = 0,
         };
 
-        AbsoluteLayout.SetLayoutBounds(_rgbStepper, new Rect(0.6, 0.525 + offsetY, -1, -1));
+        AbsoluteLayout.SetLayoutBounds(_rgbStepper, new Rect(0.7, 0.525 + offsetY, 150, -1));
         AbsoluteLayout.SetLayoutFlags(_rgbStepper, AbsoluteLayoutFlags.PositionProportional);
 
         _rgbStepper.ValueChanged += (s, e) =>
@@ -132,14 +134,16 @@ public partial class RGBPage : ContentPage
         Content = layout;
     }
 
-    private BoxView CreateColorBox(double x, double y)
+    private Rectangle CreateColorBox(double x, double y)
     {
-        var box = new BoxView
+        var box = new Rectangle
         {
             WidthRequest = 65,
             HeightRequest = 60,
-            CornerRadius = 15,
-            Color = Colors.Black,
+            Fill = Colors.Black,
+            BackgroundColor = Colors.Transparent,
+            Stroke = Colors.Black,
+            StrokeThickness = 4,
         };
         AbsoluteLayout.SetLayoutBounds(box, new Rect(x, y, 65, 60));
         AbsoluteLayout.SetLayoutFlags(box, AbsoluteLayoutFlags.PositionProportional);
@@ -154,7 +158,7 @@ public partial class RGBPage : ContentPage
             Maximum = 255
         };
         s.ValueChanged += OnSliderValueChanged;
-        AbsoluteLayout.SetLayoutBounds(s, new Rect(0.65, y, 220, 40));
+        AbsoluteLayout.SetLayoutBounds(s, new Rect(0.675, y, 220, 40));
         AbsoluteLayout.SetLayoutFlags(s, AbsoluteLayoutFlags.PositionProportional);
         return s;
     }
@@ -176,12 +180,12 @@ public partial class RGBPage : ContentPage
         else if (sender == _blueSlider)
             _blueLabel.Text = String.Format("Sinine = {0:X2}", (int)args.NewValue);
 
-        _boxView.Color = Color.FromRgb(((int)_redSlider.Value) / 255.0, ((int)_greenSlider.Value) / 255.0, ((int)_blueSlider.Value) / 255.0);
+        _boxView.Fill = Color.FromRgb(((int)_redSlider.Value) / 255.0, ((int)_greenSlider.Value) / 255.0, ((int)_blueSlider.Value) / 255.0);
         _title.TextColor = Color.FromRgb(((int)_redSlider.Value) / 255.0, ((int)_greenSlider.Value) / 255.0, ((int)_blueSlider.Value) / 255.0);
 
-        _redBox.Color = Color.FromRgb(((int)_redSlider.Value) / 255.0, 0, 0);
-        _greenBox.Color = Color.FromRgb(0, ((int)_greenSlider.Value) / 255.0, 0);
-        _blueBox.Color = Color.FromRgb(0, 0, ((int)_blueSlider.Value) / 255.0);
+        _redBox.Fill = Color.FromRgb(((int)_redSlider.Value) / 255.0, 0, 0);
+        _greenBox.Fill = Color.FromRgb(0, ((int)_greenSlider.Value) / 255.0, 0);
+        _blueBox.Fill = Color.FromRgb(0, 0, ((int)_blueSlider.Value) / 255.0);
 
         Dispatcher.Dispatch(async () =>
         {

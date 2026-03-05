@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace Example;
 
 public partial class PopUpPage : ContentPage
@@ -28,6 +30,15 @@ public partial class PopUpPage : ContentPage
         };
         optionsButton.Clicked += OnOptionsButtonClicked;
 
+        Button alertQuestButton = new Button
+        {
+            Text = "Küsimus",
+            VerticalOptions = LayoutOptions.Start,
+            HorizontalOptions = LayoutOptions.Center,
+        };
+
+        alertQuestButton.Clicked += AlertQuestButton_Clicked;
+
         Content = new VerticalStackLayout
         {
             Spacing = 20,
@@ -36,9 +47,18 @@ public partial class PopUpPage : ContentPage
             {
                 alertButton,
                 confirmButton,
-                optionsButton
+                optionsButton,
+                alertQuestButton,
             }
         };
+    }
+
+    private async void AlertQuestButton_Clicked(object? sender, EventArgs e)
+    {
+        string result1 = await DisplayPromptAsync("Küsimus", "Kuidas läheb?", placeholder: "Tore!");
+        string result2 = await DisplayPromptAsync("Vasta", "Millega võrdub 5 + 5", initialValue: "10", 
+                maxLength: 2,
+                keyboard: Keyboard.Numeric);
     }
 
     private async void OnAlertButtonClicked(object sender, EventArgs e)

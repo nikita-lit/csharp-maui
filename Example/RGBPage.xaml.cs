@@ -29,9 +29,9 @@ public partial class RGBPage : ContentPage
         // ----------------------------------------------
         double offsetY = 0.2;
 
-        _redBox = CreateColorBox(0.2, 0.2 + offsetY);
-        _greenBox = CreateColorBox(0.2, 0.3 + offsetY);
-        _blueBox = CreateColorBox(0.2, 0.4 + offsetY);
+        _redBox = CreateColorBox(0.2 + offsetY);
+        _greenBox = CreateColorBox(0.3 + offsetY);
+        _blueBox = CreateColorBox(0.4 + offsetY);
 
         _redSlider = CreateSlider(0.2 + offsetY);
         _redLabel = CreateLabel("Punane = 00", 0.225 + offsetY);
@@ -134,7 +134,7 @@ public partial class RGBPage : ContentPage
         Content = layout;
     }
 
-    private Rectangle CreateColorBox(double x, double y)
+    private Rectangle CreateColorBox(double y)
     {
         var box = new Rectangle
         {
@@ -145,7 +145,7 @@ public partial class RGBPage : ContentPage
             Stroke = Colors.Black,
             StrokeThickness = 4,
         };
-        AbsoluteLayout.SetLayoutBounds(box, new Rect(x, y, 65, 60));
+        AbsoluteLayout.SetLayoutBounds(box, new Rect(0.2, y, 65, 60));
         AbsoluteLayout.SetLayoutFlags(box, AbsoluteLayoutFlags.PositionProportional);
         return box;
     }

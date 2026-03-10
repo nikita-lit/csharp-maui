@@ -1,3 +1,5 @@
+using System;
+
 namespace Example;
 
 public partial class StartPage : ContentPage
@@ -28,5 +30,7 @@ public partial class StartPage : ContentPage
 		scrollView = new ScrollView() { Content = layout };
 		Content = scrollView;
 
-	}
+        Navigation.PushAsync(new LumememmPage());
+
+    }
 }

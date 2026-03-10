@@ -9,10 +9,13 @@ namespace Example;
 public partial class LumememmPage : ContentPage
 {
     private AbsoluteLayout _layout, _snowLayout;
-    private Label _title;
+    private Label _title, _opacityVLabel;
     private Picker _picker;
     private Image _bgImage;
+    private Slider _opacitySlider;
     private bool _isDay = true;
+    private bool _isMelted = false;
+    private bool _isMelting = false;
     private CancellationTokenSource? _danceCts;
 
     public LumememmPage()
@@ -22,7 +25,7 @@ public partial class LumememmPage : ContentPage
         {
             Text = "Lumememm",
             FontSize = 32,
-            TextColor = Colors.IndianRed,
+            TextColor = Colors.Red,
         };
 
         AbsoluteLayout.SetLayoutBounds(_title, new Rect(0.5, 0.05, -1, -1));
@@ -49,21 +52,29 @@ public partial class LumememmPage : ContentPage
             Title = "Tegevus",
             Items =
             {
-                "Näita lumememm",
-                "Peida lumememm",
+                "Näita",
+                "Peida",
                 "Muuda värvi",
                 "Sulata",
                 "Tantsi",
             },
             SelectedIndex = 0,
         };
-        _picker.SelectedIndexChanged += picker_SelectedIndexChanged;
         vsl.Children.Add(_picker);
+
+        var butAct = new Button {
+            Text = "Käivita tegevus",
+        };
+        butAct.Clicked += async (sender, e) => {
+            StartAction();
+            await butAct.ScaleTo(0.9, 250, Easing.SpringOut);
+            await butAct.ScaleTo(1, 250, Easing.SpringOut);
+        };
 
         var but = new Button {
             Text = "Öö",
         };
-        but.Clicked += (sender, e) =>
+        but.Clicked += async (sender, e) =>
         {
             _isDay = !_isDay;
             if (_isDay)
@@ -76,11 +87,51 @@ public partial class LumememmPage : ContentPage
                 _bgImage.Source = "snow_forest_night.png";
                 but.Text = "Päev";
             }
+
+            await but.ScaleTo(0.9, 250, Easing.SpringOut);
+            await but.ScaleTo(1, 250, Easing.SpringOut);
         };
 
+        vsl.Children.Add(butAct);
         vsl.Children.Add(but);
-        _layout.Children.Add(_title);
 
+        var opacityLabel = new Label
+        {
+            Text = "Läbipaistmatus",
+            HorizontalTextAlignment = TextAlignment.Start,
+            VerticalTextAlignment = TextAlignment.Start,
+        };
+        vsl.Children.Add(opacityLabel);
+
+        var hsl2 = new HorizontalStackLayout { 
+            Spacing = 8, 
+            Padding = 0, 
+        };
+        _opacityVLabel = new Label {
+            Text = "1.00",
+            WidthRequest = 30,
+            HorizontalTextAlignment = TextAlignment.Center,
+            VerticalTextAlignment = TextAlignment.Center,
+        };
+
+        _opacitySlider = new Slider
+        {
+            Value = 1,
+            Minimum = 0,
+            Maximum = 1,
+            WidthRequest = 320
+        };
+        _opacitySlider.ValueChanged += (sender, e) => {
+            if (_isMelting) return;
+            _snowLayout.Opacity = e.NewValue;
+            _opacityVLabel.Text = $"{e.NewValue:F2}";
+        };
+
+        hsl2.Children.Add(_opacityVLabel);
+        hsl2.Children.Add(_opacitySlider);
+        vsl.Children.Add(hsl2);
+
+        _layout.Children.Add(_title);
         Content = _layout;
     }
 
@@ -104,13 +155,20 @@ public partial class LumememmPage : ContentPage
         {
             BackgroundColor = bgColor,
             CornerRadius = 1000,
+            HasShadow = false,
         };
         AbsoluteLayout.SetLayoutBounds(frame, new Rect(x, y, size, size));
         AbsoluteLayout.SetLayoutFlags(frame, AbsoluteLayoutFlags.PositionProportional);
         return frame;
     }
 
-    private async void picker_SelectedIndexChanged(object? sender, EventArgs e)
+    private void SetOpacity(double opacity)
+    {
+        _opacitySlider.Value = opacity;
+        _opacityVLabel.Text = $"{opacity:F2}";
+    }
+
+    private async void StartAction()
     {
         _danceCts?.Cancel();
         _snowLayout.CancelAnimations();
@@ -122,17 +180,44 @@ public partial class LumememmPage : ContentPage
 
         switch (_picker.SelectedItem)
         {
-            case "Näita lumememm":
+            case "Näita":
                 _snowLayout.IsVisible = true;
+                if (_opacitySlider.Value != 0)
+                    _snowLayout.Opacity = _opacitySlider.Value;
+                else
+                {
+                    _snowLayout.Opacity = 1;
+                    SetOpacity(1);
+                }
+
+                _isMelted = false;
                 break;
-            case "Peida lumememm":
+            case "Peida":
                 _snowLayout.IsVisible = false;
+                _snowLayout.Opacity = 0;
+                SetOpacity(0);
                 break;
             case "Muuda värvi":
                 break;
             case "Sulata":
-                _snowLayout.ScaleTo(0, 2500, Easing.SpringOut);
-                await _snowLayout.FadeToAsync(0, 2500, Easing.SpringOut);
+                _isMelting = true;
+
+                if (_isMelted)
+                {
+                    _snowLayout.Scale = 0;
+                    _snowLayout.ScaleTo(1, 2500, Easing.SpringOut);
+                    SetOpacity(1);
+                    await _snowLayout.FadeToAsync(1, 2500, Easing.SpringOut);
+                }
+                else
+                {
+                    _snowLayout.ScaleTo(0, 2500, Easing.SpringOut);
+                    SetOpacity(1);
+                    await _snowLayout.FadeToAsync(0, 2500, Easing.SpringOut);
+                }
+
+                _isMelting = false;
+                _isMelted = !_isMelted;
                 break;
             case "Tantsi":
                 _danceCts = new CancellationTokenSource();

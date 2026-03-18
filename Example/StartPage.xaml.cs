@@ -6,8 +6,9 @@ public partial class StartPage : ContentPage
 {
 	VerticalStackLayout layout;
 	ScrollView scrollView;
-	public List<ContentPage> pages = new List<ContentPage>() { new TextPage(), new FigurePage(), new ValgusfoorPage(), new RGBPage(), new LumememmPage(), new PopUpPage() };
-	public List<string> pageNames = new List<string>() { "Tekst", "Kujund", "Valgusfoor", "RGB", "Lumememm", "PopUp" };
+	public List<string> pageNames = new List<string>() { "Tekst", "Kujund", "Valgusfoor", "RGB", "Lumememm", "PopUp", "Korrutustabeli test", "Trips traps trull" };
+	private List<Type> pageTypes = new List<Type>() { typeof(TextPage), typeof(FigurePage), typeof(ValgusfoorPage), typeof(RGBPage), typeof(LumememmPage), typeof(PopUpPage), typeof(MultiplicationTest), typeof(TicTacToe) };
+
 	public StartPage()
 	{
 		Title = "Avaleht";
@@ -17,20 +18,20 @@ public partial class StartPage : ContentPage
 			Padding = new Thickness(30, 0),
 			VerticalOptions = LayoutOptions.Center
 		};
-		for (int i = 0; i < pages.Count; i++)
+
+		for (int i = 0; i < pageTypes.Count; i++)
 		{
 			var button = new Button() { Text = pageNames[i], FontFamily = "NunitoSansRegular", FontSize = 18, FontAttributes = FontAttributes.Bold };
 			int index = i;
-			button.Clicked += (sender, args) =>
+			button.Clicked += async (sender, args) =>
 			{
-				Navigation.PushAsync(pages[index]);
+				var page = (ContentPage)Activator.CreateInstance(pageTypes[index]);
+				await Navigation.PushAsync(page);
 			};
 			layout.Children.Add(button);
 		}
+		
 		scrollView = new ScrollView() { Content = layout };
 		Content = scrollView;
-
-        Navigation.PushAsync(new LumememmPage());
-
     }
 }

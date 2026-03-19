@@ -1,3 +1,5 @@
+using System;
+using Microsoft.Maui.Controls;
 using System.Text.Json;
 
 namespace Example;
@@ -8,14 +10,14 @@ public class ScoreData
     public int Points { get; set; } = 0;
 }
 
-public partial class MultiplicationTest : ContentPage
+public partial class MathTest : ContentPage
 {
     private Label _greetingLabel;
     private Label _scoreLabel;
     private string _playerName = "";
     private int _currentA, _currentB;
 
-    public MultiplicationTest()
+    public MathTest()
     {
         InitializeComponent();
 
@@ -36,7 +38,7 @@ public partial class MultiplicationTest : ContentPage
         };
 
         var butTest = new Button { 
-            Text = "Küsi korrutustehet" 
+            Text = "Alusta" 
         };
         butTest.Clicked += (s, e) => OnTestClicked();
 
@@ -77,7 +79,7 @@ public partial class MultiplicationTest : ContentPage
         if (_currentA == 0 || _currentB == 0)
             CreateNewQuestion();
 
-        string savedColor = Preferences.Default.Get("BgColor", "Tavaline");
+        string savedColor = Preferences.Default.Get("BgColor", "Valge");
         ApplyColor(savedColor);
 
         if (string.IsNullOrEmpty(_playerName))
@@ -114,7 +116,7 @@ public partial class MultiplicationTest : ContentPage
                 _greetingLabel.TextColor = Colors.White;
                 _scoreLabel.TextColor = Colors.LightGray;
                 break;
-            case "Tavaline":
+            case "Valge":
             default:
                 BackgroundColor = Colors.White;
                 _greetingLabel.TextColor = Colors.Black;
@@ -173,12 +175,33 @@ public partial class MultiplicationTest : ContentPage
 
     private async void OnTestClicked()
     {
+        string choice = await DisplayActionSheetAsync("Vali", "Loobu", null, "Korrutamine", "Lisamine", "Lahutamine");
+        if (string.IsNullOrEmpty(choice) || choice == "Loobu")
+            return;
+
         bool continuePlaying = true;
+        int num = 0;
         while (continuePlaying)
         {
-            int answer = _currentA * _currentB;
-            string userAnswerStr = await DisplayPromptAsync("Korrutamine", $"Palju on {_currentA} * {_currentB}?", keyboard: Keyboard.Numeric);
+            int answer = 0;
+            string q = "";
+            if (choice == "Korrutamine")
+            {
+                answer = _currentA * _currentB;
+                q = $"Palju on {_currentA} * {_currentB}?";
+            }
+            else if (choice == "Lisamine")
+            {
+                answer = _currentA + _currentB;
+                q = $"Palju on {_currentA} + {_currentB}?";
+            }
+            else if (choice == "Lahutamine")
+            {
+                answer = _currentA - _currentB;
+                q = $"Palju on {_currentA} - {_currentB}?";
+            }
 
+            string userAnswerStr = await DisplayPromptAsync(choice, q, keyboard: Keyboard.Numeric);
             if (userAnswerStr == null) 
                 break;
 
@@ -192,6 +215,7 @@ public partial class MultiplicationTest : ContentPage
                 else
                     await DisplayAlertAsync("Tulemus", $"Vale! Õige vastus on {answer}.", "OK");
                     
+                num++;
                 CreateNewQuestion();
             }
             else
@@ -199,7 +223,11 @@ public partial class MultiplicationTest : ContentPage
                 await DisplayAlertAsync("Viga", "Palun sisesta number.", "OK");
             }
 
-            continuePlaying = await DisplayAlertAsync("Küsimus", "Kas soovid jätkata?", "Jah", "Ei");
+            if (num == 3)
+            {
+                continuePlaying = await DisplayAlertAsync("Küsimus", "Kas soovid jätkata?", "Jah", "Ei");
+                num = 0;
+            }
         }
     }
 
@@ -252,7 +280,7 @@ public partial class MultiplicationTest : ContentPage
 
     private async void OnColorClicked()
     {
-        string choice = await DisplayActionSheetAsync("Vali teema värv", "Loobu", null, "Punane", "Roheline", "Sinine", "Tume", "Tavaline");
+        string choice = await DisplayActionSheetAsync("Vali teema värv", "Loobu", null, "Punane", "Roheline", "Sinine", "Tume", "Valge");
         if (!string.IsNullOrEmpty(choice) && choice != "Loobu")
             ApplyColor(choice);
     }

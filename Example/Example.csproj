@@ -63,6 +63,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="MathTest.xaml.cs">
+	    <DependentUpon>MathTest.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="TextPage.xaml.cs">
 	    <DependentUpon>TextPage.xaml</DependentUpon>
 	  </Compile>
@@ -81,7 +84,7 @@
 	  <MauiXaml Update="LumememmPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="MultiplicationTest.xaml">
+	  <MauiXaml Update="MathTest.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="PopUpPage.xaml">
@@ -96,7 +99,7 @@
 	  <MauiXaml Update="RGBPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="TicTacToe.xaml">
+	  <MauiXaml Update="TicTacToe\TicTacToe.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="ValgusfoorPage.xaml">

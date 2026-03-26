@@ -1,17 +1,9 @@
 namespace Example.TicTacToe;
 
-public class Player
+public class Player(string name, string symbol, bool isBot)
 {
-    public string Name { get; set; }
-    public string Symbol { get; set; }
-    public bool IsBot { get; set; }
-    public int Points { get; set; }
-
-    public Player(string name, string symbol, bool isBot)
-    {
-        Name = name;
-        Symbol = symbol;
-        IsBot = isBot;
-        Points = 0;
-    }
+    public string Name { get; set; } = name;
+    public string Symbol { get; set; } = symbol;
+    public bool IsBot { get; set; } = isBot;
+    public int Points { get; set; } = 0;
 }

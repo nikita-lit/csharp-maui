@@ -6,7 +6,6 @@ public partial class TicTacToeStart : ContentPage
     private Entry _opponentSymbolEntry;
     private Picker _firstPlayerPicker;
     private Picker _opponentPicker;
-    private Picker _sizePicker;
 
     public TicTacToeStart()
     {
@@ -85,22 +84,6 @@ public partial class TicTacToeStart : ContentPage
         opponentLayout.Children.Add(_opponentPicker);
         mainLayout.Children.Add(opponentLayout);
 
-        var sizeLayout = new VerticalStackLayout { 
-            Spacing = 5, 
-            HorizontalOptions = LayoutOptions.Center, 
-            WidthRequest = 250 
-        };
-        sizeLayout.Children.Add(new Label { 
-            Text = "Laua suurus:" 
-        });
-        _sizePicker = new Picker();
-        _sizePicker.Items.Add("3x3");
-        _sizePicker.Items.Add("4x4");
-        _sizePicker.Items.Add("5x5");
-        _sizePicker.SelectedIndex = 0;
-        sizeLayout.Children.Add(_sizePicker);
-        mainLayout.Children.Add(sizeLayout);
-
         var startBut = new Button { 
             Text = "Alusta mängu", 
             BackgroundColor = Color.FromArgb("#4CAF50"), 
@@ -110,22 +93,7 @@ public partial class TicTacToeStart : ContentPage
             Margin = new Thickness(0, 20, 0, 0) 
         };
         startBut.Clicked += OnStartClicked;
-        
-        var rulesBut = new Button { 
-            Text = "Reeglid", 
-            BackgroundColor = Color.FromArgb("#FF9800"), 
-            TextColor = Colors.White, 
-            HorizontalOptions = LayoutOptions.Center, 
-            WidthRequest = 250, 
-            Margin = new Thickness(0, 10, 0, 0) 
-        };
-        rulesBut.Clicked += async (e, sender) =>
-        {
-            await Navigation.PushAsync(new TicTacToeRules());
-        };
-
         mainLayout.Children.Add(startBut);
-        mainLayout.Children.Add(rulesBut);
 
         Content = new ScrollView { 
             Content = mainLayout 
@@ -140,9 +108,8 @@ public partial class TicTacToeStart : ContentPage
         if (pSym == oSym)
             oSym = pSym == "X" ? "O" : "X";
 
-        int firstPlayerOpt = _firstPlayerPicker.SelectedIndex;
+        int first = _firstPlayerPicker.SelectedIndex;
         bool isBot = _opponentPicker.SelectedIndex == 1;
-        int size = _sizePicker.SelectedIndex == 1 ? 4 : (_sizePicker.SelectedIndex == 2 ? 5 : 3);
 
         var players = new List<Player>
         {
@@ -150,6 +117,8 @@ public partial class TicTacToeStart : ContentPage
             new Player("Mängija 2", oSym, isBot),
         };
 
-        await Navigation.PushAsync(new TicTacToe(players, firstPlayerOpt, size));
+        await Navigation.PushAsync(new TicTacToe(
+            new GameData(players, first, 3)
+        ));
     }
 }

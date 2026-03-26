@@ -1,6 +1,58 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Example.TicTacToe.TicTacToeStart"
-             Title="Trips-Traps-Trull: Seaded">
+             Title="Trips-Traps-Trull : Menüü">
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20" VerticalOptions="Center">
+            <Label Text="Mängu Seaded" 
+                   FontSize="32" 
+                   FontAttributes="Bold" 
+                   HorizontalOptions="Center" />
+
+            <VerticalStackLayout Spacing="5" HorizontalOptions="Center" WidthRequest="250">
+                <Label Text="Sinu sümbol:" />
+                <Entry x:Name="PlayerSymbolEntry" 
+                       Text="X"
+                       HorizontalTextAlignment="Center" 
+                       MaxLength="10"
+                       TextChanged="OnSymbolTextChanged" />
+                
+                <Label Text="Vastase sümbol:" Margin="0,5,0,0" />
+                <Entry x:Name="OpponentSymbolEntry" 
+                       Text="O" 
+                       HorizontalTextAlignment="Center" 
+                       MaxLength="10" 
+                       TextChanged="OnSymbolTextChanged" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="5" HorizontalOptions="Center" WidthRequest="250">
+                <Label Text="Kes alustab:" />
+                <Picker x:Name="FirstPlayerPicker" SelectedIndex="0">
+                    <Picker.Items>
+                        <x:String>Sina</x:String>
+                        <x:String>Vastane</x:String>
+                        <x:String>Juhuslik</x:String>
+                    </Picker.Items>
+                </Picker>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Spacing="5" HorizontalOptions="Center" WidthRequest="250">
+                <Label Text="Vastane:" />
+                <Picker x:Name="OpponentPicker" SelectedIndex="0">
+                    <Picker.Items>
+                        <x:String>Inimene</x:String>
+                        <x:String>Bot</x:String>
+                    </Picker.Items>
+                </Picker>
+            </VerticalStackLayout>
+
+            <Button Text="Alusta mängu" 
+                    BackgroundColor="#4CAF50" 
+                    TextColor="White" 
+                    HorizontalOptions="Center" 
+                    WidthRequest="250" 
+                    Margin="0,20,0,0"
+                    Clicked="OnStartClicked" />
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

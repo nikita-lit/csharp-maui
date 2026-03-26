@@ -2,6 +2,8 @@ namespace Example.TicTacToe;
 
 public partial class TicTacToe : ContentPage
 {
+    private static readonly Random _random = new();
+
     private readonly GameData _gameData;
     private Player _curPlayer;
 
@@ -10,32 +12,12 @@ public partial class TicTacToe : ContentPage
     private bool _isGameActive = true;
 
     private Dictionary<Player, Label> _scoreLabels;
-    private Label _drawsLabel;
-    private Label _currentPlayerLabel;
-    private Grid _gameBoard;
 
     public TicTacToe(GameData data)
     {
         _gameData = data;
 
         InitializeComponent();
-        
-        var mainLayout = new VerticalStackLayout { 
-            Padding = 20, 
-            Spacing = 15 
-        };
-
-        mainLayout.Children.Add(new Label { 
-            Text = "Trips-Traps-Trull", 
-            FontSize = 32, 
-            FontAttributes = FontAttributes.Bold, 
-            HorizontalOptions = LayoutOptions.Center 
-        });
-
-        var statsLayout = new HorizontalStackLayout { 
-            Spacing = 20, 
-            HorizontalOptions = LayoutOptions.Center 
-        };
         
         _scoreLabels = new Dictionary<Player, Label>();
         for (int i = 0; i < _gameData.Players.Count; i++)
@@ -48,70 +30,34 @@ public partial class TicTacToe : ContentPage
                 TextColor = Colors.Black
             };
             _scoreLabels[p] = lbl;
-            statsLayout.Children.Add(lbl);
+            StatsLayout.Children.Insert(i, lbl);
         }
 
-        _drawsLabel = new Label { 
-            Text = "Viigid: 0", 
-            FontSize = 18, 
-            FontAttributes = FontAttributes.Bold, 
-            TextColor = Colors.Gray 
-        };
-        statsLayout.Children.Add(_drawsLabel);
-        mainLayout.Children.Add(statsLayout);
-
-        _currentPlayerLabel = new Label { 
-            Text = "Kord: ", 
-            FontSize = 20, 
-            HorizontalOptions = LayoutOptions.Center, 
-            Margin = new Thickness(0, 10, 0, 0), 
-            TextColor = Colors.Black
-        };
-        mainLayout.Children.Add(_currentPlayerLabel);
-
-        _gameBoard = new Grid { 
-            WidthRequest = 300, 
-            HeightRequest = 300, 
-            BackgroundColor = Colors.LightGray, 
-            ColumnSpacing = 2, 
-            RowSpacing = 2 
-        };
-
-        var boardFrame = new Frame { 
-            BorderColor = Colors.Gray, 
-            Padding = 0,
-            HasShadow = true, 
-            HorizontalOptions = LayoutOptions.Center, 
-            VerticalOptions = LayoutOptions.Center, 
-            Content = _gameBoard 
-        };
-        mainLayout.Children.Add(boardFrame);
-
-        BackgroundColor = Colors.White;
-        Content = new ScrollView { 
-            Content = mainLayout 
-        };
-
         InitBoard();
+        ResetGame();
     }
 
     private void InitBoard()
     {
-        _gameBoard.RowDefinitions.Clear();
-        _gameBoard.ColumnDefinitions.Clear();
-        _gameBoard.Children.Clear();
+        GridBoard.RowDefinitions.Clear();
+        GridBoard.ColumnDefinitions.Clear();
+        GridBoard.Children.Clear();
 
         for (int i = 0; i < _gameData.GridSize; i++)
         {
-            _gameBoard.RowDefinitions.Add(new RowDefinition { Height = GridLength.Star });
-            _gameBoard.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Star });
+            GridBoard.RowDefinitions.Add(new RowDefinition { 
+                Height = GridLength.Star 
+            });
+            GridBoard.ColumnDefinitions.Add(new ColumnDefinition { 
+                Width = GridLength.Star 
+            });
         }
 
         _boardButtons = new Button[_gameData.GridSize, _gameData.GridSize];
 
-        for (int row = 0; row < _gameData.GridSize; row++)
+        for (int x = 0; x < _gameData.GridSize; x++)
         {
-            for (int col = 0; col < _gameData.GridSize; col++)
+            for (int y = 0; y < _gameData.GridSize; y++)
             {
                 var but = new Button
                 {
@@ -124,53 +70,50 @@ public partial class TicTacToe : ContentPage
                     Margin = 0
                 };
 
-                int r = row;
-                int c = col;
-                but.Clicked += (s, e) => OnCellClicked(r, c);
+                int lX = x;
+                int lY = y;
+                but.Clicked += (s, e) => OnCellClicked(lX, lY);
 
-                _gameBoard.Add(but, col, row);
-                _boardButtons[row, col] = but;
+                GridBoard.Add(but, y, x);
+                _boardButtons[x, y] = but;
             }
         }
-
-        ResetGame();
     }
 
-    private void DetermineFirstPlayer()
+    private void FindFirstPlayer()
     {
-        int index = 0;
+        int index;
         if (_gameData.FirstPlayer >= 0 && _gameData.FirstPlayer < _gameData.Players.Count)
             index = _gameData.FirstPlayer;
         else
-            index = new Random().Next(_gameData.Players.Count);
+            index = _random.Next(_gameData.Players.Count);
         
         _curPlayer = _gameData.Players[index];
-        _currentPlayerLabel.Text = $"Kord: {_curPlayer.Symbol}";
+        CurrentPlayerLabel.Text = $"Kord: {_curPlayer.Symbol}";
 
         if (_curPlayer.IsBot)
             MakeBotMove();
     }
 
-    private void OnCellClicked(int row, int col)
+    private void OnCellClicked(int x, int y)
     {
-        if (!_isGameActive || !string.IsNullOrEmpty(_boardButtons[row, col].Text))
+        if (!_isGameActive || !string.IsNullOrEmpty(_boardButtons[x, y].Text))
             return;
 
         if (_curPlayer.IsBot)
             return;
 
-        MakeMove(row, col);
+        MakeMove(x, y);
 
         if (_isGameActive && _curPlayer.IsBot)
             MakeBotMove();
     }
 
-    private async void MakeMove(int row, int col)
+    private async void MakeMove(int x, int y)
     {
-        var but = _boardButtons[row, col];
+        var but = _boardButtons[x, y];
         but.Text = _curPlayer.Symbol;
         but.TextColor = _scoreLabels[_curPlayer].TextColor;
-
 
         if (CheckWinner())
         {
@@ -187,7 +130,7 @@ public partial class TicTacToe : ContentPage
         {
             _isGameActive = false;
             _draws++;
-            _drawsLabel.Text = $"Viigid: {_draws}";
+            DrawsLabel.Text = $"Viigid: {_draws}";
             
             bool p = await DisplayAlertAsync("Mäng läbi", "Viik! Kas soovid veel mängida?", "Jah", "Ei");
             if (p) 
@@ -198,28 +141,25 @@ public partial class TicTacToe : ContentPage
         else
         {
             _curPlayer = _gameData.Players[(_gameData.Players.IndexOf(_curPlayer) + 1) % _gameData.Players.Count];
-            _currentPlayerLabel.Text = $"Kord: {_curPlayer.Symbol}";
+            CurrentPlayerLabel.Text = $"Kord: {_curPlayer.Symbol}";
         }
+    }
+
+    private string[,] GetBoard()
+    {
+        string[,] board = new string[_gameData.GridSize, _gameData.GridSize];
+        for (int r = 0; r < _gameData.GridSize; r++)
+            for (int c = 0; c < _gameData.GridSize; c++)
+                board[r, c] = _boardButtons[r, c].Text;
+
+        return board;
     }
 
     private void MakeBotMove()
     {
-        var emptyCells = new List<(int r, int c)>();
-        for (int r = 0; r < _gameData.GridSize; r++)
-        {
-            for (int c = 0; c < _gameData.GridSize; c++)
-            {
-                if (string.IsNullOrEmpty(_boardButtons[r, c].Text))
-                    emptyCells.Add((r, c));
-            }
-        }
-
-        if (emptyCells.Count > 0)
-        {
-            var random = new Random();
-            var cell = emptyCells[random.Next(emptyCells.Count)];
-            MakeMove(cell.r, cell.c);
-        }
+        var move = _curPlayer.GetBotMove(_gameData.GridSize, GetBoard());
+        if (move.HasValue)
+            MakeMove(move.Value.x, move.Value.y);
     }
 
     private bool CheckWinner()
@@ -284,6 +224,6 @@ public partial class TicTacToe : ContentPage
             }
         }
 
-        DetermineFirstPlayer();
+        FindFirstPlayer();
     }
 }

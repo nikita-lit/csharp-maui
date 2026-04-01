@@ -1,0 +1,65 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Example.TicTacToe.TicTacToeStats"
+             Title="Mängu Statistika">
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+            <Label Text="Mängu Ajalugu" 
+                   FontSize="32" 
+                   FontAttributes="Bold" 
+                   HorizontalOptions="Center" />
+
+            <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" ColumnSpacing="20" HorizontalOptions="Center">
+                <Frame Grid.Row="0" Grid.Column="0" Padding="10" BorderColor="Gray">
+                    <VerticalStackLayout>
+                        <Label Text="Mängija 1 Võidud" FontSize="14" HorizontalTextAlignment="Center" />
+                        <Label x:Name="P1WinsLabel" Text="0" FontSize="24" FontAttributes="Bold" HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                </Frame>
+                <Frame Grid.Row="0" Grid.Column="1" Padding="10" BorderColor="Gray">
+                    <VerticalStackLayout>
+                        <Label Text="Mängija 2 Võidud" FontSize="14" HorizontalTextAlignment="Center" />
+                        <Label x:Name="P2WinsLabel" Text="0" FontSize="24" FontAttributes="Bold" HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                </Frame>
+                <Frame Grid.Row="1" Grid.Column="0" Padding="10" BorderColor="Gray">
+                    <VerticalStackLayout>
+                        <Label Text="Bot Võidud" FontSize="14" HorizontalTextAlignment="Center" />
+                        <Label x:Name="BotWinsLabel" Text="0" FontSize="24" FontAttributes="Bold" HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                </Frame>
+                <Frame Grid.Row="1" Grid.Column="1" Padding="10" BorderColor="Gray">
+                    <VerticalStackLayout>
+                        <Label Text="Viigid" FontSize="14" HorizontalTextAlignment="Center" />
+                        <Label x:Name="DrawsLabel" Text="0" FontSize="24" FontAttributes="Bold" HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                </Frame>
+            </Grid>
+
+            <Label Text="Viimased 5 mängu:" FontAttributes="Bold" Margin="0,20,0,0" />
+            <CollectionView x:Name="HistoryList">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Label Text="{Binding .}" Padding="5" />
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Button Text="Kustuta ajalugu" 
+                    BackgroundColor="#F44336" 
+                    TextColor="White" 
+                    Clicked="OnResetClicked" 
+                    HorizontalOptions="Center" 
+                    WidthRequest="200" 
+                    Margin="0,20,0,0"/>
+
+            <Grid HorizontalOptions="Center" Margin="0,20,0,0">
+                <Button BackgroundColor="#2196F3" WidthRequest="250" HeightRequest="50" CornerRadius="10" Clicked="OnBackClicked" />
+                <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="10" InputTransparent="True">
+                    <Image Source="back.png" WidthRequest="22" HeightRequest="22" VerticalOptions="Center" />
+                    <Label Text="Tagasi" TextColor="White" FontSize="18" FontAttributes="Bold" VerticalOptions="Center" />
+                </HorizontalStackLayout>
+            </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

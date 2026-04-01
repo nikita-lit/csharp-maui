@@ -1,5 +1,3 @@
-using System.Globalization;
-
 namespace Example.TicTacToe;
 
 public partial class TicTacToeStart : ContentPage
@@ -9,36 +7,42 @@ public partial class TicTacToeStart : ContentPage
         InitializeComponent();
     }
 
-    private async void OnStartClicked(object? sender, EventArgs e)
+    private async void OnPlayClicked(object? sender, EventArgs e)
     {
-        string pSym = string.IsNullOrWhiteSpace(PlayerSymbolEntry.Text) ? "X" : PlayerSymbolEntry.Text.Trim();
-        string oSym = string.IsNullOrWhiteSpace(OpponentSymbolEntry.Text) ? "O" : OpponentSymbolEntry.Text.Trim();
+        string action = await DisplayActionSheetAsync("Kelle vastu soovid mängida?", "Tühista", null, "Inimese vastu", "Boti vastu");
+
+        if (action == "Tühista" || string.IsNullOrEmpty(action))
+            return;
+
+        bool isBot = action == "Boti vastu";
+
+        string p1Name = string.IsNullOrWhiteSpace(Config.Player1Name) ? "Mängija 1" : Config.Player1Name.Trim();
+        string p2Name = isBot ? "Bot" : (string.IsNullOrWhiteSpace(Config.Player2Name) ? "Mängija 2" : Config.Player2Name.Trim());
+
+        string pSym = string.IsNullOrWhiteSpace(Config.Player1Symbol) ? "X" : Config.Player1Symbol.Trim();
+        string oSym = string.IsNullOrWhiteSpace(Config.Player2Symbol) ? "O" : Config.Player2Symbol.Trim();
         
         if (pSym == oSym)
             oSym = pSym == "X" ? "O" : "X";
 
-        int first = FirstPlayerPicker.SelectedIndex;
-        bool isBot = OpponentPicker.SelectedIndex == 1;
-        int gridSize = 3;
-
         var players = new List<Player>
         {
-            new Player("Mängija 1", pSym, false),
-            new Player("Mängija 2", oSym, isBot),
+            new Player(p1Name, pSym, false),
+            new Player(p2Name, oSym, isBot)
         };
 
         await Navigation.PushAsync(new TicTacToe(
-            new GameData(players, first, gridSize)
+            new GameData(players, Config.FirstPlayerIndex, Config.GridSize)
         ));
     }
 
-    private void OnSymbolTextChanged(object? sender, EventArgs e)
+    private async void OnSettingsClicked(object? sender, EventArgs e)
     {
-        if (sender is not Entry entry)
-            return;
+        await Navigation.PushAsync(new TicTacToeSettings());
+    }
 
-        var si = new StringInfo(entry.Text);
-        if (si.LengthInTextElements > 1)
-            entry.Text = si.SubstringByTextElements(0, 1);
+    private async void OnStatsClicked(object? sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new TicTacToeStats());
     }
 }

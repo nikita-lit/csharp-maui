@@ -27,17 +27,37 @@
                      Margin="0,10,0,0" 
                      TextColor="Black" />
 
-              <Border BackgroundColor="Gray" 
-                     Padding="0" 
-                     HorizontalOptions="Center" 
-                     VerticalOptions="Center">
-                     <Grid x:Name="GridBoard" 
-                            WidthRequest="300" 
-                            HeightRequest="300" 
-                            BackgroundColor="LightGray" 
-                            ColumnSpacing="2" 
-                            RowSpacing="2" />
-              </Border>
+              <Label x:Name="TimerLabel"
+                     Text="Aeg: 5"
+                     FontSize="18"
+                     FontAttributes="Bold"
+                     TextColor="Red"
+                     HorizontalOptions="Center"
+                     IsVisible="False" />
+
+              <Grid HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="300" HeightRequest="300">
+                     <Border BackgroundColor="Gray" 
+                            Padding="0">
+                            <Grid x:Name="GridBoard" 
+                                   BackgroundColor="LightGray" 
+                                   ColumnSpacing="2" 
+                                   RowSpacing="2" />
+                     </Border>
+                     <Line x:Name="WinLine" 
+                           Stroke="Red"
+                           StrokeThickness="8" 
+                           InputTransparent="True"
+                           IsVisible="False" 
+                           Opacity="0" />
+              </Grid>
+
+              <Grid HorizontalOptions="Center" Margin="0,20,0,0">
+                     <Button BackgroundColor="#F44336" WidthRequest="180" HeightRequest="50" CornerRadius="10" Clicked="OnEndGameClicked" />
+                     <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="10" InputTransparent="True">
+                         <Image Source="stop.png" WidthRequest="24" HeightRequest="24" VerticalOptions="Center" />
+                         <Label Text="Lõpeta mäng" TextColor="White" FontSize="16" FontAttributes="Bold" VerticalOptions="Center" />
+                     </HorizontalStackLayout>
+              </Grid>
        </VerticalStackLayout>
        </ScrollView>
 </ContentPage>

@@ -1,0 +1,75 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Example.TicTacToe.TicTacToeSettings"
+             Title="Trips-Traps-Trull : Seaded">
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20" VerticalOptions="Center">
+            <Label Text="Mängu Seaded" 
+                   FontSize="32" 
+                   FontAttributes="Bold" 
+                   HorizontalOptions="Center" />
+
+            <Frame BorderColor="Gray" CornerRadius="10" Padding="15" WidthRequest="300" HorizontalOptions="Center">
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Mängija 1" FontSize="18" FontAttributes="Bold" />
+                    <Label Text="Nimi:" />
+                    <Entry x:Name="Player1NameEntry" />
+                    <Label Text="Sümbol:" />
+                    <Entry x:Name="PlayerSymbolEntry" 
+                           HorizontalTextAlignment="Center" 
+                           MaxLength="10"
+                           TextChanged="OnSymbolTextChanged" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <Frame BorderColor="Gray" CornerRadius="10" Padding="15" WidthRequest="300" HorizontalOptions="Center">
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Mängija 2" FontSize="18" FontAttributes="Bold" />
+                    <Label Text="Nimi:" />
+                    <Entry x:Name="Player2NameEntry" />
+                    <Label Text="Sümbol:" />
+                    <Entry x:Name="OpponentSymbolEntry" 
+                           HorizontalTextAlignment="Center" 
+                           MaxLength="10" 
+                           TextChanged="OnSymbolTextChanged" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <VerticalStackLayout Spacing="5" HorizontalOptions="Center" WidthRequest="300">
+                <Label Text="Kes alustab:" />
+                <Picker x:Name="FirstPlayerPicker" SelectedIndexChanged="OnFirstPlayerChanged">
+                    <Picker.Items>
+                        <x:String>Mängija 1</x:String>
+                        <x:String>Mängija 2</x:String>
+                        <x:String>Juhuslik</x:String>
+                    </Picker.Items>
+                </Picker>
+            </VerticalStackLayout>
+
+            <Frame BorderColor="Gray" CornerRadius="10" Padding="15" WidthRequest="300" HorizontalOptions="Center">
+                <VerticalStackLayout Spacing="5">
+                    <Label Text="Aja piirang" FontSize="18" FontAttributes="Bold" />
+                    <HorizontalStackLayout Spacing="10" VerticalOptions="Center">
+                        <Label Text="Sisse lülitatud:" VerticalOptions="Center" />
+                        <Switch x:Name="TimerSwitch" Toggled="OnTimerToggled" VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                    <Label x:Name="TimerLabel" Text="Sekundid: 5" />
+                    <Slider x:Name="TimerSlider" 
+                            Minimum="1" 
+                            Maximum="10" 
+                            Value="3" 
+                            DragCompleted="OnTimerSliderChanged"
+                            ValueChanged="OnTimerSliderValueChanged" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <Grid HorizontalOptions="Center" Margin="0,20,0,0">
+                <Button BackgroundColor="#F44336" WidthRequest="250" HeightRequest="50" CornerRadius="10" Clicked="OnBackClicked" />
+                <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="10" InputTransparent="True">
+                    <Image Source="back.png" WidthRequest="22" HeightRequest="22" VerticalOptions="Center" />
+                    <Label Text="Tagasi" TextColor="White" FontSize="18" FontAttributes="Bold" VerticalOptions="Center" />
+                </HorizontalStackLayout>
+            </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

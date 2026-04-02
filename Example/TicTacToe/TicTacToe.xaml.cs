@@ -2,8 +2,6 @@ namespace Example.TicTacToe;
 
 public partial class TicTacToe : ContentPage
 {
-    private static readonly Random _random = new();
-
     private readonly GameData _gameData;
     private Player _curPlayer;
 
@@ -40,6 +38,7 @@ public partial class TicTacToe : ContentPage
 
         InitBoard();
         ResetGame();
+        FindFirstPlayer();
     }
 
     private void InitBoard()
@@ -99,7 +98,7 @@ public partial class TicTacToe : ContentPage
         if (_gameData.FirstPlayer >= 0 && _gameData.FirstPlayer < _gameData.Players.Count)
             index = _gameData.FirstPlayer;
         else
-            index = _random.Next(_gameData.Players.Count);
+            index = Random.Shared.Next(_gameData.Players.Count);
         
         _curPlayer = _gameData.Players[index];
         CurrentPlayerLabel.Text = $"Kord: {_curPlayer.Name} ({_curPlayer.Symbol})";
@@ -451,6 +450,7 @@ public partial class TicTacToe : ContentPage
         _isGameActive = false;
         _isRoundEnding = true;
         _timerCts?.Cancel();
+        ResetGame();
     }
 
     private void ResetGame()
@@ -477,8 +477,6 @@ public partial class TicTacToe : ContentPage
                 but.Scale = 1;
             }
         }
-
-        FindFirstPlayer();
     }
 
     private async Task HandleRoundEndAsync()
@@ -493,6 +491,7 @@ public partial class TicTacToe : ContentPage
             return;
 
         ResetGame();
+        FindFirstPlayer();
     }
 
     private async void OnEndGameClicked(object sender, EventArgs e)

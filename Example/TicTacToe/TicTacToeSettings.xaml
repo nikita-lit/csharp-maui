@@ -64,7 +64,7 @@
             </Frame>
 
             <Grid HorizontalOptions="Center" Margin="0,20,0,0">
-                <Button BackgroundColor="#F44336" WidthRequest="250" HeightRequest="50" CornerRadius="10" Clicked="OnBackClicked" />
+                <Button BackgroundColor="#2196F3" WidthRequest="250" HeightRequest="50" CornerRadius="10" Clicked="OnBackClicked" />
                 <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="10" InputTransparent="True">
                     <Image Source="back.png" WidthRequest="22" HeightRequest="22" VerticalOptions="Center" />
                     <Label Text="Tagasi" TextColor="White" FontSize="18" FontAttributes="Bold" VerticalOptions="Center" />

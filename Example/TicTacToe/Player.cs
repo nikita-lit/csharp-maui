@@ -37,7 +37,8 @@ public class Player(string name, string symbol, bool isBot)
         }
 
         // block
-        if (opponentSymbol != null)
+        int ch = Random.Shared.Next(0, 10);
+        if (opponentSymbol != null && ch > 3)
         {
             foreach (var (r, c) in emptyCells)
             {

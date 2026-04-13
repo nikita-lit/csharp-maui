@@ -7,8 +7,29 @@ public partial class StartPage : ContentPage
 {
 	VerticalStackLayout layout;
 	ScrollView scrollView;
-	public List<string> pageNames = new List<string>() { "Tekst", "Kujund", "Valgusfoor", "RGB", "Lumememm", "PopUp", "Matemaatika Test", "Trips Traps Trull" };
-	private List<Type> pageTypes = new List<Type>() { typeof(TextPage), typeof(FigurePage), typeof(ValgusfoorPage), typeof(RGBPage), typeof(LumememmPage), typeof(PopUpPage), typeof(MathTest), typeof(TicTacToeStart) };
+	public List<string> pageNames = new List<string>() { 
+		"Tekst", 
+		"Kujund", 
+		"Valgusfoor", 
+		"RGB", 
+		"Lumememm", 
+		"PopUp", 
+		"Matemaatika Test", 
+		"Trips Traps Trull", 
+		"Sõbrade kontaktandmed"
+	};
+	
+	private List<Type> pageTypes = new List<Type>() { 
+		typeof(TextPage), 
+		typeof(FigurePage), 
+		typeof(ValgusfoorPage), 
+		typeof(RGBPage), 
+		typeof(LumememmPage), 
+		typeof(PopUpPage), 
+		typeof(MathTest), 
+		typeof(TicTacToeStart),
+		typeof(Contacts),
+	};
 
 	public StartPage()
 	{

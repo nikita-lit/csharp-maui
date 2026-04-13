@@ -10,8 +10,6 @@ public partial class TicTacToe : ContentPage
     private bool _isGameActive = true;
     private bool _isProcessingMove = false;
     private bool _isRoundEnding = false;
-    private bool _isStatsLogged = false;
-    private bool _isWaitingForReset = false;
     private CancellationTokenSource? _timerCts;
 
     private Dictionary<Player, Label> _scoreLabels;
@@ -38,7 +36,7 @@ public partial class TicTacToe : ContentPage
 
         InitBoard();
         ResetGame();
-        FindFirstPlayer();
+        StartGame();
     }
 
     private void InitBoard()
@@ -92,8 +90,10 @@ public partial class TicTacToe : ContentPage
         }
     }
 
-    private void FindFirstPlayer()
+    private void StartGame()
     {
+        _isGameActive = true;
+
         int index;
         if (_gameData.FirstPlayer >= 0 && _gameData.FirstPlayer < _gameData.Players.Count)
             index = _gameData.FirstPlayer;
@@ -165,12 +165,8 @@ public partial class TicTacToe : ContentPage
                 CurrentPlayerLabel.FadeToAsync(1, 400, Easing.CubicOut),
                 CurrentPlayerLabel.ScaleToAsync(1.2, 400, Easing.SpringOut)
             );
- 
-            if (!_isStatsLogged)
-            {
-                _isStatsLogged = true;
-                StatsManager.AddWin(_curPlayer.Name, _curPlayer.IsBot, _gameData.Players[0].Name);
-            }
+
+            StatsManager.AddWin(_curPlayer.Name, _curPlayer.IsBot, _gameData.Players[0].Name);
 
             _ = HandleRoundEndAsync();
             return true;
@@ -191,12 +187,8 @@ public partial class TicTacToe : ContentPage
                 CurrentPlayerLabel.FadeToAsync(1, 400, Easing.CubicOut),
                 CurrentPlayerLabel.ScaleToAsync(1.2, 400, Easing.SpringOut)
             );
- 
-            if (!_isStatsLogged)
-            {
-                _isStatsLogged = true;
-                StatsManager.AddDraw();
-            }
+
+            StatsManager.AddDraw();
 
             _ = HandleRoundEndAsync();
             return true;
@@ -384,37 +376,28 @@ public partial class TicTacToe : ContentPage
 
         Task.Run(async () => {
             double remaining = Config.TimerSeconds;
-            try 
+            while (remaining > 0 && !token.IsCancellationRequested && _isGameActive && !_isRoundEnding)
             {
-                while (remaining > 0 && !token.IsCancellationRequested && _isGameActive && !_isRoundEnding)
-                {
-                    await Task.Delay(100, token);
-                    if (token.IsCancellationRequested || !_isGameActive || _isRoundEnding) 
-                        break;
-                    
-                    remaining -= 0.1;
-                    
-                    if (remaining < 0) 
-                        remaining = 0;
+                await Task.Delay(100, token);
+                if (token.IsCancellationRequested || !_isGameActive || _isRoundEnding) 
+                    break;
+                
+                remaining -= 0.1;
+                
+                if (remaining < 0) 
+                    remaining = 0;
 
-                    MainThread.BeginInvokeOnMainThread(() => {
-                        TimerLabel.Text = $"Aeg: {remaining:F1}";
-                    });
-                }
- 
-                if (remaining <= 0 && !token.IsCancellationRequested && _isGameActive && !_isRoundEnding)
-                {
-                    MainThread.BeginInvokeOnMainThread(async () => {
-                        if (_isGameActive && !_isRoundEnding)
-                        {
-                            await HandleTimeUp();
-                        }
-                    });
-                }
-            } 
-            catch (OperationCanceledException) 
-            { 
+                Dispatcher.Dispatch(async () => {
+                    TimerLabel.Text = $"Aeg: {remaining:F1}";
+                });
+            }
 
+            if (remaining <= 0 && !token.IsCancellationRequested && _isGameActive && !_isRoundEnding)
+            {
+                Dispatcher.Dispatch(async () => {
+                    if (_isGameActive && !_isRoundEnding)
+                        await HandleTimeUp();
+                });
             }
         }, token);
     }
@@ -435,31 +418,35 @@ public partial class TicTacToe : ContentPage
         CurrentPlayerLabel.TextColor = Colors.Red;
         TimerLabel.Text = "0";
  
-        if (!_isStatsLogged)
-        {
-            _isStatsLogged = true;
-            StatsManager.AddWin(winner.Name, winner.IsBot, _gameData.Players[0].Name);
-        }
+        StatsManager.AddWin(winner.Name, winner.IsBot, _gameData.Players[0].Name);
  
         await HandleRoundEndAsync();
+    }
+
+    private async Task HandleRoundEndAsync()
+    {
+        await Task.Delay(1500);
+        if (!IsVisible) 
+            return;
+
+        ResetGame();
+        StartGame();
+
+        _isGameActive = true;
     }
 
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
-        _isGameActive = false;
-        _isRoundEnding = true;
-        _timerCts?.Cancel();
         ResetGame();
     }
 
     private void ResetGame()
     {
-        _isGameActive = true;
+        _isGameActive = false;
         _isRoundEnding = false;
-        _isStatsLogged = false;
-        _isWaitingForReset = false;
         _isProcessingMove = false;
+        _timerCts?.Cancel();
 
         CurrentPlayerLabel.TextColor = Colors.Black;
         CurrentPlayerLabel.Scale = 1;
@@ -477,21 +464,6 @@ public partial class TicTacToe : ContentPage
                 but.Scale = 1;
             }
         }
-    }
-
-    private async Task HandleRoundEndAsync()
-    {
-        if (_isWaitingForReset) 
-            return;
-            
-        _isWaitingForReset = true;
-
-        await Task.Delay(1500);
-        if (!IsVisible) 
-            return;
-
-        ResetGame();
-        FindFirstPlayer();
     }
 
     private async void OnEndGameClicked(object sender, EventArgs e)

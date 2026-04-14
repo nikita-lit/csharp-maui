@@ -75,6 +75,9 @@
 	  <Compile Update="ValgusfoorPage.xaml.cs">
 	    <DependentUpon>ValgusfoorPage.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="EuropeCountriesPage.xaml.cs">
+	    <DependentUpon>EuropeCountriesPage.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -103,6 +106,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="ValgusfoorPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="EuropeCountriesPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

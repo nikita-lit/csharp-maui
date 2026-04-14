@@ -16,7 +16,9 @@ public partial class StartPage : ContentPage
 		"PopUp", 
 		"Matemaatika Test", 
 		"Trips Traps Trull", 
-		"Sõbrade kontaktandmed"
+		"Sõbrade kontaktandmed",
+		"Dünaamiline ListView",
+		"Euroopa riigid",
 	};
 	
 	private List<Type> pageTypes = new List<Type>() { 
@@ -29,6 +31,8 @@ public partial class StartPage : ContentPage
 		typeof(MathTest), 
 		typeof(TicTacToeStart),
 		typeof(Contacts),
+		typeof(ListViewPage),
+		typeof(EuropeCountriesPage),
 	};
 
 	public StartPage()

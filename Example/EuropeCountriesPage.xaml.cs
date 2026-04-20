@@ -5,22 +5,47 @@ namespace Example;
 public partial class EuropeCountriesPage : ContentPage
 {
     private ObservableCollection<Country> _countries;
+    private List<Country> _allCountries;
     private string _selectedImagePath = "";
     private Country _lastCountry;
+    private bool _isAscending = true;
 
     public EuropeCountriesPage()
     {
         InitializeComponent();
 
-        _countries = new ObservableCollection<Country>
-        {
-            new Country { Name = "Eesti", Capital = "Tallinn", Population = 1331824, Flag = "estonia.png" },
-            new Country { Name = "Soome", Capital = "Helsingi", Population = 5540720, Flag = "finland.png" },
-            new Country { Name = "Läti", Capital = "Riia", Population = 1884000, Flag = "latvia.png" },
-            new Country { Name = "Saksamaa", Capital = "Berliin", Population = 83200000, Flag = "germany.png" }
-        };
+        _allCountries =
+        [
+            new() { Name = "Eesti", Capital = "Tallinn", Population = 1331824, Flag = "estonia.png" },
+            new() { Name = "Läti", Capital = "Riia", Population = 1884000, Flag = "latvia.png" },
+            new() { Name = "Saksamaa", Capital = "Berliin", Population = 83200000, Flag = "germany.png" }
+        ];
+        _countries = new ObservableCollection<Country>(_allCountries);
 
         CountriesListView.ItemsSource = _countries;
+    }
+
+    private void UpdateList()
+    {
+        string text = SearchEntry.Text?.ToLower() ?? "";
+        var filtered = _allCountries.Where(c => c.Name.ToLower().Contains(text) || 
+                                               c.Capital.ToLower().Contains(text)).ToList();
+        var sorted = _isAscending 
+            ? filtered.OrderBy(o => o.Name).ToList() 
+            : filtered.OrderByDescending(o => o.Name).ToList();
+
+        _countries.Clear();
+        foreach (var c in sorted) 
+            _countries.Add(c);
+    }
+
+    private void OnSearchTextChanged(object sender, TextChangedEventArgs e) => UpdateList();
+
+    private void Sort_Clicked(object sender, EventArgs e)
+    {
+        _isAscending = !_isAscending;
+        SortBtn.Text = _isAscending ? "Sorteeri (A-Z)" : "Sorteeri (Z-A)";
+        UpdateList();
     }
 
     private async void PickImage_Clicked(object sender, EventArgs e)
@@ -28,7 +53,6 @@ public partial class EuropeCountriesPage : ContentPage
         try
         {
             var photo = await MediaPicker.Default.PickPhotoAsync();
-
             if (photo != null)
             {
                 _selectedImagePath = photo.FullPath;
@@ -38,20 +62,16 @@ public partial class EuropeCountriesPage : ContentPage
         }
         catch (Exception ex)
         {
-            await DisplayAlertAsync("Viga", "Pildi valimine ebaõnnestus: " + ex.Message, "OK");
+            await DisplayAlertAsync("Viga", $"Pildi valimine ebaõnnestus: {ex.Message}", "OK");
         }
     }
 
-    private async void List_ItemTapped(object sender, ItemTappedEventArgs e)
+    private async void CountriesListView_ItemTapped(object sender, ItemTappedEventArgs e)
     {
         if (e.Item is Country selectedCountry)
         {
             if (_lastCountry == selectedCountry)
-            {
-                CountriesListView.SelectedItem = null;
-                _lastCountry = null;
-                ClearEntries();
-            }
+                Clear();
             else
             {
                 _lastCountry = selectedCountry;
@@ -85,7 +105,7 @@ public partial class EuropeCountriesPage : ContentPage
             return;
         }
 
-        bool countryExists = _countries.Any(c => c.Name.Equals(newName, StringComparison.OrdinalIgnoreCase));
+        bool countryExists = _allCountries.Any(c => c.Name.Equals(newName, StringComparison.OrdinalIgnoreCase));
 
         if (countryExists)
             await DisplayAlertAsync("Viga", "See riik on juba nimekirjas!", "OK");
@@ -96,7 +116,7 @@ public partial class EuropeCountriesPage : ContentPage
 
             string flagSource = !string.IsNullOrWhiteSpace(_selectedImagePath) ? _selectedImagePath : "bob.png";
 
-            _countries.Add(new Country 
+            _allCountries.Add(new Country 
             { 
                 Name = newName, 
                 Capital = CapitalEntry.Text, 
@@ -104,7 +124,8 @@ public partial class EuropeCountriesPage : ContentPage
                 Flag = flagSource
             });
 
-            ClearEntries();
+            UpdateList();
+            Clear();
         }
     }
 
@@ -120,14 +141,12 @@ public partial class EuropeCountriesPage : ContentPage
             
             selectedCountry.Flag = _selectedImagePath;
 
-            CountriesListView.SelectedItem = null;
-            ClearEntries();
+            UpdateList();
+            Clear();
             await DisplayAlertAsync("Info", "Muudatused salvestatud!", "OK");
         }
         else
-        {
             await DisplayAlertAsync("Viga", "Palun vali nimekirjast riik, mida soovite muuta!", "OK");
-        }
     }
 
     private async void Delete_Clicked(object sender, EventArgs e)
@@ -137,9 +156,9 @@ public partial class EuropeCountriesPage : ContentPage
             bool confirm = await DisplayAlertAsync("Kinnitus", $"Kas olete kindel, et soovite riigi {selectedCountry.Name} kustutada?", "Jah", "Ei");
             if (confirm)
             {
-                _countries.Remove(selectedCountry);
-                ClearEntries();
-                CountriesListView.SelectedItem = null;
+                _allCountries.Remove(selectedCountry);
+                UpdateList();
+                Clear();
             }
         }
         else
@@ -148,15 +167,16 @@ public partial class EuropeCountriesPage : ContentPage
         }
     }
 
-    private void ClearEntries()
+    private void Clear()
     {
         NameEntry.Text = string.Empty;
         CapitalEntry.Text = string.Empty;
         PopulationEntry.Text = string.Empty;
         _selectedImagePath = "";
-        ImageStatusLabel.Text = "Pilti pole valitud (kasutatakse vaikimisi pilti)";
+        ImageStatusLabel.Text = "Pilti pole valitud";
         ImageStatusLabel.TextColor = Colors.Gray;
         FlagPreview.Source = "bob.png";
         _lastCountry = null;
+        CountriesListView.SelectedItem = null;
     }
 }

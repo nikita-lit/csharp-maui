@@ -4,7 +4,8 @@
              xmlns:local="clr-namespace:Example"
              x:Class="Example.EuropeCountriesPage"
              Title="Euroopa Riigid">
-    <VerticalStackLayout Padding="15" Spacing="10">
+    <Grid Padding="15" RowDefinitions="Auto, *">
+        <VerticalStackLayout Spacing="10" Grid.Row="0">
         <Label Text="Lisa või muuda riiki" FontSize="20" FontAttributes="Bold" HorizontalOptions="Center" />
         
         <Entry x:Name="NameEntry" Placeholder="Riigi nimi (nt Eesti)" />
@@ -12,7 +13,10 @@
         <Entry x:Name="PopulationEntry" Placeholder="Rahvaarv (nt 1331824)" Keyboard="Numeric" />
 
         <Button Text="Vali pilt" Clicked="PickImage_Clicked" BackgroundColor="LightBlue" TextColor="Black" />
-        <Label x:Name="ImageStatusLabel" Text="Pilti pole valitud (kasutatakse vaikimisi pilti)" FontSize="12" TextColor="Gray" HorizontalOptions="Center" />
+        <Label x:Name="ImageStatusLabel" Text="Pilti pole valitud" 
+               FontSize="12" 
+               TextColor="Gray" 
+               HorizontalOptions="Center" />
         <Image x:Name="FlagPreview" Source="bob.jpg" HeightRequest="100" Aspect="AspectFit" HorizontalOptions="Center" />
 
         <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
@@ -22,10 +26,22 @@
         </HorizontalStackLayout>
 
         <BoxView HeightRequest="1" Color="LightGray" Margin="0,5" />
+        
+        <Grid ColumnDefinitions="*, Auto" ColumnSpacing="10">
+            <Entry x:Name="SearchEntry" Placeholder="Otsi riiki..." 
+                       TextChanged="OnSearchTextChanged" />
+            
+            <Button x:Name="SortBtn" Grid.Column="1" Text="Sorteeri (A-Z)" Clicked="Sort_Clicked" 
+                    BackgroundColor="Gray" TextColor="White" VerticalOptions="Center" />
+        </Grid>
+
+        </VerticalStackLayout>
 
         <ListView x:Name="CountriesListView" 
+                  Grid.Row="1"
+                  Margin="0,10,0,0"
                   HasUnevenRows="True" 
-                  ItemTapped="List_ItemTapped"
+                  ItemTapped="CountriesListView_ItemTapped"
                   ItemSelected="CountriesListView_ItemSelected">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="local:Country">
@@ -46,5 +62,5 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-    </VerticalStackLayout>
+    </Grid>
 </ContentPage>

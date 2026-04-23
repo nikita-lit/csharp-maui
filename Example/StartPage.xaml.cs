@@ -19,6 +19,7 @@ public partial class StartPage : ContentPage
 		"Sõbrade kontaktandmed",
 		"Dünaamiline ListView",
 		"Euroopa riigid",
+		"Itaalia köök",
 	};
 	
 	private List<Type> pageTypes = new List<Type>() { 
@@ -33,6 +34,7 @@ public partial class StartPage : ContentPage
 		typeof(Contacts),
 		typeof(ListViewPage),
 		typeof(EuropeCountriesPage),
+		typeof(CarouselViewPage),
 	};
 
 	public StartPage()

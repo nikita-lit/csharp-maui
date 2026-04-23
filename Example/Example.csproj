@@ -78,6 +78,9 @@
 	  <Compile Update="EuropeCountriesPage.xaml.cs">
 	    <DependentUpon>EuropeCountriesPage.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="CarouselViewPage.xaml.cs">
+	    <DependentUpon>CarouselViewPage.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -109,6 +112,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="EuropeCountriesPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="CarouselViewPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+
+  <!-- Page -->
+  <data name="PageTitle" xml:space="preserve">
+    <value>Itaalia köögi galerii</value>
+  </data>
+  <data name="LanguageButton" xml:space="preserve">
+    <value>🇪🇪 Eesti</value>
+  </data>
+  <data name="DetailsTitle" xml:space="preserve">
+    <value>Retsepti üksikasjad</value>
+  </data>
+  <data name="TapForDetails" xml:space="preserve">
+    <value>👆 Vajuta detailide vaatamiseks</value>
+  </data>
+  <data name="AutoScrollOn" xml:space="preserve">
+    <value>⏸ Automaatne kerimine: SEES</value>
+  </data>
+  <data name="AutoScrollOff" xml:space="preserve">
+    <value>▶ Automaatne kerimine: VÄLJAS</value>
+  </data>
+
+  <!-- Pasta Carbonara -->
+  <data name="Carbonara_Name" xml:space="preserve">
+    <value>Pasta Carbonara</value>
+  </data>
+  <data name="Carbonara_Desc" xml:space="preserve">
+    <value>Klassikaline Rooma pastaroog</value>
+  </data>
+  <data name="Carbonara_Detail" xml:space="preserve">
+    <value>🧾 Peamised koostisosad:
+• Guanciale (kuivatatud searasvkõht)
+• Munad (rebud)
+• Pecorino Romano juust
+• Must pipar
+
+⏱ Valmistamisaeg: ~30 minutit</value>
+  </data>
+
+  <!-- Pizza Margherita -->
+  <data name="Pizza_Name" xml:space="preserve">
+    <value>Pizza Margherita</value>
+  </data>
+  <data name="Pizza_Desc" xml:space="preserve">
+    <value>Lihtne ja maitsev</value>
+  </data>
+  <data name="Pizza_Detail" xml:space="preserve">
+    <value>🧾 Peamised koostisosad:
+• Tomatikaste (San Marzano)
+• Värske mozzarella
+• Värsked basiilikulehed
+• Ekstra-väärisoliiviõli
+
+⏱ Valmistamisaeg: ~15 min + taigna kerkimine</value>
+  </data>
+
+  <!-- Tiramisu -->
+  <data name="Tiramisu_Name" xml:space="preserve">
+    <value>Tiramisu</value>
+  </data>
+  <data name="Tiramisu_Desc" xml:space="preserve">
+    <value>Populaarne kohvimaitseline magustoit</value>
+  </data>
+  <data name="Tiramisu_Detail" xml:space="preserve">
+    <value>🧾 Peamised koostisosad:
+• Mascarpone juust
+• Espresso kohv
+• Savoiardi küpsised
+• Kakaopulber
+• Munad ja suhkur
+
+⏱ Valmistamisaeg: ~45 min + 4h jahutamine</value>
+  </data>
+
+  <!-- Risotto alla Milanese -->
+  <data name="Risotto_Name" xml:space="preserve">
+    <value>Risotto alla Milanese</value>
+  </data>
+  <data name="Risotto_Desc" xml:space="preserve">
+    <value>Kreemine safraniriis</value>
+  </data>
+  <data name="Risotto_Detail" xml:space="preserve">
+    <value>🧾 Peamised koostisosad:
+• Arborio riis
+• Safraniniidid
+• Parmesani juust
+• Või ja valge vein
+• Veise- või kanapuljong
+
+⏱ Valmistamisaeg: ~40 minutit</value>
+  </data>
+
+  <!-- Lasagne -->
+  <data name="Lasagne_Name" xml:space="preserve">
+    <value>Lasagne</value>
+  </data>
+  <data name="Lasagne_Desc" xml:space="preserve">
+    <value>Kihiline pasta liha ja juustuga</value>
+  </data>
+  <data name="Lasagne_Detail" xml:space="preserve">
+    <value>🧾 Peamised koostisosad:
+• Lasagne pastalehed
+• Hakkliha raguu
+• Bešamellkaste
+• Tomatikaste
+• Parmesani juust
+
+⏱ Valmistamisaeg: ~1,5 tundi</value>
+  </data>
+</root>

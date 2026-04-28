@@ -53,8 +53,24 @@ public partial class StartPage : ContentPage
 			int index = i;
 			button.Clicked += async (sender, args) =>
 			{
-				var page = (ContentPage)Activator.CreateInstance(pageTypes[index]);
-				await Navigation.PushAsync(page);
+				try
+				{
+					var pageType = pageTypes[index];
+					var page = (ContentPage)Activator.CreateInstance(pageType);
+					await Navigation.PushAsync(page);
+				}
+				catch (System.Reflection.TargetInvocationException ex)
+				{
+					var realError = ex.InnerException;
+					System.Diagnostics.Debug.WriteLine($"Error loading page: {realError?.Message}");
+					System.Diagnostics.Debug.WriteLine($"Stack Trace: {realError?.StackTrace}");
+					
+					await DisplayAlert("Error", $"Could not load page: {realError?.Message}", "OK");
+				}
+				catch (Exception ex)
+				{
+					System.Diagnostics.Debug.WriteLine($"Error: {ex.Message}");
+				}
 			};
 			layout.Children.Add(button);
 		}

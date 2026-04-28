@@ -1,10 +1,38 @@
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+
 namespace Example;
 
-public class FoodItem
+public class FoodItem : INotifyPropertyChanged
 {
-    public string Name { get; set; } = string.Empty;
-    public string Description { get; set; } = string.Empty;
+    public string Name 
+    { 
+        get => field; 
+        set { field = value; OnPropertyChanged(); } 
+    } = string.Empty;    
+    
+    public string Description 
+    { 
+        get => field; 
+        set { field = value; OnPropertyChanged(); } 
+    } = string.Empty;    
+
+    public string DetailInfo 
+    { 
+        get => field; 
+        set { field = value; OnPropertyChanged(); } 
+    } = string.Empty;
+
+    public string TapHint 
+    { 
+        get => field; 
+        set { field = value; OnPropertyChanged(); } 
+    } = string.Empty;
+
     public string ImageUrl { get; set; } = string.Empty;
-    public string DetailInfo { get; set; } = string.Empty;
-    public string TapHint { get; set; } = string.Empty;
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+    
+    protected void OnPropertyChanged([CallerMemberName] string? name = null) =>
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 }

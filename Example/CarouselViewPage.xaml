@@ -11,18 +11,44 @@
             </LinearGradientBrush>
         </Grid.Background>
 
-        <Button Grid.Row="0"
-                x:Name="LanguageButton"
-                Text="🇬🇧 English"
-                Clicked="OnLanguageClicked"
-                BackgroundColor="#C0392B"
-                TextColor="White"
-                CornerRadius="20"
-                FontSize="14"
-                Padding="20,8"
-                FontAttributes="Bold"
-                HorizontalOptions="End"
-                Margin="0,10,15,0" />
+        <Grid Grid.Row="0" ColumnDefinitions="*, Auto" Padding="15,10">
+            <HorizontalStackLayout Grid.Column="1" Spacing="10" VerticalOptions="Center">
+
+                <Border BackgroundColor="#C0392B" 
+                        StrokeThickness="0"
+                        StrokeShape="RoundRectangle 20"
+                        HeightRequest="44"
+                        VerticalOptions="Center"> 
+                    <HorizontalStackLayout Spacing="5" Padding="15,0" VerticalOptions="Center">
+                        <Label x:Name="AutoScrollLabel"
+                            Text="Auto-scroll" 
+                            VerticalOptions="Center" 
+                            FontSize="13" 
+                            FontAttributes="Bold"
+                            TextColor="White" />
+                        <Switch x:Name="AutoScrollSwitch" 
+                                IsToggled="True"
+                                Toggled="OnAutoScrollToggled" 
+                                OnColor="White" 
+                                ThumbColor="White"
+                                Scale="0.7"
+                                VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                </Border>
+
+                <Button x:Name="LanguageButton"
+                        Text="🇬🇧 English"
+                        Clicked="OnLanguageClicked"
+                        BackgroundColor="#C0392B"
+                        TextColor="White"
+                        CornerRadius="22" 
+                        FontSize="13"
+                        FontAttributes="Bold"
+                        Padding="15,0"
+                        HeightRequest="44"
+                        VerticalOptions="Center" />
+            </HorizontalStackLayout>
+        </Grid>
 
         <CarouselView Grid.Row="1"
                       x:Name="FoodCarousel"
@@ -89,13 +115,5 @@
                        IndicatorSize="12"
                        HorizontalOptions="Center"
                        Margin="0,0,0,10" />
-
-        <Grid HorizontalOptions="Center" Grid.Row="3">
-            <Button BackgroundColor="#FF9800" WidthRequest="250" HeightRequest="60" CornerRadius="10" Clicked="OnAutoScrollToggle" />
-            <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="10" InputTransparent="True">
-                <Image x:Name="AutoScrollIcon" Source="pause.png" WidthRequest="24" HeightRequest="24" VerticalOptions="Center" />
-                <Label Text="Auto-scroll" TextColor="White" FontSize="20" FontAttributes="Bold" VerticalOptions="Center" />
-            </HorizontalStackLayout>
-        </Grid>
     </Grid>
 </ContentPage>

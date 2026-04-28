@@ -45,8 +45,6 @@ public partial class CarouselViewPage : ContentPage
         Title = LanguageService.Get("PageTitle");
         LanguageButton.Text = LanguageService.Get("LanguageButton");
         AutoScrollLabel.Text = LanguageService.Get("AutoScroll");
-
-        UpdateAutoScrollState();
     }
 
     protected override void OnAppearing()
@@ -54,18 +52,9 @@ public partial class CarouselViewPage : ContentPage
         base.OnAppearing();
 
         StartAutoScroll();
-        UpdateAutoScrollState();
-
-        if (_isAutoScrollEnabled)
-            _autoScrollTimer?.Start();
 
         Opacity = 0;
         this.FadeToAsync(1, 600, Easing.CubicIn);
-    }
-
-    private void UpdateAutoScrollState()
-    {
-        AutoScrollSwitch?.IsToggled = _isAutoScrollEnabled;
     }
 
     private void StartAutoScroll()

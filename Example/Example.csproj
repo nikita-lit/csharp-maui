@@ -83,6 +83,15 @@
 	  </Compile>
 	  <Compile Update="FoodDetailPage.xaml.cs">
 	    <DependentUpon>FoodDetailPage.xaml</DependentUpon>
+	  </Compile>	  
+	  <Compile Update="SnakeGame\SnakeGame.xaml.cs">
+	    <DependentUpon>SnakeGame.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="SnakeGame\SnakeGameSettings.xaml.cs">
+	    <DependentUpon>SnakeGameSettings.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="SnakeGame\SnakeGameStart.xaml.cs">
+	    <DependentUpon>SnakeGameStart.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
@@ -121,6 +130,15 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="FoodDetailPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>	  
+	  <MauiXaml Update="SnakeGame\SnakeGame.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="SnakeGame\SnakeGameSettings.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="SnakeGame\SnakeGameStart.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

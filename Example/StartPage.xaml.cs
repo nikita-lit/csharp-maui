@@ -1,5 +1,6 @@
 using System;
 using Example.TicTacToe;
+using Example.SnakeGame;
 
 namespace Example;
 
@@ -20,6 +21,7 @@ public partial class StartPage : ContentPage
 		"Dünaamiline ListView",
 		"Euroopa riigid",
 		"Itaalia köök",
+		"Snake mäng",
 	};
 	
 	private List<Type> pageTypes = new List<Type>() { 
@@ -35,6 +37,7 @@ public partial class StartPage : ContentPage
 		typeof(ListViewPage),
 		typeof(EuropeCountriesPage),
 		typeof(CarouselViewPage),
+		typeof(SnakeGameStart),
 	};
 
 	public StartPage()

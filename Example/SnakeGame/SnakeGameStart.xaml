@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Example.SnakeGame.SnakeGameStart"
+             Title="Snake : Peamenüü">
+    <ScrollView>
+        <VerticalStackLayout x:Name="MainLayout" Padding="20" Spacing="25" VerticalOptions="Center">
+
+            <Label x:Name="TitleLabel"
+                   Text="🐍"
+                   FontSize="80"
+                   HorizontalOptions="Center" />
+
+            <Label x:Name="SubtitleLabel"
+                   Text="Snake"
+                   FontSize="36"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   Margin="0,0,0,10" />
+
+            <Label x:Name="HighScoreLabel"
+                   Text="Parim tulemus: 0"
+                   FontSize="16"
+                   HorizontalOptions="Center"
+                   Margin="0,0,0,20" />
+
+            <Grid HorizontalOptions="Center">
+                <Button x:Name="PlayButton"
+                        WidthRequest="250" HeightRequest="60"
+                        CornerRadius="10"
+                        Clicked="OnPlayClicked" />
+                <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center"
+                                       Spacing="10" InputTransparent="True">
+                    <Label Text="▶" FontSize="20" VerticalOptions="Center" x:Name="PlayIcon" />
+                    <Label Text="Alusta mängu" FontSize="20" FontAttributes="Bold"
+                           VerticalOptions="Center" x:Name="PlayText" />
+                </HorizontalStackLayout>
+            </Grid>
+
+            <Grid HorizontalOptions="Center">
+                <Button x:Name="SettingsButton"
+                        WidthRequest="250" HeightRequest="60"
+                        CornerRadius="10"
+                        Clicked="OnSettingsClicked" />
+                <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center"
+                                       Spacing="10" InputTransparent="True">
+                    <Label Text="⚙" FontSize="20" VerticalOptions="Center" x:Name="SettingsIcon" />
+                    <Label Text="Seaded" FontSize="20" FontAttributes="Bold"
+                           VerticalOptions="Center" x:Name="SettingsText" />
+                </HorizontalStackLayout>
+            </Grid>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

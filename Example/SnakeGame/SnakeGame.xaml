@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Example.SnakeGame.SnakeGamePage"
+             Title="Snake">
+    <Grid x:Name="RootGrid" RowDefinitions="Auto,*,Auto" Padding="10">
+
+        <HorizontalStackLayout Grid.Row="0" HorizontalOptions="Center" Spacing="30" Margin="0,10">
+            <Label x:Name="ScoreLabel" Text="Punktid: 0" FontSize="20" FontAttributes="Bold" />
+            <Label x:Name="HighScoreLabel" Text="Parim: 0" FontSize="16" VerticalOptions="Center" />
+        </HorizontalStackLayout>
+
+        <Grid x:Name="GameBoard" Grid.Row="1"
+              HorizontalOptions="Center" VerticalOptions="Center"
+              BackgroundColor="Transparent">
+        </Grid>
+
+        <Grid Grid.Row="2" Margin="0,10,0,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0" HorizontalOptions="Center" VerticalOptions="Center"
+                  RowDefinitions="50,50,50" ColumnDefinitions="50,50,50">
+                <Button x:Name="UpBtn" Grid.Row="0" Grid.Column="1" Text="▲"
+                        FontSize="20" CornerRadius="8" Clicked="OnUpClicked" />
+                <Button x:Name="LeftBtn" Grid.Row="1" Grid.Column="0" Text="◀"
+                        FontSize="20" CornerRadius="8" Clicked="OnLeftClicked" />
+                <Button x:Name="RightBtn" Grid.Row="1" Grid.Column="2" Text="▶"
+                        FontSize="20" CornerRadius="8" Clicked="OnRightClicked" />
+                <Button x:Name="DownBtn" Grid.Row="2" Grid.Column="1" Text="▼"
+                        FontSize="20" CornerRadius="8" Clicked="OnDownClicked" />
+            </Grid>
+
+            <VerticalStackLayout Grid.Column="2" Spacing="10"
+                                 HorizontalOptions="Center" VerticalOptions="Center">
+                <Button x:Name="PauseButton" Text="⏸" FontSize="24"
+                        WidthRequest="60" HeightRequest="50" CornerRadius="8"
+                        Clicked="OnPauseClicked" />
+                <Button x:Name="RestartButton" Text="🔄" FontSize="24"
+                        WidthRequest="60" HeightRequest="50" CornerRadius="8"
+                        Clicked="OnRestartClicked" />
+            </VerticalStackLayout>
+        </Grid>
+
+    </Grid>
+</ContentPage>

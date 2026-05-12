@@ -16,8 +16,11 @@ public class Snake(int startRow, int startCol)
     
     private int _direction = Right;
 
-    public IReadOnlyList<Cell> Body => _body.AsReadOnly();
-    public Cell Head => _body[0];
+    public IReadOnlyList<Cell> Body 
+        => _body.AsReadOnly();
+    
+    public Cell Head 
+        => _body[0];
 
     public int Direction
     {

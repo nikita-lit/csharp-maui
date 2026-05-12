@@ -3,22 +3,19 @@ namespace Example.SnakeGame;
 public partial class SnakeGameStats : ContentPage
 {
     private readonly SnakeStatsViewModel _viewModel = new();
-    private Theme _theme;
 
     public SnakeGameStats()
     {
         InitializeComponent();
         BindingContext = _viewModel;
-        _theme = ThemeService.CurrentTheme;
+        var theme = ThemeService.CurrentTheme;
         UpdateText();
-        ApplyTheme(_theme);
+        ApplyTheme(theme);
     }
 
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        ThemeService.ThemeChanged -= OnThemeChanged;
-        ThemeService.ThemeChanged += OnThemeChanged;
         LanguageService.LanguageChanged -= UpdateText;
         LanguageService.LanguageChanged += UpdateText;
         SnakeStatsService.StatsChanged -= RefreshStats;
@@ -31,15 +28,8 @@ public partial class SnakeGameStats : ContentPage
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
-        ThemeService.ThemeChanged -= OnThemeChanged;
         LanguageService.LanguageChanged -= UpdateText;
         SnakeStatsService.StatsChanged -= RefreshStats;
-    }
-
-    private void OnThemeChanged(Theme theme)
-    {
-        _theme = theme;
-        ApplyTheme(_theme);
     }
 
     private void RefreshStats()

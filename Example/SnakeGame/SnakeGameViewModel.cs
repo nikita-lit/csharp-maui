@@ -29,8 +29,4 @@ public class SnakeGameViewModel : BaseViewModel
         HighScoreText = string.Format(LanguageService.Get("SnakeHighScoreFormat"), player.HighScore);
     }
 
-    public void UpdateLanguage(Player player)
-    {
-        UpdateScore(player);
-    }
 }

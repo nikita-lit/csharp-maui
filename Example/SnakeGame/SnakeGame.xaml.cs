@@ -7,8 +7,8 @@ public partial class SnakeGamePage : ContentPage
     private Player _player;
     private Theme _theme;
     private BoxView[,] _cells = null!;
+    private readonly List<Cell> _paintedCells = [];
     private int _gridSize = 15;
-    private int _speed;
 
     public SnakeGamePage()
     {
@@ -16,10 +16,8 @@ public partial class SnakeGamePage : ContentPage
         BindingContext = _viewModel;
 
         _theme = ThemeService.CurrentTheme;
-        _speed = SnakeGameViewModel.Speed;
         _player = SnakeGameViewModel.CreatePlayer();
-
-        _game = new Game(_player, _theme, _gridSize, _speed);
+        _game = new Game(_player, _theme, _gridSize, SnakeGameViewModel.Speed);
 
         BuildGrid();
         ApplyTheme();
@@ -34,12 +32,9 @@ public partial class SnakeGamePage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        ThemeService.ThemeChanged -= OnThemeChanged;
-        ThemeService.ThemeChanged += OnThemeChanged;
         LanguageService.LanguageChanged -= UpdateText;
         LanguageService.LanguageChanged += UpdateText;
         _theme = ThemeService.CurrentTheme;
-        _speed = SnakeGameViewModel.Speed;
         UpdateText();
         StartNewGame();
     }
@@ -47,15 +42,8 @@ public partial class SnakeGamePage : ContentPage
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
-        ThemeService.ThemeChanged -= OnThemeChanged;
         LanguageService.LanguageChanged -= UpdateText;
         _game.Stop();
-    }
-
-    private void OnThemeChanged(Theme theme)
-    {
-        _theme = theme;
-        ApplyTheme();
     }
 
     private void AddSwipe(SwipeDirection swipeDirection, int snakeDirection)
@@ -113,7 +101,7 @@ public partial class SnakeGamePage : ContentPage
         StyleButton(PauseButton, _theme.ButtonColor, _theme.ButtonTextColor);
         StyleButton(RestartButton, _theme.GridColor, _theme.TextColor);
 
-        RenderBoard();
+        ResetBoard();
     }
 
     private static void StyleButton(Button button, Color background, Color text)
@@ -124,9 +112,9 @@ public partial class SnakeGamePage : ContentPage
 
     private void StartNewGame()
     {
-        _speed = SnakeGameViewModel.Speed;
+        _game.Stop();
         _player = SnakeGameViewModel.CreatePlayer();
-        _game = new Game(_player, _theme, _gridSize, _speed);
+        _game = new Game(_player, _theme, _gridSize, SnakeGameViewModel.Speed);
         _game.OnUpdate += OnGameUpdate;
         _game.OnGameOver += OnGameOverHandler;
         _game.Start(Dispatcher);
@@ -143,26 +131,37 @@ public partial class SnakeGamePage : ContentPage
 
     private void RenderBoard()
     {
-        for (var r = 0; r < _gridSize; r++)
-        {
-            for (var c = 0; c < _gridSize; c++)
-                _cells[r, c].Color = _theme.GridColor;
-        }
+        foreach (var cell in _paintedCells)
+            if (IsInside(cell))
+                _cells[cell.Row, cell.Col].Color = _theme.GridColor;
+
+        _paintedCells.Clear();
 
         for (var i = 1; i < _game.Snake.Body.Count; i++)
         {
             var part = _game.Snake.Body[i];
-            if (IsInside(part))
-                _cells[part.Row, part.Col].Color = _theme.SnakeColor;
+            PaintCell(part, _theme.SnakeColor);
         }
 
-        var head = _game.Snake.Head;
-        if (IsInside(head))
-            _cells[head.Row, head.Col].Color = _theme.SnakeHeadColor;
+        PaintCell(_game.Snake.Head, _theme.SnakeHeadColor);
+        PaintCell(_game.Food.Position, _theme.FoodColor);
+    }
 
-        var food = _game.Food.Position;
-        if (IsInside(food))
-            _cells[food.Row, food.Col].Color = _theme.FoodColor;
+    private void PaintCell(Cell cell, Color color)
+    {
+        if (!IsInside(cell))
+            return;
+
+        _cells[cell.Row, cell.Col].Color = color;
+        _paintedCells.Add(cell);
+    }
+
+    private void ResetBoard()
+    {
+        _paintedCells.Clear();
+        for (var r = 0; r < _gridSize; r++)
+            for (var c = 0; c < _gridSize; c++)
+                _cells[r, c].Color = _theme.GridColor;
     }
 
     private bool IsInside(Cell cell) =>
@@ -176,7 +175,7 @@ public partial class SnakeGamePage : ContentPage
     private void UpdateText()
     {
         Title = LanguageService.Get("SnakeGameTitle");
-        _viewModel.UpdateLanguage(_player);
+        _viewModel.UpdateScore(_player);
     }
 
     private async void OnGameOverHandler()
@@ -186,6 +185,7 @@ public partial class SnakeGamePage : ContentPage
                 _cells[r, c].Color = _theme.FoodColor;
 
         await Task.Delay(300);
+        ResetBoard();
         RenderBoard();
         SnakeStatsService.SaveResult(_player);
 
@@ -207,16 +207,18 @@ public partial class SnakeGamePage : ContentPage
     }
 
     private void OnUpClicked(object? sender, EventArgs e) 
-        => _game.SetDirection(Snake.Up);
+        => SetDirection(Snake.Up);
 
     private void OnDownClicked(object? sender, EventArgs e) 
-        => _game.SetDirection(Snake.Down);
+        => SetDirection(Snake.Down);
 
     private void OnLeftClicked(object? sender, EventArgs e) 
-        => _game.SetDirection(Snake.Left);
+        => SetDirection(Snake.Left);
 
     private void OnRightClicked(object? sender, EventArgs e) 
-        => _game.SetDirection(Snake.Right);
+        => SetDirection(Snake.Right);
+
+    public void SetDirection(int direction) => _game.SetDirection(direction);
 
     private void OnPauseClicked(object? sender, EventArgs e)
     {

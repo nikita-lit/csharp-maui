@@ -265,4 +265,7 @@ Parim tulemus: {2}</value>
   <data name="SnakeStatsBestScoreFormat" xml:space="preserve">
     <value>Parim tulemus: {0}</value>
   </data>
+  <data name="LanguageLabel" xml:space="preserve">
+    <value>Keel</value>
+  </data>
 </root>

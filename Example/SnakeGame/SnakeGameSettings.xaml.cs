@@ -23,11 +23,10 @@ public partial class SnakeGameSettings : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        ThemeService.ThemeChanged -= OnThemeChanged;
-        ThemeService.ThemeChanged += OnThemeChanged;
         LanguageService.LanguageChanged -= UpdateText;
         LanguageService.LanguageChanged += UpdateText;
         _viewModel.Load();
+        _theme = Theme.GetByName(_viewModel.SelectedTheme);
         ApplyTheme();
         HighlightSelectedTheme();
         HighlightSelectedSpeed();
@@ -36,16 +35,7 @@ public partial class SnakeGameSettings : ContentPage
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
-        ThemeService.ThemeChanged -= OnThemeChanged;
         LanguageService.LanguageChanged -= UpdateText;
-    }
-
-    private void OnThemeChanged(Theme theme)
-    {
-        _theme = theme;
-        ApplyTheme();
-        HighlightSelectedTheme();
-        HighlightSelectedSpeed();
     }
 
     private void ApplyTheme()
@@ -53,6 +43,7 @@ public partial class SnakeGameSettings : ContentPage
         _theme.Apply(this);
 
         SettingsTitleLabel.TextColor = _theme.TextColor;
+        LanguageLabel.TextColor = _theme.TextColor;
         NameLabel.TextColor = _theme.TextColor;
         ThemeLabel.TextColor = _theme.TextColor;
         SpeedLabel.TextColor = _theme.TextColor;
@@ -95,6 +86,7 @@ public partial class SnakeGameSettings : ContentPage
     {
         Title = LanguageService.Get("SnakeSettingsTitle");
         SettingsTitleLabel.Text = LanguageService.Get("SnakeSettings");
+        LanguageLabel.Text = LanguageService.Get("LanguageLabel");
         NameLabel.Text = LanguageService.Get("SnakePlayerNameLabel");
         PlayerNameEntry.Placeholder = LanguageService.Get("SnakePlayerNamePlaceholder");
         ThemeLabel.Text = LanguageService.Get("SnakeThemeLabel");
@@ -114,7 +106,8 @@ public partial class SnakeGameSettings : ContentPage
         if (sender is Button btn)
         {
             _viewModel.SelectedTheme = btn.CommandParameter?.ToString() ?? btn.Text;
-            ThemeService.ChangeTheme(_viewModel.SelectedTheme);
+            _theme = Theme.GetByName(_viewModel.SelectedTheme);
+            ApplyTheme();
             UpdateText();
             HighlightSelectedTheme();
             HighlightSelectedSpeed();

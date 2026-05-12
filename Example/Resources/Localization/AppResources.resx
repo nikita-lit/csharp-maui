@@ -265,4 +265,7 @@ Best score: {2}</value>
   <data name="SnakeStatsBestScoreFormat" xml:space="preserve">
     <value>Best score: {0}</value>
   </data>
+  <data name="LanguageLabel" xml:space="preserve">
+    <value>Language</value>
+  </data>
 </root>

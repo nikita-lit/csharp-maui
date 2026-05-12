@@ -6,16 +6,6 @@
     <ScrollView>
         <VerticalStackLayout x:Name="MainLayout" Padding="20" Spacing="25" VerticalOptions="Center">
 
-            <Button x:Name="LanguageButton"
-                    Text="🇪🇪 Eesti"
-                    Clicked="OnLanguageClicked"
-                    WidthRequest="140"
-                    HeightRequest="44"
-                    CornerRadius="22"
-                    FontSize="13"
-                    FontAttributes="Bold"
-                    HorizontalOptions="End" />
-
             <Label x:Name="TitleLabel"
                    Text="🐍"
                    FontSize="80"
@@ -44,6 +34,22 @@
                     <Label Text="▶" FontSize="20" VerticalOptions="Center" x:Name="PlayIcon" />
                     <Label x:Name="PlayText"
                            Text="Alusta mängu"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           VerticalOptions="Center" />
+                </HorizontalStackLayout>
+            </Grid>
+
+            <Grid HorizontalOptions="Center">
+                <Button x:Name="StatsButton"
+                        WidthRequest="250" HeightRequest="60"
+                        CornerRadius="10"
+                        Clicked="OnStatsClicked" />
+                <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center"
+                                       Spacing="10" InputTransparent="True">
+                    <Label Text="📊" FontSize="20" VerticalOptions="Center" x:Name="StatsIcon" />
+                    <Label x:Name="StatsText"
+                           Text="Statistika"
                            FontSize="20"
                            FontAttributes="Bold"
                            VerticalOptions="Center" />

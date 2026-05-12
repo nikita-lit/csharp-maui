@@ -1,5 +1,3 @@
-using System.Globalization;
-
 namespace Example.SnakeGame;
 
 public partial class SnakeGameStart : ContentPage
@@ -42,20 +40,22 @@ public partial class SnakeGameStart : ContentPage
         PlayIcon.TextColor = _theme.ButtonTextColor;
         PlayText.TextColor = _theme.ButtonTextColor;
 
+        StatsButton.BackgroundColor = _theme.GridColor;
+        StatsIcon.TextColor = _theme.TextColor;
+        StatsText.TextColor = _theme.TextColor;
+
         SettingsButton.BackgroundColor = _theme.GridColor;
         SettingsIcon.TextColor = _theme.TextColor;
         SettingsText.TextColor = _theme.TextColor;
 
-        LanguageButton.BackgroundColor = _theme.ButtonColor;
-        LanguageButton.TextColor = _theme.ButtonTextColor;
     }
 
     private void UpdateText()
     {
         Title = LanguageService.Get("SnakeStartTitle");
         PlayText.Text = LanguageService.Get("SnakePlayGame");
+        StatsText.Text = LanguageService.Get("SnakeStats");
         SettingsText.Text = LanguageService.Get("SnakeSettings");
-        LanguageButton.Text = LanguageService.Get("LanguageButton");
         UpdateHighScore();
     }
 
@@ -66,28 +66,11 @@ public partial class SnakeGameStart : ContentPage
         HighScoreLabel.Text = string.Format(LanguageService.Get("SnakeBestScoreFormat"), player.HighScore);
     }
 
-    private async void OnLanguageClicked(object? sender, EventArgs e)
-    {
-        if (sender is VisualElement btn)
-        {
-            await btn.ScaleToAsync(0.92, 60, Easing.CubicIn);
-            await btn.ScaleToAsync(1.0, 60, Easing.CubicOut);
-        }
+    private async void OnPlayClicked(object? sender, EventArgs e) 
+        => await Navigation.PushAsync(new SnakeGamePage());
+    private async void OnStatsClicked(object? sender, EventArgs e) 
+        => await Navigation.PushAsync(new SnakeGameStats());
 
-        var code = CultureInfo.CurrentCulture.TwoLetterISOLanguageName == "et"
-            ? "en-US"
-            : "et-EE";
-
-        LanguageService.ChangeLanguage(code);
-    }
-
-    private async void OnPlayClicked(object? sender, EventArgs e)
-    {
-        await Navigation.PushAsync(new SnakeGamePage());
-    }
-
-    private async void OnSettingsClicked(object? sender, EventArgs e)
-    {
-        await Navigation.PushAsync(new SnakeGameSettings());
-    }
+    private async void OnSettingsClicked(object? sender, EventArgs e) 
+        =>  await Navigation.PushAsync(new SnakeGameSettings());
 }

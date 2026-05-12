@@ -2,6 +2,7 @@ namespace Example.SnakeGame;
 
 public partial class SnakeGamePage : ContentPage
 {
+    private readonly SnakeGameViewModel _viewModel = new();
     private Game _game;
     private Player _player;
     private Theme _theme;
@@ -12,11 +13,11 @@ public partial class SnakeGamePage : ContentPage
     public SnakeGamePage()
     {
         InitializeComponent();
+        BindingContext = _viewModel;
 
-        _theme = Theme.LoadSelected();
-        _speed = Preferences.Get("snake_speed", 200);
-        var playerName = Preferences.Get("snake_player_name", LanguageService.Get("SnakeDefaultPlayer"));
-        _player = new Player(playerName);
+        _theme = ThemeService.CurrentTheme;
+        _speed = SnakeGameViewModel.Speed;
+        _player = SnakeGameViewModel.CreatePlayer();
 
         _game = new Game(_player, _theme, _gridSize, _speed);
 
@@ -33,8 +34,12 @@ public partial class SnakeGamePage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
+        ThemeService.ThemeChanged -= OnThemeChanged;
+        ThemeService.ThemeChanged += OnThemeChanged;
         LanguageService.LanguageChanged -= UpdateText;
         LanguageService.LanguageChanged += UpdateText;
+        _theme = ThemeService.CurrentTheme;
+        _speed = SnakeGameViewModel.Speed;
         UpdateText();
         StartNewGame();
     }
@@ -42,8 +47,15 @@ public partial class SnakeGamePage : ContentPage
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
+        ThemeService.ThemeChanged -= OnThemeChanged;
         LanguageService.LanguageChanged -= UpdateText;
         _game.Stop();
+    }
+
+    private void OnThemeChanged(Theme theme)
+    {
+        _theme = theme;
+        ApplyTheme();
     }
 
     private void AddSwipe(SwipeDirection swipeDirection, int snakeDirection)
@@ -112,7 +124,8 @@ public partial class SnakeGamePage : ContentPage
 
     private void StartNewGame()
     {
-        _player.ResetScore();
+        _speed = SnakeGameViewModel.Speed;
+        _player = SnakeGameViewModel.CreatePlayer();
         _game = new Game(_player, _theme, _gridSize, _speed);
         _game.OnUpdate += OnGameUpdate;
         _game.OnGameOver += OnGameOverHandler;
@@ -157,14 +170,13 @@ public partial class SnakeGamePage : ContentPage
 
     private void UpdateScore()
     {
-        ScoreLabel.Text = string.Format(LanguageService.Get("SnakeScoreFormat"), _player.Score);
-        HighScoreLabel.Text = string.Format(LanguageService.Get("SnakeHighScoreFormat"), _player.HighScore);
+        _viewModel.UpdateScore(_player);
     }
 
     private void UpdateText()
     {
         Title = LanguageService.Get("SnakeGameTitle");
-        UpdateScore();
+        _viewModel.UpdateLanguage(_player);
     }
 
     private async void OnGameOverHandler()
@@ -175,6 +187,7 @@ public partial class SnakeGamePage : ContentPage
 
         await Task.Delay(300);
         RenderBoard();
+        SnakeStatsService.SaveResult(_player);
 
         var again = await DisplayAlertAsync(
             LanguageService.Get("SnakeGameOverTitle"),

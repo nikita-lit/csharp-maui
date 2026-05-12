@@ -247,4 +247,22 @@ Best score: {2}</value>
   <data name="SnakeBack" xml:space="preserve">
     <value>Back</value>
   </data>
+  <data name="SnakeStatsTitle" xml:space="preserve">
+    <value>Snake : Statistics</value>
+  </data>
+  <data name="SnakeStats" xml:space="preserve">
+    <value>Statistics</value>
+  </data>
+  <data name="SnakeStatsPlayerFormat" xml:space="preserve">
+    <value>Player: {0}</value>
+  </data>
+  <data name="SnakeStatsGamesFormat" xml:space="preserve">
+    <value>Games played: {0}</value>
+  </data>
+  <data name="SnakeStatsLastScoreFormat" xml:space="preserve">
+    <value>Last score: {0}</value>
+  </data>
+  <data name="SnakeStatsBestScoreFormat" xml:space="preserve">
+    <value>Best score: {0}</value>
+  </data>
 </root>

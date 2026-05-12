@@ -93,6 +93,9 @@
 	  <Compile Update="SnakeGame\SnakeGameStart.xaml.cs">
 	    <DependentUpon>SnakeGameStart.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="SnakeGame\SnakeGameStats.xaml.cs">
+	    <DependentUpon>SnakeStatsPage.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -139,6 +142,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="SnakeGame\SnakeGameStart.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="SnakeGame\SnakeGameStats.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

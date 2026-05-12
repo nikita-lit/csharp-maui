@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Example.SnakeGame.SnakeGameStats"
+             Title="Statistics">
+    <ScrollView>
+        <VerticalStackLayout x:Name="MainLayout"
+                             Padding="24"
+                             Spacing="18"
+                             VerticalOptions="Center">
+
+            <Label x:Name="StatsTitleLabel"
+                   Text="Statistics"
+                   FontSize="28"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center"
+                   Margin="0,0,0,16" />
+
+            <Border x:Name="StatsPanel"
+                    Padding="18"
+                    StrokeThickness="0"
+                    StrokeShape="RoundRectangle 8">
+                <VerticalStackLayout Spacing="14">
+                    <Label x:Name="PlayerNameLabel"
+                           Text="{Binding PlayerNameText}"
+                           FontSize="18"
+                           FontAttributes="Bold" />
+
+                    <Label x:Name="GamesPlayedLabel"
+                           Text="{Binding GamesPlayedText}"
+                           FontSize="16" />
+
+                    <Label x:Name="LastScoreLabel"
+                           Text="{Binding LastScoreText}"
+                           FontSize="16" />
+
+                    <Label x:Name="BestScoreLabel"
+                           Text="{Binding BestScoreText}"
+                           FontSize="16" />
+                </VerticalStackLayout>
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

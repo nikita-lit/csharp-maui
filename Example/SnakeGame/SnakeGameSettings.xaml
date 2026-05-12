@@ -24,6 +24,7 @@
 
             <Label x:Name="NameLabel" Text="Mängija nimi:" FontSize="16" />
             <Entry x:Name="PlayerNameEntry"
+                   Text="{Binding PlayerName}"
                    Placeholder="Sisesta nimi"
                    FontSize="16"
                    MaxLength="20" />

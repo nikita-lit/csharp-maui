@@ -4,19 +4,15 @@ namespace Example.SnakeGame;
 
 public partial class SnakeGameSettings : ContentPage
 {
+    private readonly SnakeSettingsViewModel _viewModel = new();
     private Theme _theme;
-    private string _selectedTheme;
-    private int _selectedSpeed;
 
     public SnakeGameSettings()
     {
         InitializeComponent();
+        BindingContext = _viewModel;
 
-        _theme = Theme.LoadSelected();
-        _selectedTheme = _theme.Name;
-        _selectedSpeed = Preferences.Get("snake_speed", 200);
-
-        PlayerNameEntry.Text = Preferences.Get("snake_player_name", LanguageService.Get("SnakeDefaultPlayer"));
+        _theme = ThemeService.CurrentTheme;
 
         UpdateText();
         ApplyTheme();
@@ -27,14 +23,29 @@ public partial class SnakeGameSettings : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
+        ThemeService.ThemeChanged -= OnThemeChanged;
+        ThemeService.ThemeChanged += OnThemeChanged;
         LanguageService.LanguageChanged -= UpdateText;
         LanguageService.LanguageChanged += UpdateText;
+        _viewModel.Load();
+        ApplyTheme();
+        HighlightSelectedTheme();
+        HighlightSelectedSpeed();
     }
 
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
+        ThemeService.ThemeChanged -= OnThemeChanged;
         LanguageService.LanguageChanged -= UpdateText;
+    }
+
+    private void OnThemeChanged(Theme theme)
+    {
+        _theme = theme;
+        ApplyTheme();
+        HighlightSelectedTheme();
+        HighlightSelectedSpeed();
     }
 
     private void ApplyTheme()
@@ -62,16 +73,16 @@ public partial class SnakeGameSettings : ContentPage
 
     private void HighlightSelectedTheme()
     {
-        StyleButton(LightBtn, _selectedTheme == "Hele");
-        StyleButton(DarkBtn, _selectedTheme == "Tume");
-        StyleButton(ColorfulBtn, _selectedTheme == "Värviline");
+        StyleButton(LightBtn, _viewModel.SelectedTheme == "Hele");
+        StyleButton(DarkBtn, _viewModel.SelectedTheme == "Tume");
+        StyleButton(ColorfulBtn, _viewModel.SelectedTheme == "Värviline");
     }
 
     private void HighlightSelectedSpeed()
     {
-        StyleButton(SlowBtn, _selectedSpeed == 300);
-        StyleButton(NormalBtn, _selectedSpeed == 200);
-        StyleButton(FastBtn, _selectedSpeed == 120);
+        StyleButton(SlowBtn, _viewModel.SelectedSpeed == 300);
+        StyleButton(NormalBtn, _viewModel.SelectedSpeed == 200);
+        StyleButton(FastBtn, _viewModel.SelectedSpeed == 120);
     }
 
     private void StyleButton(Button button, bool selected)
@@ -102,9 +113,8 @@ public partial class SnakeGameSettings : ContentPage
     {
         if (sender is Button btn)
         {
-            _selectedTheme = btn.CommandParameter?.ToString() ?? btn.Text;
-            _theme = Theme.GetByName(_selectedTheme);
-            ApplyTheme();
+            _viewModel.SelectedTheme = btn.CommandParameter?.ToString() ?? btn.Text;
+            ThemeService.ChangeTheme(_viewModel.SelectedTheme);
             UpdateText();
             HighlightSelectedTheme();
             HighlightSelectedSpeed();
@@ -115,7 +125,7 @@ public partial class SnakeGameSettings : ContentPage
     {
         if (sender is Button btn)
         {
-            _selectedSpeed = int.TryParse(btn.CommandParameter?.ToString(), out int speed) ? speed : 200;
+            _viewModel.SelectedSpeed = int.TryParse(btn.CommandParameter?.ToString(), out int speed) ? speed : 200;
             HighlightSelectedSpeed();
         }
     }
@@ -137,12 +147,7 @@ public partial class SnakeGameSettings : ContentPage
 
     private async void OnSaveClicked(object? sender, EventArgs e)
     {
-        var name = string.IsNullOrWhiteSpace(PlayerNameEntry.Text)
-            ? LanguageService.Get("SnakeDefaultPlayer")
-            : PlayerNameEntry.Text.Trim();
-        Preferences.Set("snake_player_name", name);
-        Theme.SaveSelected(_selectedTheme);
-        Preferences.Set("snake_speed", _selectedSpeed);
+        _viewModel.Save();
 
         await DisplayAlertAsync(
             LanguageService.Get("SnakeSavedTitle"),

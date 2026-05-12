@@ -1,0 +1,36 @@
+namespace Example.SnakeGame;
+
+public class SnakeGameViewModel : BaseViewModel
+{
+    public string ScoreText
+    {
+        get;
+        private set => SetProperty(ref field, value);
+    } = string.Empty;
+
+    public string HighScoreText
+    {
+        get;
+        private set => SetProperty(ref field, value);
+    } = string.Empty;
+
+    public static string PlayerName 
+        => Preferences.Get("snake_player_name", LanguageService.Get("SnakeDefaultPlayer"));
+    
+    public static int Speed 
+        => Preferences.Get("snake_speed", 200);
+
+    public static Player CreatePlayer() 
+        => new(PlayerName);
+
+    public void UpdateScore(Player player)
+    {
+        ScoreText = string.Format(LanguageService.Get("SnakeScoreFormat"), player.Score);
+        HighScoreText = string.Format(LanguageService.Get("SnakeHighScoreFormat"), player.HighScore);
+    }
+
+    public void UpdateLanguage(Player player)
+    {
+        UpdateScore(player);
+    }
+}

@@ -163,4 +163,88 @@
 
 ⏱ Valmistamisaeg: ~1,5 tundi</value>
   </data>
+
+  <data name="OkButton" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="SnakeStartTitle" xml:space="preserve">
+    <value>Snake : Peamenüü</value>
+  </data>
+  <data name="SnakeGameTitle" xml:space="preserve">
+    <value>Snake</value>
+  </data>
+  <data name="SnakeSettingsTitle" xml:space="preserve">
+    <value>Snake : Seaded</value>
+  </data>
+  <data name="SnakeSettings" xml:space="preserve">
+    <value>Seaded</value>
+  </data>
+  <data name="SnakePlayGame" xml:space="preserve">
+    <value>Alusta mängu</value>
+  </data>
+  <data name="SnakeBestScoreFormat" xml:space="preserve">
+    <value>Parim tulemus: {0}</value>
+  </data>
+  <data name="SnakeScoreFormat" xml:space="preserve">
+    <value>Punktid: {0}</value>
+  </data>
+  <data name="SnakeHighScoreFormat" xml:space="preserve">
+    <value>Parim: {0}</value>
+  </data>
+  <data name="SnakeDefaultPlayer" xml:space="preserve">
+    <value>Mängija</value>
+  </data>
+  <data name="SnakePlayerNameLabel" xml:space="preserve">
+    <value>Mängija nimi:</value>
+  </data>
+  <data name="SnakePlayerNamePlaceholder" xml:space="preserve">
+    <value>Sisesta nimi</value>
+  </data>
+  <data name="SnakeThemeLabel" xml:space="preserve">
+    <value>Teema:</value>
+  </data>
+  <data name="SnakeThemeLight" xml:space="preserve">
+    <value>Hele</value>
+  </data>
+  <data name="SnakeThemeDark" xml:space="preserve">
+    <value>Tume</value>
+  </data>
+  <data name="SnakeThemeColorful" xml:space="preserve">
+    <value>Värviline</value>
+  </data>
+  <data name="SnakeSpeedLabel" xml:space="preserve">
+    <value>Kiirus:</value>
+  </data>
+  <data name="SnakeSpeedSlow" xml:space="preserve">
+    <value>Aeglane</value>
+  </data>
+  <data name="SnakeSpeedNormal" xml:space="preserve">
+    <value>Normaalne</value>
+  </data>
+  <data name="SnakeSpeedFast" xml:space="preserve">
+    <value>Kiire</value>
+  </data>
+  <data name="SnakeSave" xml:space="preserve">
+    <value>Salvesta</value>
+  </data>
+  <data name="SnakeSavedTitle" xml:space="preserve">
+    <value>Salvestatud</value>
+  </data>
+  <data name="SnakeSavedMessage" xml:space="preserve">
+    <value>Seaded on salvestatud!</value>
+  </data>
+  <data name="SnakeGameOverTitle" xml:space="preserve">
+    <value>Mäng läbi!</value>
+  </data>
+  <data name="SnakeGameOverMessageFormat" xml:space="preserve">
+    <value>Mängija: {0}
+Punktid: {1}
+Parim tulemus: {2}</value>
+  </data>
+  <data name="SnakePlayAgain" xml:space="preserve">
+    <value>Uuesti</value>
+  </data>
+  <data name="SnakeBack" xml:space="preserve">
+    <value>Tagasi</value>
+  </data>
 </root>

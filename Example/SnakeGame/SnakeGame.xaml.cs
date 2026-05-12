@@ -15,13 +15,14 @@ public partial class SnakeGamePage : ContentPage
 
         _theme = Theme.LoadSelected();
         _speed = Preferences.Get("snake_speed", 200);
-        string playerName = Preferences.Get("snake_player_name", "Mängija");
+        var playerName = Preferences.Get("snake_player_name", LanguageService.Get("SnakeDefaultPlayer"));
         _player = new Player(playerName);
 
         _game = new Game(_player, _theme, _gridSize, _speed);
 
         BuildGrid();
         ApplyTheme();
+        UpdateText();
 
         AddSwipe(SwipeDirection.Up, Snake.Up);
         AddSwipe(SwipeDirection.Down, Snake.Down);
@@ -32,12 +33,16 @@ public partial class SnakeGamePage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
+        LanguageService.LanguageChanged -= UpdateText;
+        LanguageService.LanguageChanged += UpdateText;
+        UpdateText();
         StartNewGame();
     }
 
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
+        LanguageService.LanguageChanged -= UpdateText;
         _game.Stop();
     }
 
@@ -54,10 +59,10 @@ public partial class SnakeGamePage : ContentPage
         GameBoard.RowDefinitions.Clear();
         GameBoard.ColumnDefinitions.Clear();
 
-        double boardSize = Math.Min(DeviceDisplay.MainDisplayInfo.Width / DeviceDisplay.MainDisplayInfo.Density - 40, 400);
-        double cellSize = boardSize / _gridSize;
+        var boardSize = Math.Min(DeviceDisplay.MainDisplayInfo.Width / DeviceDisplay.MainDisplayInfo.Density - 40, 400);
+        var cellSize = boardSize / _gridSize;
 
-        for (int i = 0; i < _gridSize; i++)
+        for (var i = 0; i < _gridSize; i++)
         {
             GameBoard.RowDefinitions.Add(new RowDefinition(new GridLength(cellSize)));
             GameBoard.ColumnDefinitions.Add(new ColumnDefinition(new GridLength(cellSize)));
@@ -65,15 +70,16 @@ public partial class SnakeGamePage : ContentPage
 
         _cells = new BoxView[_gridSize, _gridSize];
 
-        for (int r = 0; r < _gridSize; r++)
+        for (var r = 0; r < _gridSize; r++)
         {
-            for (int c = 0; c < _gridSize; c++)
+            for (var c = 0; c < _gridSize; c++)
             {
                 var box = new BoxView
                 {
                     CornerRadius = 2,
                     Margin = 0.5
                 };
+                
                 Grid.SetRow(box, r);
                 Grid.SetColumn(box, c);
                 GameBoard.Children.Add(box);
@@ -112,7 +118,6 @@ public partial class SnakeGamePage : ContentPage
         _game.OnGameOver += OnGameOverHandler;
         _game.Start(Dispatcher);
 
-        HighScoreLabel.Text = $"Parim: {_player.HighScore}";
         UpdateScore();
         RenderBoard();
     }
@@ -125,18 +130,13 @@ public partial class SnakeGamePage : ContentPage
 
     private void RenderBoard()
     {
-        if (_cells == null)
-            return;
-
-        for (int r = 0; r < _gridSize; r++)
+        for (var r = 0; r < _gridSize; r++)
         {
-            for (int c = 0; c < _gridSize; c++)
-            {
+            for (var c = 0; c < _gridSize; c++)
                 _cells[r, c].Color = _theme.GridColor;
-            }
         }
 
-        for (int i = 1; i < _game.Snake.Body.Count; i++)
+        for (var i = 1; i < _game.Snake.Body.Count; i++)
         {
             var part = _game.Snake.Body[i];
             if (IsInside(part))
@@ -157,24 +157,34 @@ public partial class SnakeGamePage : ContentPage
 
     private void UpdateScore()
     {
-        ScoreLabel.Text = $"Punktid: {_player.Score}";
-        HighScoreLabel.Text = $"Parim: {_player.HighScore}";
+        ScoreLabel.Text = string.Format(LanguageService.Get("SnakeScoreFormat"), _player.Score);
+        HighScoreLabel.Text = string.Format(LanguageService.Get("SnakeHighScoreFormat"), _player.HighScore);
+    }
+
+    private void UpdateText()
+    {
+        Title = LanguageService.Get("SnakeGameTitle");
+        UpdateScore();
     }
 
     private async void OnGameOverHandler()
     {
-        for (int r = 0; r < _gridSize; r++)
-            for (int c = 0; c < _gridSize; c++)
+        for (var r = 0; r < _gridSize; r++)
+            for (var c = 0; c < _gridSize; c++)
                 _cells[r, c].Color = _theme.FoodColor;
 
         await Task.Delay(300);
         RenderBoard();
 
-        bool again = await DisplayAlertAsync(
-            "Mäng läbi!",
-            $"Mängija: {_player.Name}\nPunktid: {_player.Score}\nParim tulemus: {_player.HighScore}",
-            "Uuesti",
-            "Tagasi"
+        var again = await DisplayAlertAsync(
+            LanguageService.Get("SnakeGameOverTitle"),
+            string.Format(
+                LanguageService.Get("SnakeGameOverMessageFormat"),
+                _player.Name,
+                _player.Score,
+                _player.HighScore),
+            LanguageService.Get("SnakePlayAgain"),
+            LanguageService.Get("SnakeBack")
         );
 
         if (again)
@@ -183,13 +193,17 @@ public partial class SnakeGamePage : ContentPage
             await Navigation.PopAsync();
     }
 
-    private void OnUpClicked(object? sender, EventArgs e) => _game.SetDirection(Snake.Up);
+    private void OnUpClicked(object? sender, EventArgs e) 
+        => _game.SetDirection(Snake.Up);
 
-    private void OnDownClicked(object? sender, EventArgs e) => _game.SetDirection(Snake.Down);
+    private void OnDownClicked(object? sender, EventArgs e) 
+        => _game.SetDirection(Snake.Down);
 
-    private void OnLeftClicked(object? sender, EventArgs e) => _game.SetDirection(Snake.Left);
+    private void OnLeftClicked(object? sender, EventArgs e) 
+        => _game.SetDirection(Snake.Left);
 
-    private void OnRightClicked(object? sender, EventArgs e) => _game.SetDirection(Snake.Right);
+    private void OnRightClicked(object? sender, EventArgs e) 
+        => _game.SetDirection(Snake.Right);
 
     private void OnPauseClicked(object? sender, EventArgs e)
     {

@@ -6,6 +6,16 @@
     <ScrollView>
         <VerticalStackLayout x:Name="MainLayout" Padding="20" Spacing="25" VerticalOptions="Center">
 
+            <Button x:Name="LanguageButton"
+                    Text="🇪🇪 Eesti"
+                    Clicked="OnLanguageClicked"
+                    WidthRequest="140"
+                    HeightRequest="44"
+                    CornerRadius="22"
+                    FontSize="13"
+                    FontAttributes="Bold"
+                    HorizontalOptions="End" />
+
             <Label x:Name="TitleLabel"
                    Text="🐍"
                    FontSize="80"
@@ -32,8 +42,11 @@
                 <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center"
                                        Spacing="10" InputTransparent="True">
                     <Label Text="▶" FontSize="20" VerticalOptions="Center" x:Name="PlayIcon" />
-                    <Label Text="Alusta mängu" FontSize="20" FontAttributes="Bold"
-                           VerticalOptions="Center" x:Name="PlayText" />
+                    <Label x:Name="PlayText"
+                           Text="Alusta mängu"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           VerticalOptions="Center" />
                 </HorizontalStackLayout>
             </Grid>
 
@@ -45,8 +58,11 @@
                 <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center"
                                        Spacing="10" InputTransparent="True">
                     <Label Text="⚙" FontSize="20" VerticalOptions="Center" x:Name="SettingsIcon" />
-                    <Label Text="Seaded" FontSize="20" FontAttributes="Bold"
-                           VerticalOptions="Center" x:Name="SettingsText" />
+                    <Label x:Name="SettingsText"
+                           Text="Seaded"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           VerticalOptions="Center" />
                 </HorizontalStackLayout>
             </Grid>
 

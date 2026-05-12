@@ -163,4 +163,88 @@
 
 ⏱ Preparation time: ~1.5 hours</value>
   </data>
+
+  <data name="OkButton" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="SnakeStartTitle" xml:space="preserve">
+    <value>Snake : Main Menu</value>
+  </data>
+  <data name="SnakeGameTitle" xml:space="preserve">
+    <value>Snake</value>
+  </data>
+  <data name="SnakeSettingsTitle" xml:space="preserve">
+    <value>Snake : Settings</value>
+  </data>
+  <data name="SnakeSettings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="SnakePlayGame" xml:space="preserve">
+    <value>Start game</value>
+  </data>
+  <data name="SnakeBestScoreFormat" xml:space="preserve">
+    <value>Best score: {0}</value>
+  </data>
+  <data name="SnakeScoreFormat" xml:space="preserve">
+    <value>Score: {0}</value>
+  </data>
+  <data name="SnakeHighScoreFormat" xml:space="preserve">
+    <value>Best: {0}</value>
+  </data>
+  <data name="SnakeDefaultPlayer" xml:space="preserve">
+    <value>Player</value>
+  </data>
+  <data name="SnakePlayerNameLabel" xml:space="preserve">
+    <value>Player name:</value>
+  </data>
+  <data name="SnakePlayerNamePlaceholder" xml:space="preserve">
+    <value>Enter name</value>
+  </data>
+  <data name="SnakeThemeLabel" xml:space="preserve">
+    <value>Theme:</value>
+  </data>
+  <data name="SnakeThemeLight" xml:space="preserve">
+    <value>Light</value>
+  </data>
+  <data name="SnakeThemeDark" xml:space="preserve">
+    <value>Dark</value>
+  </data>
+  <data name="SnakeThemeColorful" xml:space="preserve">
+    <value>Colorful</value>
+  </data>
+  <data name="SnakeSpeedLabel" xml:space="preserve">
+    <value>Speed:</value>
+  </data>
+  <data name="SnakeSpeedSlow" xml:space="preserve">
+    <value>Slow</value>
+  </data>
+  <data name="SnakeSpeedNormal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="SnakeSpeedFast" xml:space="preserve">
+    <value>Fast</value>
+  </data>
+  <data name="SnakeSave" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="SnakeSavedTitle" xml:space="preserve">
+    <value>Saved</value>
+  </data>
+  <data name="SnakeSavedMessage" xml:space="preserve">
+    <value>Settings have been saved!</value>
+  </data>
+  <data name="SnakeGameOverTitle" xml:space="preserve">
+    <value>Game over!</value>
+  </data>
+  <data name="SnakeGameOverMessageFormat" xml:space="preserve">
+    <value>Player: {0}
+Score: {1}
+Best score: {2}</value>
+  </data>
+  <data name="SnakePlayAgain" xml:space="preserve">
+    <value>Again</value>
+  </data>
+  <data name="SnakeBack" xml:space="preserve">
+    <value>Back</value>
+  </data>
 </root>

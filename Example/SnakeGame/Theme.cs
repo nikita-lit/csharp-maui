@@ -28,7 +28,7 @@ public class Theme
         FontFamily = font;
     }
 
-    public static Theme Light => new Theme(
+    public static Theme Light => new (
         "Hele",
         Color.FromArgb("#F5F5F5"),
         Color.FromArgb("#212121"),
@@ -41,7 +41,7 @@ public class Theme
         "Default"
     );
 
-    public static Theme Dark => new Theme(
+    public static Theme Dark => new (
         "Tume",
         Color.FromArgb("#1A1A2E"),
         Color.FromArgb("#E0E0E0"),
@@ -54,7 +54,7 @@ public class Theme
         "Default"
     );
 
-    public static Theme Colorful => new Theme(
+    public static Theme Colorful => new (
         "Värviline",
         Color.FromArgb("#1B0A3C"),
         Color.FromArgb("#FFD700"),
@@ -67,9 +67,11 @@ public class Theme
         "Default"
     );
 
-    public static List<Theme> GetAll() => new() { Light, Dark, Colorful };
+    public static List<Theme> GetAll() 
+        => [Light, Dark, Colorful];
 
-    public void Apply(ContentPage page) => page.BackgroundColor = BackgroundColor;
+    public void Apply(ContentPage page) 
+        => page.BackgroundColor = BackgroundColor;
 
     public static Theme GetByName(string name) => name switch
     {
@@ -79,7 +81,9 @@ public class Theme
         _ => Dark
     };
 
-    public static void SaveSelected(string name) => Preferences.Set("snake_theme", name);
+    public static void SaveSelected(string name) 
+        => Preferences.Set("snake_theme", name);
 
-    public static Theme LoadSelected() => GetByName(Preferences.Get("snake_theme", "Tume"));
+    public static Theme LoadSelected() 
+        => GetByName(Preferences.Get("snake_theme", "Tume"));
 }

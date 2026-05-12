@@ -56,14 +56,15 @@ public class Game
         _timer?.Stop();
     }
 
-    public void SetDirection(int direction) => Snake.Direction = direction;
+    public void SetDirection(int direction) 
+        => Snake.Direction = direction;
 
     private void Update()
     {
         if (!IsRunning || IsGameOver)
             return;
 
-        Cell nextHead = Snake.GetNextHead();
+        var nextHead = Snake.GetNextHead();
 
         if (nextHead.Row < 0 || nextHead.Row >= GridSize ||
             nextHead.Col < 0 || nextHead.Col >= GridSize)
@@ -72,7 +73,7 @@ public class Game
             return;
         }
 
-        bool eating = nextHead.Equals(Food.Position);
+        var eating = nextHead.Equals(Food.Position);
         Snake.Move(eating);
 
         if (eating)

@@ -1,6 +1,6 @@
-namespace Example.SnakeGame;
+namespace Example.SnakeGame.Services;
 
-public static class SnakeStatsService
+public static class StatsService
 {
     public static event Action? StatsChanged;
 

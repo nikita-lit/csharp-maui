@@ -1,4 +1,4 @@
-namespace Example.SnakeGame;
+namespace Example.SnakeGame.ViewModels;
 
 public class SnakeGameViewModel : BaseViewModel
 {

@@ -10,16 +10,14 @@ public class Game
     public Snake Snake { get; }
     public Food Food { get; }
     public Player Player { get; }
-    public Theme Theme { get; }
     public int GridSize { get; }
     public int Speed { get; }
     public bool IsRunning { get; private set; }
     public bool IsGameOver { get; private set; }
 
-    public Game(Player player, Theme theme, int gridSize = 15, int speed = 200)
+    public Game(Player player, int gridSize = 15, int speed = 200)
     {
         Player = player;
-        Theme = theme;
         GridSize = gridSize;
         Speed = speed;
         Snake = new Snake(gridSize / 2, gridSize / 2);

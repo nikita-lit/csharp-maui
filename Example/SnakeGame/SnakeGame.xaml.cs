@@ -1,3 +1,6 @@
+using Example.SnakeGame.Services;
+using Example.SnakeGame.ViewModels;
+
 namespace Example.SnakeGame;
 
 public partial class SnakeGamePage : ContentPage
@@ -5,22 +8,21 @@ public partial class SnakeGamePage : ContentPage
     private readonly SnakeGameViewModel _viewModel = new();
     private Game _game;
     private Player _player;
-    private Theme _theme;
     private BoxView[,] _cells = null!;
     private readonly List<Cell> _paintedCells = [];
-    private int _gridSize = 15;
+    private const int GridSize = 15;
+    private Theme _theme = Theme.Current;
 
     public SnakeGamePage()
     {
         InitializeComponent();
         BindingContext = _viewModel;
 
-        _theme = ThemeService.CurrentTheme;
         _player = SnakeGameViewModel.CreatePlayer();
-        _game = new Game(_player, _theme, _gridSize, SnakeGameViewModel.Speed);
+        _game = new Game(_player, GridSize, SnakeGameViewModel.Speed);
 
         BuildGrid();
-        ApplyTheme();
+        ApplyTheme(Theme.Current);
         UpdateText();
 
         AddSwipe(SwipeDirection.Up, Snake.Up);
@@ -34,7 +36,6 @@ public partial class SnakeGamePage : ContentPage
         base.OnAppearing();
         LanguageService.LanguageChanged -= UpdateText;
         LanguageService.LanguageChanged += UpdateText;
-        _theme = ThemeService.CurrentTheme;
         UpdateText();
         StartNewGame();
     }
@@ -60,19 +61,19 @@ public partial class SnakeGamePage : ContentPage
         GameBoard.ColumnDefinitions.Clear();
 
         var boardSize = Math.Min(DeviceDisplay.MainDisplayInfo.Width / DeviceDisplay.MainDisplayInfo.Density - 40, 400);
-        var cellSize = boardSize / _gridSize;
+        var cellSize = boardSize / GridSize;
 
-        for (var i = 0; i < _gridSize; i++)
+        for (var i = 0; i < GridSize; i++)
         {
             GameBoard.RowDefinitions.Add(new RowDefinition(new GridLength(cellSize)));
             GameBoard.ColumnDefinitions.Add(new ColumnDefinition(new GridLength(cellSize)));
         }
 
-        _cells = new BoxView[_gridSize, _gridSize];
+        _cells = new BoxView[GridSize, GridSize];
 
-        for (var r = 0; r < _gridSize; r++)
+        for (var r = 0; r < GridSize; r++)
         {
-            for (var c = 0; c < _gridSize; c++)
+            for (var c = 0; c < GridSize; c++)
             {
                 var box = new BoxView
                 {
@@ -88,9 +89,11 @@ public partial class SnakeGamePage : ContentPage
         }
     }
 
-    private void ApplyTheme()
+    private void ApplyTheme(Theme theme)
     {
-        _theme.Apply(this);
+        _theme = theme;
+        
+        BackgroundColor = _theme.BackgroundColor;
         RootGrid.BackgroundColor = _theme.BackgroundColor;
         ScoreLabel.TextColor = _theme.TextColor;
         HighScoreLabel.TextColor = _theme.TextColor;
@@ -114,9 +117,9 @@ public partial class SnakeGamePage : ContentPage
     {
         _game.Stop();
         _player = SnakeGameViewModel.CreatePlayer();
-        _game = new Game(_player, _theme, _gridSize, SnakeGameViewModel.Speed);
+        _game = new Game(_player, GridSize, SnakeGameViewModel.Speed);
         _game.OnUpdate += OnGameUpdate;
-        _game.OnGameOver += OnGameOverHandler;
+        _game.OnGameOver += OnGameOver;
         _game.Start(Dispatcher);
 
         UpdateScore();
@@ -131,9 +134,8 @@ public partial class SnakeGamePage : ContentPage
 
     private void RenderBoard()
     {
-        foreach (var cell in _paintedCells)
-            if (IsInside(cell))
-                _cells[cell.Row, cell.Col].Color = _theme.GridColor;
+        foreach (var cell in _paintedCells.Where(IsInside))
+            _cells[cell.Row, cell.Col].Color = _theme.GridColor;
 
         _paintedCells.Clear();
 
@@ -159,13 +161,13 @@ public partial class SnakeGamePage : ContentPage
     private void ResetBoard()
     {
         _paintedCells.Clear();
-        for (var r = 0; r < _gridSize; r++)
-            for (var c = 0; c < _gridSize; c++)
+        for (var r = 0; r < GridSize; r++)
+            for (var c = 0; c < GridSize; c++)
                 _cells[r, c].Color = _theme.GridColor;
     }
 
-    private bool IsInside(Cell cell) =>
-        cell.Row >= 0 && cell.Row < _gridSize && cell.Col >= 0 && cell.Col < _gridSize;
+    private static bool IsInside(Cell cell) =>
+        cell.Row is >= 0 and < GridSize && cell.Col is >= 0 and < GridSize;
 
     private void UpdateScore()
     {
@@ -178,16 +180,16 @@ public partial class SnakeGamePage : ContentPage
         _viewModel.UpdateScore(_player);
     }
 
-    private async void OnGameOverHandler()
+    private async void OnGameOver()
     {
-        for (var r = 0; r < _gridSize; r++)
-            for (var c = 0; c < _gridSize; c++)
+        for (var r = 0; r < GridSize; r++)
+            for (var c = 0; c < GridSize; c++)
                 _cells[r, c].Color = _theme.FoodColor;
 
         await Task.Delay(300);
         ResetBoard();
         RenderBoard();
-        SnakeStatsService.SaveResult(_player);
+        StatsService.SaveResult(_player);
 
         var again = await DisplayAlertAsync(
             LanguageService.Get("SnakeGameOverTitle"),

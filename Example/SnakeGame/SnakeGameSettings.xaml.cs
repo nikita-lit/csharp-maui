@@ -1,21 +1,20 @@
 using System.Globalization;
+using Example.SnakeGame.ViewModels;
 
 namespace Example.SnakeGame;
 
 public partial class SnakeGameSettings : ContentPage
 {
     private readonly SnakeSettingsViewModel _viewModel = new();
-    private Theme _theme;
-
+    private Theme _theme = Theme.Current;
+    
     public SnakeGameSettings()
     {
         InitializeComponent();
         BindingContext = _viewModel;
 
-        _theme = ThemeService.CurrentTheme;
-
         UpdateText();
-        ApplyTheme();
+        ApplyTheme(Theme.Current);
         HighlightSelectedTheme();
         HighlightSelectedSpeed();
     }
@@ -26,8 +25,7 @@ public partial class SnakeGameSettings : ContentPage
         LanguageService.LanguageChanged -= UpdateText;
         LanguageService.LanguageChanged += UpdateText;
         _viewModel.Load();
-        _theme = Theme.GetByName(_viewModel.SelectedTheme);
-        ApplyTheme();
+        ApplyTheme(Theme.Current);
         HighlightSelectedTheme();
         HighlightSelectedSpeed();
     }
@@ -38,9 +36,11 @@ public partial class SnakeGameSettings : ContentPage
         LanguageService.LanguageChanged -= UpdateText;
     }
 
-    private void ApplyTheme()
+    private void ApplyTheme(Theme theme)
     {
-        _theme.Apply(this);
+        _theme = theme;
+        
+        BackgroundColor = _theme.BackgroundColor;
 
         SettingsTitleLabel.TextColor = _theme.TextColor;
         LanguageLabel.TextColor = _theme.TextColor;
@@ -103,24 +103,23 @@ public partial class SnakeGameSettings : ContentPage
 
     private void OnThemeSelected(object? sender, EventArgs e)
     {
-        if (sender is Button btn)
-        {
-            _viewModel.SelectedTheme = btn.CommandParameter?.ToString() ?? btn.Text;
-            _theme = Theme.GetByName(_viewModel.SelectedTheme);
-            ApplyTheme();
-            UpdateText();
-            HighlightSelectedTheme();
-            HighlightSelectedSpeed();
-        }
+        if (sender is not Button btn) 
+            return;
+        
+        _viewModel.SelectedTheme = btn.CommandParameter?.ToString() ?? btn.Text;
+        ApplyTheme(Theme.Current);
+        UpdateText();
+        HighlightSelectedTheme();
+        HighlightSelectedSpeed();
     }
 
     private void OnSpeedSelected(object? sender, EventArgs e)
     {
-        if (sender is Button btn)
-        {
-            _viewModel.SelectedSpeed = int.TryParse(btn.CommandParameter?.ToString(), out int speed) ? speed : 200;
-            HighlightSelectedSpeed();
-        }
+        if (sender is not Button btn) 
+            return;
+        
+        _viewModel.SelectedSpeed = int.TryParse(btn.CommandParameter?.ToString(), out int speed) ? speed : 200;
+        HighlightSelectedSpeed();
     }
 
     private async void OnLanguageClicked(object? sender, EventArgs e)

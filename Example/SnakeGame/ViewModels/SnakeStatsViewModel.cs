@@ -1,4 +1,6 @@
-namespace Example.SnakeGame;
+using Example.SnakeGame.Services;
+
+namespace Example.SnakeGame.ViewModels;
 
 public class SnakeStatsViewModel : BaseViewModel
 {
@@ -32,8 +34,8 @@ public class SnakeStatsViewModel : BaseViewModel
         var player = new Player(playerName);
 
         PlayerNameText = string.Format(LanguageService.Get("SnakeStatsPlayerFormat"), playerName);
-        GamesPlayedText = string.Format(LanguageService.Get("SnakeStatsGamesFormat"), SnakeStatsService.GamesPlayed);
-        LastScoreText = string.Format(LanguageService.Get("SnakeStatsLastScoreFormat"), SnakeStatsService.LastScore);
-        BestScoreText = string.Format(LanguageService.Get("SnakeStatsBestScoreFormat"), Math.Max(player.HighScore, SnakeStatsService.BestScore));
+        GamesPlayedText = string.Format(LanguageService.Get("SnakeStatsGamesFormat"), StatsService.GamesPlayed);
+        LastScoreText = string.Format(LanguageService.Get("SnakeStatsLastScoreFormat"), StatsService.LastScore);
+        BestScoreText = string.Format(LanguageService.Get("SnakeStatsBestScoreFormat"), Math.Max(player.HighScore, StatsService.BestScore));
     }
 }

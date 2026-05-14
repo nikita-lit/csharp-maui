@@ -2,13 +2,11 @@ namespace Example.SnakeGame;
 
 public partial class SnakeGameStart : ContentPage
 {
-    private Theme _theme;
-
     public SnakeGameStart()
     {
         InitializeComponent();
-        _theme = Theme.LoadSelected();
         UpdateText();
+        ApplyTheme(Theme.Current);
     }
 
     protected override void OnAppearing()
@@ -16,10 +14,9 @@ public partial class SnakeGameStart : ContentPage
         base.OnAppearing();
         LanguageService.LanguageChanged -= UpdateText;
         LanguageService.LanguageChanged += UpdateText;
-        _theme = Theme.LoadSelected();
-        ApplyTheme();
         UpdateText();
         UpdateHighScore();
+        ApplyTheme(Theme.Current);
     }
 
     protected override void OnDisappearing()
@@ -28,25 +25,25 @@ public partial class SnakeGameStart : ContentPage
         LanguageService.LanguageChanged -= UpdateText;
     }
 
-    private void ApplyTheme()
+    private void ApplyTheme(Theme theme)
     {
-        _theme.Apply(this);
-        MainLayout.BackgroundColor = _theme.BackgroundColor;
-        TitleLabel.TextColor = _theme.TextColor;
-        SubtitleLabel.TextColor = _theme.TextColor;
-        HighScoreLabel.TextColor = _theme.TextColor;
+        BackgroundColor = theme.BackgroundColor;
+        MainLayout.BackgroundColor = theme.BackgroundColor;
+        TitleLabel.TextColor = theme.TextColor;
+        SubtitleLabel.TextColor = theme.TextColor;
+        HighScoreLabel.TextColor = theme.TextColor;
 
-        PlayButton.BackgroundColor = _theme.ButtonColor;
-        PlayIcon.TextColor = _theme.ButtonTextColor;
-        PlayText.TextColor = _theme.ButtonTextColor;
+        PlayButton.BackgroundColor = theme.ButtonColor;
+        PlayIcon.TextColor = theme.ButtonTextColor;
+        PlayText.TextColor = theme.ButtonTextColor;
 
-        StatsButton.BackgroundColor = _theme.GridColor;
-        StatsIcon.TextColor = _theme.TextColor;
-        StatsText.TextColor = _theme.TextColor;
+        StatsButton.BackgroundColor = theme.GridColor;
+        StatsIcon.TextColor = theme.TextColor;
+        StatsText.TextColor = theme.TextColor;
 
-        SettingsButton.BackgroundColor = _theme.GridColor;
-        SettingsIcon.TextColor = _theme.TextColor;
-        SettingsText.TextColor = _theme.TextColor;
+        SettingsButton.BackgroundColor = theme.GridColor;
+        SettingsIcon.TextColor = theme.TextColor;
+        SettingsText.TextColor = theme.TextColor;
 
     }
 

@@ -66,13 +66,7 @@ public class Theme
         Colors.White,
         "Default"
     );
-
-    public static List<Theme> GetAll() 
-        => [Light, Dark, Colorful];
-
-    public void Apply(ContentPage page) 
-        => page.BackgroundColor = BackgroundColor;
-
+    
     public static Theme GetByName(string name) => name switch
     {
         "Hele" => Light,
@@ -86,4 +80,12 @@ public class Theme
 
     public static Theme LoadSelected() 
         => GetByName(Preferences.Get("snake_theme", "Tume"));
+    
+    public static Theme Current { get; private set; } = LoadSelected();
+
+    public static void ChangeTheme(string themeName)
+    {
+        Current = GetByName(themeName);
+        SaveSelected(Current.Name);
+    }
 }

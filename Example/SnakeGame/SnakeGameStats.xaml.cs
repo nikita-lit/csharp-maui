@@ -1,3 +1,6 @@
+using Example.SnakeGame.Services;
+using Example.SnakeGame.ViewModels;
+
 namespace Example.SnakeGame;
 
 public partial class SnakeGameStats : ContentPage
@@ -8,9 +11,8 @@ public partial class SnakeGameStats : ContentPage
     {
         InitializeComponent();
         BindingContext = _viewModel;
-        var theme = ThemeService.CurrentTheme;
         UpdateText();
-        ApplyTheme(theme);
+        ApplyTheme(Theme.Current);
     }
 
     protected override void OnAppearing()
@@ -18,18 +20,18 @@ public partial class SnakeGameStats : ContentPage
         base.OnAppearing();
         LanguageService.LanguageChanged -= UpdateText;
         LanguageService.LanguageChanged += UpdateText;
-        SnakeStatsService.StatsChanged -= RefreshStats;
-        SnakeStatsService.StatsChanged += RefreshStats;
+        StatsService.StatsChanged -= RefreshStats;
+        StatsService.StatsChanged += RefreshStats;
 
         RefreshStats();
-        ApplyTheme(ThemeService.CurrentTheme);
+        ApplyTheme(Theme.Current);
     }
 
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
         LanguageService.LanguageChanged -= UpdateText;
-        SnakeStatsService.StatsChanged -= RefreshStats;
+        StatsService.StatsChanged -= RefreshStats;
     }
 
     private void RefreshStats()
@@ -46,7 +48,7 @@ public partial class SnakeGameStats : ContentPage
 
     private void ApplyTheme(Theme theme)
     {
-        theme.Apply(this);
+        BackgroundColor = theme.BackgroundColor;
         MainLayout.BackgroundColor = theme.BackgroundColor;
         StatsPanel.BackgroundColor = theme.GridColor;
         StatsTitleLabel.TextColor = theme.TextColor;

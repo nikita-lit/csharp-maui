@@ -1,4 +1,4 @@
-namespace Example.SnakeGame;
+namespace Example.SnakeGame.ViewModels;
 
 public class SnakeSettingsViewModel : BaseViewModel
 {
@@ -41,6 +41,6 @@ public class SnakeSettingsViewModel : BaseViewModel
         PlayerName = name;
         Preferences.Set("snake_player_name", name);
         Preferences.Set("snake_speed", SelectedSpeed);
-        ThemeService.ChangeTheme(SelectedTheme);
+        Theme.ChangeTheme(SelectedTheme);
     }
 }

@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Example.SnakeGame;
+namespace Example.SnakeGame.ViewModels;
 
 public abstract class BaseViewModel : INotifyPropertyChanged
 {

@@ -10,23 +10,27 @@ public partial class SnakeGameStats : ContentPage
     public SnakeGameStats()
     {
         InitializeComponent();
-        BindingContext = _viewModel;
-        UpdateText();
-        ApplyTheme(Theme.Current);
-    }
-
-    protected override void OnAppearing()
-    {
-        base.OnAppearing();
+        
         LanguageService.LanguageChanged -= UpdateText;
         LanguageService.LanguageChanged += UpdateText;
         StatsService.StatsChanged -= RefreshStats;
         StatsService.StatsChanged += RefreshStats;
-
+        
+        BindingContext = _viewModel;
+        
+        UpdateText();
         RefreshStats();
-        ApplyTheme(Theme.Current);
+        Theme.Current.Apply(this);
     }
-
+    
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        UpdateText();
+        RefreshStats();
+        Theme.Current.Apply(this);
+    }
+    
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
@@ -46,15 +50,6 @@ public partial class SnakeGameStats : ContentPage
         RefreshStats();
     }
 
-    private void ApplyTheme(Theme theme)
-    {
-        BackgroundColor = theme.BackgroundColor;
-        MainLayout.BackgroundColor = theme.BackgroundColor;
-        StatsPanel.BackgroundColor = theme.GridColor;
-        StatsTitleLabel.TextColor = theme.TextColor;
-        PlayerNameLabel.TextColor = theme.TextColor;
-        GamesPlayedLabel.TextColor = theme.TextColor;
-        LastScoreLabel.TextColor = theme.TextColor;
-        BestScoreLabel.TextColor = theme.TextColor;
-    }
+    private async void OnBackClicked(object? sender, EventArgs e)
+        => await Navigation.PopAsync();
 }

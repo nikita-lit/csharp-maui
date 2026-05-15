@@ -1,4 +1,5 @@
 using Example.SnakeGame.Services;
+using Example.SnakeGame.Models;
 
 namespace Example.SnakeGame.ViewModels;
 
@@ -7,25 +8,25 @@ public class SnakeStatsViewModel : BaseViewModel
     public string PlayerNameText
     {
         get;
-        private set => SetProperty(ref field, value);
+        private set { field = value; OnPropertyChanged(); }
     } = string.Empty;
 
     public string GamesPlayedText
     {
         get;
-        private set => SetProperty(ref field, value);
+        private set { field = value; OnPropertyChanged(); }
     } = string.Empty;
 
     public string LastScoreText
     {
         get;
-        private set => SetProperty(ref field, value);
+        private set { field = value; OnPropertyChanged(); }
     } = string.Empty;
 
     public string BestScoreText
     {
         get;
-        private set => SetProperty(ref field, value);
+        private set { field = value; OnPropertyChanged(); }
     } = string.Empty;
 
     public void Refresh()

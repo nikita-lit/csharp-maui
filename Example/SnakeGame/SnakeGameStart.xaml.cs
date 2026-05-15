@@ -1,3 +1,5 @@
+using Example.SnakeGame.Models;
+
 namespace Example.SnakeGame;
 
 public partial class SnakeGameStart : ContentPage
@@ -5,46 +7,27 @@ public partial class SnakeGameStart : ContentPage
     public SnakeGameStart()
     {
         InitializeComponent();
+        
+        LanguageService.LanguageChanged -= UpdateText;
+        LanguageService.LanguageChanged += UpdateText;
+        
         UpdateText();
-        ApplyTheme(Theme.Current);
+        UpdateHighScore();
+        Theme.Current.Apply(this);
     }
-
+    
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        LanguageService.LanguageChanged -= UpdateText;
-        LanguageService.LanguageChanged += UpdateText;
         UpdateText();
         UpdateHighScore();
-        ApplyTheme(Theme.Current);
+        Theme.Current.Apply(this);
     }
 
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
         LanguageService.LanguageChanged -= UpdateText;
-    }
-
-    private void ApplyTheme(Theme theme)
-    {
-        BackgroundColor = theme.BackgroundColor;
-        MainLayout.BackgroundColor = theme.BackgroundColor;
-        TitleLabel.TextColor = theme.TextColor;
-        SubtitleLabel.TextColor = theme.TextColor;
-        HighScoreLabel.TextColor = theme.TextColor;
-
-        PlayButton.BackgroundColor = theme.ButtonColor;
-        PlayIcon.TextColor = theme.ButtonTextColor;
-        PlayText.TextColor = theme.ButtonTextColor;
-
-        StatsButton.BackgroundColor = theme.GridColor;
-        StatsIcon.TextColor = theme.TextColor;
-        StatsText.TextColor = theme.TextColor;
-
-        SettingsButton.BackgroundColor = theme.GridColor;
-        SettingsIcon.TextColor = theme.TextColor;
-        SettingsText.TextColor = theme.TextColor;
-
     }
 
     private void UpdateText()

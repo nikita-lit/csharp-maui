@@ -1,4 +1,4 @@
-﻿<?xml version = "1.0" encoding = "UTF-8" ?>
+<?xml version = "1.0" encoding = "UTF-8" ?>
 <Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:Example"
@@ -9,6 +9,21 @@
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <Style x:Key="GlobalLabelStyle" TargetType="Label">
+                <Setter Property="FontFamily" Value="OpenSansRegular" />
+                <Setter Property="TextColor" Value="Black" />
+            </Style>
+            <Style x:Key="GlobalEntryStyle" TargetType="Entry">
+                <Setter Property="FontFamily" Value="OpenSansRegular" />
+                <Setter Property="TextColor" Value="Black" />
+                <Setter Property="BackgroundColor" Value="LightGray" />
+                <Setter Property="PlaceholderColor" Value="Gray" />
+            </Style>
+            <Style x:Key="GlobalButtonStyle" TargetType="Button">
+                <Setter Property="FontFamily" Value="OpenSansRegular" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="BackgroundColor" Value="DarkGray" />
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

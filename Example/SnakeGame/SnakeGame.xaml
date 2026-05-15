@@ -9,11 +9,13 @@
             <Label x:Name="ScoreLabel"
                    Text="{Binding ScoreText}"
                    FontSize="20"
-                   FontAttributes="Bold" />
+                   FontAttributes="Bold"
+                   Style="{DynamicResource GlobalLabelStyle}" />
             <Label x:Name="HighScoreLabel"
                    Text="{Binding HighScoreText}"
                    FontSize="16"
-                   VerticalOptions="Center" />
+                   VerticalOptions="Center"
+                   Style="{DynamicResource GlobalLabelStyle}" />
         </HorizontalStackLayout>
 
         <Grid x:Name="GameBoard" Grid.Row="1"
@@ -21,34 +23,48 @@
               BackgroundColor="Transparent">
         </Grid>
 
-        <Grid Grid.Row="2" Margin="0,10,0,20">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-
-            <Grid Grid.Column="0" HorizontalOptions="Center" VerticalOptions="Center"
-                  RowDefinitions="50,50,50" ColumnDefinitions="50,50,50">
-                <Button x:Name="UpBtn" Grid.Row="0" Grid.Column="1" Text="▲"
-                        FontSize="20" CornerRadius="8" Clicked="OnUpClicked" />
-                <Button x:Name="LeftBtn" Grid.Row="1" Grid.Column="0" Text="◀"
-                        FontSize="20" CornerRadius="8" Clicked="OnLeftClicked" />
-                <Button x:Name="RightBtn" Grid.Row="1" Grid.Column="2" Text="▶"
-                        FontSize="20" CornerRadius="8" Clicked="OnRightClicked" />
-                <Button x:Name="DownBtn" Grid.Row="2" Grid.Column="1" Text="▼"
-                        FontSize="20" CornerRadius="8" Clicked="OnDownClicked" />
+        <Grid Grid.Row="2" ColumnDefinitions="*, *">
+            
+            <Grid Grid.Column="0" HorizontalOptions="Center" VerticalOptions="Center" Margin="10 0 0 0"
+                  RowDefinitions="60,60,60" ColumnDefinitions="60,60,60">
+                <ImageButton x:Name="UpBtn" Grid.Row="0" Grid.Column="1"
+                             Source="arrow_up.png"
+                             WidthRequest="60" HeightRequest="60"
+                             CornerRadius="8" Clicked="OnUpClicked"
+                             Padding="10" />
+                <ImageButton x:Name="LeftBtn" Grid.Row="1" Grid.Column="0"
+                             Source="arrow_left.png"
+                             WidthRequest="60" HeightRequest="60"
+                             CornerRadius="8" Clicked="OnLeftClicked"
+                             Padding="10" />
+                <ImageButton x:Name="RightBtn" Grid.Row="1" Grid.Column="2"
+                             Source="arrow_right.png"
+                             WidthRequest="60" HeightRequest="60"
+                             CornerRadius="8" Clicked="OnRightClicked"
+                             Padding="10" />
+                <ImageButton x:Name="DownBtn" Grid.Row="2" Grid.Column="1"
+                             Source="arrow_down.png"
+                             WidthRequest="60" HeightRequest="60"
+                             CornerRadius="8" Clicked="OnDownClicked"
+                             Padding="10" />
             </Grid>
 
-            <VerticalStackLayout Grid.Column="2" Spacing="10"
-                                 HorizontalOptions="Center" VerticalOptions="Center">
-                <Button x:Name="PauseButton" Text="⏸" FontSize="24"
-                        WidthRequest="60" HeightRequest="50" CornerRadius="8"
-                        Clicked="OnPauseClicked" />
-                <Button x:Name="RestartButton" Text="🔄" FontSize="24"
-                        WidthRequest="60" HeightRequest="50" CornerRadius="8"
-                        Clicked="OnRestartClicked" />
-            </VerticalStackLayout>
+            <StackLayout Grid.Column="1"
+                                 Spacing="10"
+                                 Orientation = "Horizontal"
+                                 HorizontalOptions="End" 
+                                 VerticalOptions="Center">
+                <ImageButton x:Name="PauseButton"
+                             Source="pause.png"
+                             WidthRequest="60" HeightRequest="60" CornerRadius="8"
+                             Clicked="OnPauseClicked"
+                             Padding="10" />
+                <ImageButton x:Name="RestartButton"
+                             Source="restart.png"
+                             WidthRequest="60" HeightRequest="60" CornerRadius="8"
+                             Clicked="OnRestartClicked"
+                             Padding="10" />
+            </StackLayout>
         </Grid>
 
     </Grid>

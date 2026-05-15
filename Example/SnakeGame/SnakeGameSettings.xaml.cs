@@ -6,28 +6,21 @@ namespace Example.SnakeGame;
 public partial class SnakeGameSettings : ContentPage
 {
     private readonly SnakeSettingsViewModel _viewModel = new();
-    private Theme _theme = Theme.Current;
+    private Theme _appliedTheme = Theme.Current;
+    private string _previousLanguage = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
     
     public SnakeGameSettings()
     {
         InitializeComponent();
         BindingContext = _viewModel;
+        
+        LanguageService.LanguageChanged -= UpdateText;
+        LanguageService.LanguageChanged += UpdateText;
 
         UpdateText();
         ApplyTheme(Theme.Current);
-        HighlightSelectedTheme();
-        HighlightSelectedSpeed();
-    }
-
-    protected override void OnAppearing()
-    {
-        base.OnAppearing();
-        LanguageService.LanguageChanged -= UpdateText;
-        LanguageService.LanguageChanged += UpdateText;
+        
         _viewModel.Load();
-        ApplyTheme(Theme.Current);
-        HighlightSelectedTheme();
-        HighlightSelectedSpeed();
     }
 
     protected override void OnDisappearing()
@@ -38,28 +31,10 @@ public partial class SnakeGameSettings : ContentPage
 
     private void ApplyTheme(Theme theme)
     {
-        _theme = theme;
-        
-        BackgroundColor = _theme.BackgroundColor;
-
-        SettingsTitleLabel.TextColor = _theme.TextColor;
-        LanguageLabel.TextColor = _theme.TextColor;
-        NameLabel.TextColor = _theme.TextColor;
-        ThemeLabel.TextColor = _theme.TextColor;
-        SpeedLabel.TextColor = _theme.TextColor;
-
-        PlayerNameEntry.TextColor = _theme.TextColor;
-        PlayerNameEntry.PlaceholderColor = _theme.GridColor;
-        PlayerNameEntry.BackgroundColor = _theme.GridColor;
-
-        LanguageButton.BackgroundColor = _theme.ButtonColor;
-        LanguageButton.TextColor = _theme.ButtonTextColor;
-
-        SaveButton.BackgroundColor = _theme.ButtonColor;
-        SaveButton.TextColor = _theme.ButtonTextColor;
-
-        foreach (var btn in new[] { LightBtn, DarkBtn, ColorfulBtn, SlowBtn, NormalBtn, FastBtn })
-            StyleButton(btn, false);
+        _appliedTheme = theme;
+        theme.Apply(this);
+        HighlightSelectedTheme();
+        HighlightSelectedSpeed();
     }
 
     private void HighlightSelectedTheme()
@@ -78,8 +53,8 @@ public partial class SnakeGameSettings : ContentPage
 
     private void StyleButton(Button button, bool selected)
     {
-        button.BackgroundColor = selected ? _theme.ButtonColor : _theme.GridColor;
-        button.TextColor = selected ? _theme.ButtonTextColor : _theme.TextColor;
+        button.BackgroundColor = selected ? _appliedTheme.ButtonColor : _appliedTheme.GridColor;
+        button.TextColor = selected ? _appliedTheme.ButtonTextColor : _appliedTheme.TextColor;
     }
 
     private void UpdateText()
@@ -107,10 +82,9 @@ public partial class SnakeGameSettings : ContentPage
             return;
         
         _viewModel.SelectedTheme = btn.CommandParameter?.ToString() ?? btn.Text;
-        ApplyTheme(Theme.Current);
+        var selectedTheme = Theme.GetByName(_viewModel.SelectedTheme);
+        ApplyTheme(selectedTheme);
         UpdateText();
-        HighlightSelectedTheme();
-        HighlightSelectedSpeed();
     }
 
     private void OnSpeedSelected(object? sender, EventArgs e)
@@ -134,6 +108,7 @@ public partial class SnakeGameSettings : ContentPage
             ? "en-US"
             : "et-EE";
 
+        _previousLanguage = CultureInfo.CurrentCulture.TwoLetterISOLanguageName;
         LanguageService.ChangeLanguage(code);
     }
 
@@ -147,4 +122,7 @@ public partial class SnakeGameSettings : ContentPage
             LanguageService.Get("OkButton"));
         await Navigation.PopAsync();
     }
+
+    private async void OnBackClicked(object? sender, EventArgs e)
+        => await Navigation.PopAsync();
 }

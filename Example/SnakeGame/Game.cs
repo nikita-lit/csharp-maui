@@ -1,4 +1,4 @@
-namespace Example.SnakeGame;
+namespace Example.SnakeGame.Models;
 
 public class Game
 {
@@ -8,12 +8,14 @@ public class Game
     public event Action? OnGameOver;
 
     public Snake Snake { get; }
-    public Food Food { get; }
+    public List<Food> Foods { get; } = new();
     public Player Player { get; }
     public int GridSize { get; }
     public int Speed { get; }
     public bool IsRunning { get; private set; }
     public bool IsGameOver { get; private set; }
+
+    private readonly Random _random = new();
 
     public Game(Player player, int gridSize = 15, int speed = 200)
     {
@@ -21,7 +23,7 @@ public class Game
         GridSize = gridSize;
         Speed = speed;
         Snake = new Snake(gridSize / 2, gridSize / 2);
-        Food = new Food(gridSize, Snake);
+        Foods.Add(new Food(gridSize, FoodType.Default, Snake));
     }
 
     public void Start(IDispatcher dispatcher)
@@ -71,19 +73,49 @@ public class Game
             return;
         }
 
-        var eating = nextHead.Equals(Food.Position);
-        Snake.Move(eating);
+        var eatingFood = Foods.FirstOrDefault(f => f.Position == nextHead);
+        var eating = eatingFood != null;
+        Snake.Move(eating && eatingFood!.Type != FoodType.Poison);
 
-        if (eating)
+        if (eatingFood != null)
         {
-            Player.AddScore(10);
-            Food.Respawn(GridSize, Snake);
+            switch (eatingFood.Type)
+            {
+                case FoodType.Default:
+                {
+                    Player.AddScore(10);
+                    eatingFood.Respawn(GridSize, Snake);
+
+                    if (_random.NextDouble() < 0.35 && Foods.All(f => f.Type != FoodType.Gold))
+                        Foods.Add(new Food(GridSize, FoodType.Gold, Snake));
+                
+                    if (_random.NextDouble() < 0.5 && Foods.All(f => f.Type != FoodType.Poison))
+                        Foods.Add(new Food(GridSize, FoodType.Poison, Snake));
+                    break;
+                }
+                case FoodType.Gold:
+                    Player.AddScore(30);
+                    Foods.Remove(eatingFood);
+                    break;
+                case FoodType.Poison:
+                    Player.AddScore(-30);
+                    Foods.Remove(eatingFood);
+                    break;
+            }
         }
 
         if (Snake.CollidesWithSelf())
         {
             EndGame();
             return;
+        }
+
+        var defaultFood = Foods.Where(food => food.Type != FoodType.Default).ToList();
+        foreach (var food in defaultFood)
+        {
+            food.Update();
+            if (food.IsExpired)
+                Foods.Remove(food);
         }
 
         OnUpdate?.Invoke();

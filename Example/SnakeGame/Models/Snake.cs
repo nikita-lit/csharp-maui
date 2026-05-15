@@ -1,4 +1,4 @@
-namespace Example.SnakeGame;
+namespace Example.SnakeGame.Models;
 
 public class Snake(int startRow, int startCol)
 {
@@ -7,19 +7,19 @@ public class Snake(int startRow, int startCol)
     public const int Down = 2;
     public const int Left = 3;
 
-    private readonly List<Cell> _body =
+    private readonly List<(int Row, int Col)> _body =
     [
-        new (startRow, startCol),
-        new (startRow, startCol - 1),
-        new (startRow, startCol - 2)
+        (startRow, startCol),
+        (startRow, startCol - 1),
+        (startRow, startCol - 2)
     ];
     
     private int _direction = Right;
 
-    public IReadOnlyList<Cell> Body 
+    public IReadOnlyList<(int Row, int Col)> Body 
         => _body.AsReadOnly();
     
-    public Cell Head 
+    public (int Row, int Col) Head 
         => _body[0];
 
     public int Direction
@@ -36,7 +36,7 @@ public class Snake(int startRow, int startCol)
         }
     }
 
-    public Cell GetNextHead()
+    public (int Row, int Col) GetNextHead()
     {
         var newRow = Head.Row;
         var newCol = Head.Col;
@@ -49,7 +49,7 @@ public class Snake(int startRow, int startCol)
             case Right: newCol++; break;
         }
 
-        return new Cell(newRow, newCol);
+        return (newRow, newCol);
     }
 
     public void Move(bool grow)
@@ -71,11 +71,6 @@ public class Snake(int startRow, int startCol)
         return false;
     }
 
-    public bool IsAt(Cell cell) 
-        => Head.Equals(cell);
-
-    public bool Occupies(Cell cell)
-    {
-        return _body.Any(part => part == cell);
-    }
+    public bool Occupies((int Row, int Col) pos) 
+        => _body.Contains(pos);
 }

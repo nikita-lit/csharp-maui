@@ -4,8 +4,7 @@
              x:Class="Example.SnakeGame.SnakeGameStats"
              Title="Statistics">
     <ScrollView>
-        <VerticalStackLayout x:Name="MainLayout"
-                             Padding="24"
+        <VerticalStackLayout Padding="24"
                              Spacing="18"
                              VerticalOptions="Center">
 
@@ -14,31 +13,41 @@
                    FontSize="28"
                    FontAttributes="Bold"
                    HorizontalOptions="Center"
-                   Margin="0,0,0,16" />
+                   Margin="0,0,0,16"
+                   Style="{DynamicResource GlobalLabelStyle}" />
 
-            <Border x:Name="StatsPanel"
-                    Padding="18"
+            <Border Padding="18"
                     StrokeThickness="0"
-                    StrokeShape="RoundRectangle 8">
+                    StrokeShape="RoundRectangle 8"
+                    Style="{DynamicResource GlobalBorderStyle}" >
                 <VerticalStackLayout Spacing="14">
-                    <Label x:Name="PlayerNameLabel"
-                           Text="{Binding PlayerNameText}"
+                    <Label Text="{Binding PlayerNameText}"
                            FontSize="18"
-                           FontAttributes="Bold" />
+                           FontAttributes="Bold"
+                           Style="{DynamicResource GlobalLabelStyle}" />
 
-                    <Label x:Name="GamesPlayedLabel"
-                           Text="{Binding GamesPlayedText}"
-                           FontSize="16" />
+                    <Label Text="{Binding GamesPlayedText}"
+                           FontSize="16"
+                           Style="{DynamicResource GlobalLabelStyle}" />
 
-                    <Label x:Name="LastScoreLabel"
-                           Text="{Binding LastScoreText}"
-                           FontSize="16" />
+                    <Label Text="{Binding LastScoreText}"
+                           FontSize="16"
+                           Style="{DynamicResource GlobalLabelStyle}" />
 
-                    <Label x:Name="BestScoreLabel"
-                           Text="{Binding BestScoreText}"
-                           FontSize="16" />
+                    <Label Text="{Binding BestScoreText}"
+                           FontSize="16"
+                           Style="{DynamicResource GlobalLabelStyle}" />
                 </VerticalStackLayout>
             </Border>
+
+            <Button
+                   WidthRequest="60"
+                   HeightRequest="60"
+                   CornerRadius="10"
+                   ImageSource="back.png"
+                   ContentLayout="Top,0"
+                   Clicked="OnBackClicked"
+                   Style="{DynamicResource GlobalButtonStyle}" />
 
         </VerticalStackLayout>
     </ScrollView>

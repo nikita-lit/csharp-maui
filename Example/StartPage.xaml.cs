@@ -1,84 +1,88 @@
-using System;
 using Example.TicTacToe;
 using Example.SnakeGame;
+using Example.RecipeBook;
+using Microsoft.Maui.Controls.Shapes;
 
 namespace Example;
 
+public class MenuEntry
+{
+    public string Title { get; set; }
+    public Type PageType { get; set; }
+}
+
 public partial class StartPage : ContentPage
 {
-	VerticalStackLayout layout;
-	ScrollView scrollView;
-	public List<string> pageNames = new List<string>() { 
-		"Tekst", 
-		"Kujund", 
-		"Valgusfoor", 
-		"RGB", 
-		"Lumememm", 
-		"PopUp", 
-		"Matemaatika Test", 
-		"Trips Traps Trull", 
-		"Sõbrade kontaktandmed",
-		"Dünaamiline ListView",
-		"Euroopa riigid",
-		"Itaalia köök",
-		"Snake mäng",
-	};
-	
-	private List<Type> pageTypes = new List<Type>() { 
-		typeof(TextPage), 
-		typeof(FigurePage), 
-		typeof(ValgusfoorPage), 
-		typeof(RGBPage), 
-		typeof(LumememmPage), 
-		typeof(PopUpPage), 
-		typeof(MathTest), 
-		typeof(TicTacToeStart),
-		typeof(Contacts),
-		typeof(ListViewPage),
-		typeof(EuropeCountriesPage),
-		typeof(CarouselViewPage),
-		typeof(SnakeGameStart),
-	};
+    public StartPage()
+    {
+        Title = "App Menu";
+        BackgroundColor = Color.FromArgb("#F5F5F7");
 
-	public StartPage()
-	{
-		Title = "Avaleht";
-		layout = new VerticalStackLayout()
-		{
-			Spacing = 25,
-			Padding = new Thickness(30, 0),
-			VerticalOptions = LayoutOptions.Center
-		};
+        var menuItems = new List<MenuEntry>
+        {
+            new() { Title = "Tekst", PageType = typeof(TextPage) },
+            new() { Title = "Kujund", PageType = typeof(FigurePage) },
+            new() { Title = "Valgusfoor", PageType = typeof(ValgusfoorPage) },
+            new() { Title = "RGB", PageType = typeof(RGBPage) },
+            new() { Title = "Lumememm", PageType = typeof(LumememmPage) },
+            new() { Title = "Matemaatika", PageType = typeof(MathTest) },
+            new() { Title = "Trips Traps Trull", PageType = typeof(TicTacToeStart) },
+            new() { Title = "Snake mäng", PageType = typeof(SnakeGameStart) },
+            new() { Title = "Retseptid", PageType = typeof(RecipeBookPage) },
+        };
+        
+        var grid = new Grid
+        {
+            ColumnDefinitions = { new ColumnDefinition() },
+            ColumnSpacing = 5,
+            RowSpacing = 5,
+            Padding = 20
+        };
 
-		for (int i = 0; i < pageTypes.Count; i++)
-		{
-			var button = new Button() { Text = pageNames[i], FontFamily = "NunitoSansRegular", FontSize = 18, FontAttributes = FontAttributes.Bold };
-			int index = i;
-			button.Clicked += async (sender, args) =>
-			{
-				try
-				{
-					var pageType = pageTypes[index];
-					var page = (ContentPage)Activator.CreateInstance(pageType);
-					await Navigation.PushAsync(page);
-				}
-				catch (System.Reflection.TargetInvocationException ex)
-				{
-					var realError = ex.InnerException;
-					System.Diagnostics.Debug.WriteLine($"Error loading page: {realError?.Message}");
-					System.Diagnostics.Debug.WriteLine($"Stack Trace: {realError?.StackTrace}");
-					
-					await DisplayAlert("Error", $"Could not load page: {realError?.Message}", "OK");
-				}
-				catch (Exception ex)
-				{
-					System.Diagnostics.Debug.WriteLine($"Error: {ex.Message}");
-				}
-			};
-			layout.Children.Add(button);
-		}
-		
-		scrollView = new ScrollView() { Content = layout };
-		Content = scrollView;
+        for (var i = 0; i < menuItems.Count; i++)
+        {
+            var item = menuItems[i];
+            var card = CreateMenuCard(item);
+            
+            grid.Add(card, i % 2, i / 2); 
+        }
+
+        Content = new ScrollView { Content = grid };
+    }
+
+    public View CreateMenuCard(MenuEntry item)
+    {
+        var border = new Border
+        {
+            StrokeShape = new RoundRectangle { CornerRadius = 8 },
+            StrokeThickness = 0,
+            HeightRequest = 100,
+            Content = new Label
+            {
+                Text = item.Title,
+                TextColor = Colors.White,
+                FontAttributes = FontAttributes.Bold,
+                FontSize = 16,
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.Center
+            },
+        };
+        
+        var tapGesture = new TapGestureRecognizer();
+        tapGesture.Tapped += async (s, e) =>
+        {
+            try
+            {
+                var page = (ContentPage)Activator.CreateInstance(item.PageType)!;
+                await Navigation.PushAsync(page);
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlertAsync("Viga", $"Ei saa avada: {ex.Message}", "OK");
+            }
+        };
+
+        border.GestureRecognizers.Add(tapGesture);
+        return border;
     }
 }

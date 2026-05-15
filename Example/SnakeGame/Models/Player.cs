@@ -1,4 +1,4 @@
-namespace Example.SnakeGame;
+namespace Example.SnakeGame.Models;
 
 public class Player(string name)
 {

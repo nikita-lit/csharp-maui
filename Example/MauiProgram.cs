@@ -13,6 +13,7 @@ namespace Example
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                    fonts.AddFont("Comic Sans MS.ttf", "ComicSansMSRegular");
                 });
 
 #if DEBUG

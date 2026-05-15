@@ -1,3 +1,5 @@
+using Example.SnakeGame.Models;
+
 namespace Example.SnakeGame.ViewModels;
 
 public class SnakeGameViewModel : BaseViewModel
@@ -5,13 +7,13 @@ public class SnakeGameViewModel : BaseViewModel
     public string ScoreText
     {
         get;
-        private set => SetProperty(ref field, value);
+        private set { field = value; OnPropertyChanged(); }
     } = string.Empty;
 
     public string HighScoreText
     {
         get;
-        private set => SetProperty(ref field, value);
+        private set { field = value; OnPropertyChanged(); }
     } = string.Empty;
 
     public static string PlayerName 

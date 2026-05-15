@@ -4,14 +4,16 @@
              x:Class="Example.SnakeGame.SnakeGameSettings"
              Title="Snake : Seaded">
     <ScrollView>
-        <VerticalStackLayout x:Name="MainLayout" Padding="20" Spacing="20" VerticalOptions="Center">
+        <VerticalStackLayout Padding="20" Spacing="20" VerticalOptions="Center">
             <Label x:Name="SettingsTitleLabel"
                    Text="Seaded"
                    FontSize="28" FontAttributes="Bold"
                    HorizontalOptions="Center"
-                   Margin="0,0,0,20" />
+                   Margin="0,0,0,20"
+                   Style="{DynamicResource GlobalLabelStyle}" />
 
-            <Label x:Name="LanguageLabel" Text="Keel:" FontSize="16" />
+            <Label x:Name="LanguageLabel" Text="Keel:" FontSize="16"
+                   Style="{DynamicResource GlobalLabelStyle}" />
             <HorizontalStackLayout Spacing="10" HorizontalOptions="Start">
                     <Button x:Name="LanguageButton"
                             Text="🇪🇪 Eesti"
@@ -19,53 +21,79 @@
                             WidthRequest="100" HeightRequest="45" CornerRadius="8"
                             FontSize="13"
                             FontAttributes="Bold"
-                            HorizontalOptions="Start" />
+                            HorizontalOptions="Start"
+                            Style="{DynamicResource GlobalButtonStyle}" />
             </HorizontalStackLayout>
 
-            <Label x:Name="NameLabel" Text="Mängija nimi:" FontSize="16" />
+            <Label x:Name="NameLabel" Text="Mängija nimi:" FontSize="16"
+                   Style="{DynamicResource GlobalLabelStyle}" />
             <Entry x:Name="PlayerNameEntry"
                    Text="{Binding PlayerName}"
                    Placeholder="Sisesta nimi"
                    FontSize="16"
-                   MaxLength="20" />
+                   MaxLength="20"
+                   Style="{DynamicResource GlobalEntryStyle}" />
 
-            <Label x:Name="ThemeLabel" Text="Teema:" FontSize="16" Margin="0,10,0,0" />
+            <Label x:Name="ThemeLabel" Text="Teema:" FontSize="16" Margin="0,10,0,0"
+                   Style="{DynamicResource GlobalLabelStyle}" />
             <HorizontalStackLayout x:Name="ThemeButtons" Spacing="10" HorizontalOptions="Start">
                 <Button x:Name="LightBtn" Text="Hele"
                         CommandParameter="Hele"
                         WidthRequest="100" HeightRequest="45" CornerRadius="8"
-                        Clicked="OnThemeSelected" />
+                        Clicked="OnThemeSelected"
+                        Style="{DynamicResource GlobalButtonStyle}" />
                 <Button x:Name="DarkBtn" Text="Tume"
                         CommandParameter="Tume"
                         WidthRequest="100" HeightRequest="45" CornerRadius="8"
-                        Clicked="OnThemeSelected" />
+                        Clicked="OnThemeSelected"
+                        Style="{DynamicResource GlobalButtonStyle}" />
                 <Button x:Name="ColorfulBtn" Text="Värviline"
                         CommandParameter="Värviline"
                         WidthRequest="100" HeightRequest="45" CornerRadius="8"
-                        Clicked="OnThemeSelected" />
+                        Clicked="OnThemeSelected"
+                        Style="{DynamicResource GlobalButtonStyle}" />
             </HorizontalStackLayout>
 
-            <Label x:Name="SpeedLabel" Text="Kiirus:" FontSize="16" Margin="0,10,0,0" />
-            <HorizontalStackLayout x:Name="SpeedButtons" Spacing="10" HorizontalOptions="Start">
+            <Label x:Name="SpeedLabel" Text="Kiirus:" FontSize="16" Margin="0,10,0,0"
+                   Style="{DynamicResource GlobalLabelStyle}" />
+            <HorizontalStackLayout Spacing="10" HorizontalOptions="Start">
                 <Button x:Name="SlowBtn" Text="Aeglane"
                         CommandParameter="300"
                         WidthRequest="100" HeightRequest="45" CornerRadius="8"
-                        Clicked="OnSpeedSelected" />
+                        Clicked="OnSpeedSelected"
+                        Style="{DynamicResource GlobalButtonStyle}" />
                 <Button x:Name="NormalBtn" Text="Normaalne"
                         CommandParameter="200"
                         WidthRequest="100" HeightRequest="45" CornerRadius="8"
-                        Clicked="OnSpeedSelected" />
+                        Clicked="OnSpeedSelected"
+                        Style="{DynamicResource GlobalButtonStyle}" />
                 <Button x:Name="FastBtn" Text="Kiire"
                         CommandParameter="120"
                         WidthRequest="100" HeightRequest="45" CornerRadius="8"
-                        Clicked="OnSpeedSelected" />
+                        Clicked="OnSpeedSelected"
+                        Style="{DynamicResource GlobalButtonStyle}" />
             </HorizontalStackLayout>
 
-            <Button x:Name="SaveButton" Text="Salvesta"
-                    WidthRequest="200" HeightRequest="50" CornerRadius="10"
-                    HorizontalOptions="Center" Margin="0,30,0,0"
-                    FontSize="18" FontAttributes="Bold"
-                    Clicked="OnSaveClicked" />
+            <BoxView HeightRequest="50" Background="Transparent"></BoxView>
+            
+            <HorizontalStackLayout Spacing="10" 
+                                   HorizontalOptions="Center" 
+                                   VerticalOptions="Center">
+                <Button
+                    WidthRequest="60"
+                    HeightRequest="60"
+                    CornerRadius="10"
+                    ImageSource="back.png"
+                    ContentLayout="Top,0"
+                    Clicked="OnBackClicked"
+                    Style="{DynamicResource GlobalButtonStyle}" />
+                
+                <Button x:Name="SaveButton" Text="Salvesta"
+                        WidthRequest="200" HeightRequest="60" CornerRadius="10"
+                        FontSize="18" FontAttributes="Bold"
+                        Clicked="OnSaveClicked"
+                        Style="{DynamicResource GlobalButtonStyle}" />
+            </HorizontalStackLayout>
 
         </VerticalStackLayout>
     </ScrollView>

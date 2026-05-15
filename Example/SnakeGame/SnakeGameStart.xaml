@@ -4,71 +4,83 @@
              x:Class="Example.SnakeGame.SnakeGameStart"
              Title="Snake : Peamenüü">
     <ScrollView>
-        <VerticalStackLayout x:Name="MainLayout" Padding="20" Spacing="25" VerticalOptions="Center">
+        <VerticalStackLayout Padding="20" Spacing="25" VerticalOptions="Center">
 
-            <Label x:Name="TitleLabel"
-                   Text="🐍"
+            <Label Text="🐍"
                    FontSize="80"
                    HorizontalOptions="Center" />
 
-            <Label x:Name="SubtitleLabel"
-                   Text="Snake"
+            <Label Text="Snake"
                    FontSize="36"
                    FontAttributes="Bold"
                    HorizontalOptions="Center"
-                   Margin="0,0,0,10" />
+                   Margin="0,0,0,10"
+                   Style="{DynamicResource GlobalLabelStyle}" />
 
             <Label x:Name="HighScoreLabel"
                    Text="Parim tulemus: 0"
                    FontSize="16"
                    HorizontalOptions="Center"
-                   Margin="0,0,0,20" />
+                   Margin="0,0,0,20"
+                   Style="{DynamicResource GlobalLabelStyle}" />
 
             <Grid HorizontalOptions="Center">
-                <Button x:Name="PlayButton"
-                        WidthRequest="250" HeightRequest="60"
+                <Button
+                    WidthRequest="250" HeightRequest="60"
                         CornerRadius="10"
-                        Clicked="OnPlayClicked" />
+                        Clicked="OnPlayClicked"
+                        Style="{DynamicResource GlobalButtonStyle}" />
                 <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center"
                                        Spacing="10" InputTransparent="True">
-                    <Label Text="▶" FontSize="20" VerticalOptions="Center" x:Name="PlayIcon" />
+                    <Image Source="play.png"
+                           WidthRequest="24" HeightRequest="24"
+                           VerticalOptions="Center" />
                     <Label x:Name="PlayText"
                            Text="Alusta mängu"
                            FontSize="20"
                            FontAttributes="Bold"
-                           VerticalOptions="Center" />
+                           VerticalOptions="Center"
+                           Style="{DynamicResource GlobalButtonStyle}" />
                 </HorizontalStackLayout>
             </Grid>
 
             <Grid HorizontalOptions="Center">
-                <Button x:Name="StatsButton"
-                        WidthRequest="250" HeightRequest="60"
+                <Button
+                    WidthRequest="250" HeightRequest="60"
                         CornerRadius="10"
-                        Clicked="OnStatsClicked" />
+                        Clicked="OnStatsClicked"
+                        Style="{DynamicResource GlobalButtonStyle}" />
                 <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center"
                                        Spacing="10" InputTransparent="True">
-                    <Label Text="📊" FontSize="20" VerticalOptions="Center" x:Name="StatsIcon" />
+                    <Image Source="stats.png"
+                           WidthRequest="24" HeightRequest="24"
+                           VerticalOptions="Center" />
                     <Label x:Name="StatsText"
                            Text="Statistika"
                            FontSize="20"
                            FontAttributes="Bold"
-                           VerticalOptions="Center" />
+                           VerticalOptions="Center"
+                           Style="{DynamicResource GlobalButtonStyle}" />
                 </HorizontalStackLayout>
             </Grid>
 
             <Grid HorizontalOptions="Center">
-                <Button x:Name="SettingsButton"
-                        WidthRequest="250" HeightRequest="60"
+                <Button
+                    WidthRequest="250" HeightRequest="60"
                         CornerRadius="10"
-                        Clicked="OnSettingsClicked" />
+                        Clicked="OnSettingsClicked"
+                        Style="{DynamicResource GlobalButtonStyle}" />
                 <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center"
                                        Spacing="10" InputTransparent="True">
-                    <Label Text="⚙" FontSize="20" VerticalOptions="Center" x:Name="SettingsIcon" />
+                    <Image Source="settings.png"
+                           WidthRequest="24" HeightRequest="24"
+                           VerticalOptions="Center" />
                     <Label x:Name="SettingsText"
                            Text="Seaded"
                            FontSize="20"
                            FontAttributes="Bold"
-                           VerticalOptions="Center" />
+                           VerticalOptions="Center"
+                           Style="{DynamicResource GlobalButtonStyle}" />
                 </HorizontalStackLayout>
             </Grid>
 

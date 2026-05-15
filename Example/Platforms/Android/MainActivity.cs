@@ -11,22 +11,22 @@ namespace Example
     {
         public override bool DispatchKeyEvent(KeyEvent e)
         {
-            var page = Shell.Current?.CurrentPage as Example.SnakeGame.SnakeGamePage;
+            var page = Shell.Current?.CurrentPage as SnakeGame.SnakeGamePage;
             if (e.Action == KeyEventActions.Down && page != null)
             {
                 switch (e.KeyCode)
                 {
                     case Keycode.DpadUp:
-                        page.SetDirection(Example.SnakeGame.Snake.Up);
+                        page.SetDirection(SnakeGame.Models.Snake.Up);
                         return true;
                     case Keycode.DpadDown:
-                        page.SetDirection(Example.SnakeGame.Snake.Down);
+                        page.SetDirection(SnakeGame.Models.Snake.Down);
                         return true;
                     case Keycode.DpadLeft:
-                        page.SetDirection(Example.SnakeGame.Snake.Left);
+                        page.SetDirection(SnakeGame.Models.Snake.Left);
                         return true;
                     case Keycode.DpadRight:
-                        page.SetDirection(Example.SnakeGame.Snake.Right);
+                        page.SetDirection(SnakeGame.Models.Snake.Right);
                         return true;
                 }
             }

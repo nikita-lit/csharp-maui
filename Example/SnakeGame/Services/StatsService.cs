@@ -1,3 +1,5 @@
+using Example.SnakeGame.Models;
+
 namespace Example.SnakeGame.Services;
 
 public static class StatsService

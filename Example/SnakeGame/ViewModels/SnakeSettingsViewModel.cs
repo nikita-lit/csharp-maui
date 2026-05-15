@@ -1,3 +1,5 @@
+using Example.SnakeGame.Models;
+
 namespace Example.SnakeGame.ViewModels;
 
 public class SnakeSettingsViewModel : BaseViewModel
@@ -5,19 +7,19 @@ public class SnakeSettingsViewModel : BaseViewModel
     public string PlayerName
     {
         get;
-        set => SetProperty(ref field, value);
+        set { field = value; OnPropertyChanged(); }
     } = string.Empty;
 
     public string SelectedTheme
     {
         get;
-        set => SetProperty(ref field, value);
+        set { field = value; OnPropertyChanged(); }
     } = string.Empty;
 
     public int SelectedSpeed
     {
         get;
-        set => SetProperty(ref field, value);
+        set { field = value; OnPropertyChanged(); }
     }
 
     public SnakeSettingsViewModel()

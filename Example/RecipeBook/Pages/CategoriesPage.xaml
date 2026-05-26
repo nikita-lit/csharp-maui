@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Example.RecipeBook.Pages.CategoriesPage"
+             Title="Kategooriad"
+             BackgroundColor="#FDFCFB">
+    <Grid RowDefinitions="Auto,*,Auto" Padding="18,18,18,12" RowSpacing="14">
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Color="#FDFCFB" Offset="0.0" />
+                <GradientStop Color="#E2D1C3" Offset="1.0" />
+            </LinearGradientBrush>
+        </Grid.Background>
+
+        <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,Auto" Padding="4,6,4,0">
+            <Label Text="Kategooriad"
+                   FontSize="28"
+                   FontAttributes="Bold"
+                   TextColor="#C0392B" />
+            
+            <Button Grid.Column="1"
+                    Text="Lisa uus"
+                    Clicked="NewCategoryButton_Clicked"
+                    BackgroundColor="#FDFCFB"
+                    TextColor="#C0392B"
+                    BorderColor="#E0E0E0"
+                    BorderWidth="1"
+                    CornerRadius="22" />
+
+            <Label x:Name="CategoryCountLabel"
+                   Grid.Row="1"
+                   Grid.ColumnSpan="2"
+                   TextColor="#7A7A7A"
+                   FontSize="13" />
+        </Grid>
+        
+        <CollectionView x:Name="CategoriesCollectionView"
+                        Grid.Row="1"
+                        SelectionMode="Single"
+                        BackgroundColor="Transparent"
+                        SelectionChanged="CategoriesCollectionView_SelectionChanged">
+            <CollectionView.EmptyView>
+                <VerticalStackLayout Padding="22,40" Spacing="8">
+                    <Label Text="Kategooriaid ei ole"
+                           FontSize="20"
+                           FontAttributes="Bold"
+                           TextColor="#C0392B"
+                           HorizontalTextAlignment="Center" />
+                    <Label Text="Lisa esimene kategooria alloleva vormi kaudu."
+                           TextColor="#7A7A7A"
+                           HorizontalTextAlignment="Center" />
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border Margin="0,0,0,8"
+                            BackgroundColor="White"
+                            Stroke="#E0E0E0"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 8">
+                        <Grid Padding="14">
+                            <Label Text="{Binding Name}"
+                                   FontSize="17"
+                                   FontAttributes="Bold"
+                                   TextColor="#4A4A4A" />
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <VerticalStackLayout Grid.Row="2" Spacing="10">
+            <Label x:Name="CategoryHintLabel"
+                   Text="Vali kategooria muutmiseks või vajuta &quot;Lisa uus&quot;."
+                   TextColor="#7A7A7A"
+                   HorizontalTextAlignment="Center"
+                   Margin="0,4" />
+
+            <VerticalStackLayout x:Name="CategoryFormLayout" Spacing="10">
+                <Label x:Name="CategoryFormTitleLabel"
+                       FontSize="18"
+                       FontAttributes="Bold"
+                       TextColor="#C0392B" />
+                <Entry x:Name="CategoryNameEntry"
+                       Placeholder="Kategooria nimi"
+                       BackgroundColor="White"
+                       TextColor="#4A4A4A" />
+
+                <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8">
+                    <Button x:Name="AddCategoryButton"
+                            Text="Lisa"
+                            Clicked="AddCategoryButton_Clicked"
+                            BackgroundColor="#C0392B"
+                            TextColor="White"
+                            CornerRadius="22" />
+                    <Button x:Name="UpdateCategoryButton"
+                            Text="Salvesta"
+                            Clicked="UpdateCategoryButton_Clicked"
+                            BackgroundColor="#C0392B"
+                            TextColor="White"
+                            CornerRadius="22" />
+                    <Button x:Name="DeleteCategoryButton"
+                            Grid.Column="1"
+                            Text="Kustuta"
+                            Clicked="DeleteCategoryButton_Clicked"
+                            BackgroundColor="#C0392B"
+                            TextColor="White"
+                            CornerRadius="22" />
+                    <Button x:Name="CancelCategoryButton"
+                            Grid.Column="2"
+                            Text="Tühista"
+                            Clicked="CancelCategoryButton_Clicked"
+                            BackgroundColor="#FDFCFB"
+                            TextColor="#C0392B"
+                            BorderColor="#E0E0E0"
+                            BorderWidth="1"
+                            CornerRadius="22" />
+                </Grid>
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

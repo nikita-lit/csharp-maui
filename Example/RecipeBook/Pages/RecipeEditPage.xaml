@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Example.RecipeBook.Pages.RecipeEditPage"
+             Title="Halda retsepte"
+             BackgroundColor="#FDFCFB">
+    <Grid RowDefinitions="Auto,*" Padding="0,12,0,0" RowSpacing="10">
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Color="#FDFCFB" Offset="0.0" />
+                <GradientStop Color="#E2D1C3" Offset="1.0" />
+            </LinearGradientBrush>
+        </Grid.Background>
+
+        <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,Auto" Padding="22,6,22,4">
+            <Label x:Name="RecipeFormTitleLabel"
+                   Text="Uus retsept"
+                   FontSize="28"
+                   FontAttributes="Bold"
+                   TextColor="#C0392B" />
+            <Button Grid.Column="1"
+                    Text="Puhasta"
+                    Clicked="NewRecipeButton_Clicked"
+                    BackgroundColor="#FDFCFB"
+                    TextColor="#C0392B"
+                    BorderColor="#E0E0E0"
+                    BorderWidth="1"
+                    CornerRadius="22" />
+            <Label Grid.Row="1"
+                   Grid.ColumnSpan="2"
+                   Text="Täida vorm, vali kategooria ja lisa foto."
+                   TextColor="#7A7A7A"
+                   FontSize="13" />
+        </Grid>
+
+        <ScrollView Grid.Row="1" Padding="18,0,18,18">
+            <VerticalStackLayout Spacing="10">
+                <Entry x:Name="EditRecipeNameEntry"
+                       Placeholder="Retsepti nimi"
+                       BackgroundColor="White"
+                       TextColor="#4A4A4A" />
+                <Picker x:Name="EditRecipeCategoryPicker"
+                        Title="Vali kategooria"
+                        ItemDisplayBinding="{Binding Name}"
+                        BackgroundColor="White"
+                        TextColor="#4A4A4A" />
+                <Editor x:Name="EditRecipeDescriptionEditor"
+                        Placeholder="Kirjeldus"
+                        AutoSize="TextChanges"
+                        HeightRequest="180"
+                        BackgroundColor="White"
+                        TextColor="#4A4A4A" />
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                    <Entry x:Name="EditRecipeImageUrlEntry"
+                           Placeholder="Pildi aadress"
+                           TextChanged="EditRecipeImageUrlEntry_TextChanged"
+                           BackgroundColor="White"
+                           IsReadOnly="True"
+                           TextColor="#4A4A4A" />
+                    <Button Grid.Column="1"
+                            Text="Vali foto"
+                            Clicked="PickEditRecipeImageButton_Clicked"
+                            BackgroundColor="#FDFCFB"
+                            TextColor="#C0392B"
+                            BorderColor="#E0E0E0"
+                            BorderWidth="1"
+                            CornerRadius="22" />
+                </Grid>
+                <Border BackgroundColor="#E2D1C3"
+                        Stroke="#E0E0E0"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 8">
+                    <Image x:Name="EditRecipeImagePreview"
+                           HeightRequest="150"
+                           Aspect="AspectFill" />
+                </Border>
+                <Grid ColumnDefinitions="*" ColumnSpacing="8">
+                    <Button x:Name="AddRecipeButton"
+                            Text="Lisa retsept"
+                            Clicked="AddRecipeButton_Clicked"
+                            BackgroundColor="#C0392B"
+                            TextColor="White"
+                            CornerRadius="22" />
+                    <Button x:Name="UpdateRecipeButton"
+                            Text="Salvesta"
+                            Clicked="UpdateRecipeButton_Clicked"
+                            BackgroundColor="#C0392B"
+                            TextColor="White"
+                            CornerRadius="22" />
+                </Grid>
+                <Grid x:Name="RecipeEditActionsGrid"
+                      ColumnDefinitions="*,*"
+                      ColumnSpacing="8">
+                    <Button x:Name="DeleteRecipeButton"
+                            Text="Kustuta"
+                            Clicked="DeleteSelectedRecipeButton_Clicked"
+                            BackgroundColor="#C0392B"
+                            TextColor="White"
+                            CornerRadius="22" />
+                    <Button x:Name="CancelRecipeButton"
+                            Grid.Column="1"
+                            Text="Tühista muutmine"
+                            Clicked="CancelRecipeButton_Clicked"
+                            BackgroundColor="#FDFCFB"
+                            TextColor="#C0392B"
+                            BorderColor="#E0E0E0"
+                            BorderWidth="1"
+                            CornerRadius="22" />
+                </Grid>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

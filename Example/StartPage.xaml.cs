@@ -21,15 +21,15 @@ public partial class StartPage : ContentPage
 
         var menuItems = new List<MenuEntry>
         {
-            new() { Title = "Tekst", Icon = "📝", PageType = typeof(TextPage) },
-            new() { Title = "Kujund", Icon = "📐", PageType = typeof(FigurePage) },
-            new() { Title = "Valgusfoor", Icon = "🚦", PageType = typeof(ValgusfoorPage) },
-            new() { Title = "RGB", Icon = "🎨", PageType = typeof(RGBPage) },
-            new() { Title = "Lumememm", Icon = "☃️", PageType = typeof(LumememmPage) },
-            new() { Title = "Matemaatika", Icon = "🧮", PageType = typeof(MathTest) },
-            new() { Title = "Trips Traps Trull", Icon = "❌", PageType = typeof(TicTacToeStart) },
-            new() { Title = "Snake mäng", Icon = "🐍", PageType = typeof(SnakeGameStart) },
-            new() { Title = "Retseptid", Icon = "🍲", PageType = typeof(RecipeBookPage) },
+            new() { Title = "Tekst", PageType = typeof(TextPage) },
+            new() { Title = "Kujund", PageType = typeof(FigurePage) },
+            new() { Title = "Valgusfoor", PageType = typeof(ValgusfoorPage) },
+            new() { Title = "RGB", PageType = typeof(RGBPage) },
+            new() { Title = "Lumememm", PageType = typeof(LumememmPage) },
+            new() { Title = "Matemaatika", PageType = typeof(MathTest) },
+            new() { Title = "Trips Traps Trull", PageType = typeof(TicTacToeStart) },
+            new() { Title = "Snake mäng", PageType = typeof(SnakeGameStart) },
+            new() { Title = "Retseptid", PageType = typeof(RecipeBookPage) },
         };
 
         var grid = new Grid
@@ -76,17 +76,10 @@ public partial class StartPage : ContentPage
 
         cardContent.Children.Add(new Label
         {
-            Text = item.Icon,
-            FontSize = 28,
-            HorizontalOptions = LayoutOptions.Center
-        });
-
-        cardContent.Children.Add(new Label
-        {
             Text = item.Title,
             TextColor = Color.FromArgb("#1C1C1E"),
             FontAttributes = FontAttributes.Bold,
-            FontSize = 14,
+            FontSize = 16,
             LineBreakMode = LineBreakMode.WordWrap,
             HorizontalTextAlignment = TextAlignment.Center,
             HorizontalOptions = LayoutOptions.Center
@@ -97,7 +90,7 @@ public partial class StartPage : ContentPage
             StrokeShape = new RoundRectangle { CornerRadius = 16 },
             StrokeThickness = 0,
             BackgroundColor = Colors.White,
-            HeightRequest = 110,
+            HeightRequest = 60,
             Padding = 12,
             Content = cardContent,
             Shadow = new Shadow
@@ -121,8 +114,15 @@ public partial class StartPage : ContentPage
 
             try
             {
-                var page = (ContentPage)Activator.CreateInstance(item.PageType)!;
-                await Navigation.PushAsync(page);
+                var page = (Page)Activator.CreateInstance(item.PageType)!;
+                if (page is TabbedPage)
+                {
+                    await Navigation.PushModalAsync(new NavigationPage(page));
+                }
+                else
+                {
+                    await Navigation.PushAsync(page);
+                }
             }
             catch (Exception ex)
             {

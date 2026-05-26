@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Example.RecipeBook.RecipeBookPage">
-</ContentPage>
+<TabbedPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:local="clr-namespace:Example.RecipeBook.Pages"
+            x:Class="Example.RecipeBook.RecipeBookPage"
+            Title="Retseptiraamat"
+            BarBackgroundColor="#C0392B"
+            BarTextColor="White"
+            SelectedTabColor="White"
+            UnselectedTabColor="#E2D1C3">
+
+    <TabbedPage.ToolbarItems>
+        <ToolbarItem Text="Back" Clicked="BackToolbarItem_Clicked" />
+    </TabbedPage.ToolbarItems>
+
+    <local:CategoriesPage x:Name="CategoriesPageTab" />
+    <local:RecipesPage x:Name="RecipesPageTab" />
+    <local:RecipeEditPage x:Name="RecipeEditPageTab" />
+</TabbedPage>
+

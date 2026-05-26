@@ -17,6 +17,8 @@
 		<SingleProject>true</SingleProject>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
+		<JavaSdkDirectory Condition="'$(JavaSdkDirectory)' == '' and Exists('/usr/lib/jvm/java-21-temurin-jdk/bin/jar')">/usr/lib/jvm/java-21-temurin-jdk</JavaSdkDirectory>
+		<_AndroidBuildRuntimeIdentifiersInParallel>false</_AndroidBuildRuntimeIdentifiersInParallel>
 
 		<!-- Display name -->
 		<ApplicationTitle>Example</ApplicationTitle>

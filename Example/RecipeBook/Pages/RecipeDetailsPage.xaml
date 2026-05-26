@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Example.RecipeBook.Pages.RecipeDetailsPage"
+             BackgroundColor="#FDFCFB">
+    <Grid RowDefinitions="*,Auto"
+          Padding="18,18,18,12">
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Color="#FDFCFB" Offset="0.0" />
+                <GradientStop Color="#E2D1C3" Offset="1.0" />
+            </LinearGradientBrush>
+        </Grid.Background>
+
+        <ScrollView>
+            <VerticalStackLayout Spacing="14">
+                <Border Stroke="#E0E0E0"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 8">
+                    <Image x:Name="RecipeImage"
+                           HeightRequest="220"
+                           Aspect="AspectFill"
+                           BackgroundColor="#E2D1C3" />
+                </Border>
+                <Label x:Name="RecipeName"
+                       FontSize="28"
+                       FontAttributes="Bold"
+                       TextColor="#C0392B" />
+                <Label x:Name="RecipeCategory"
+                       FontSize="14"
+                       TextColor="#7A7A7A" />
+                <Label x:Name="RecipeDescription"
+                       FontSize="16"
+                       LineHeight="1.25"
+                       TextColor="#4A4A4A" />
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Grid Grid.Row="1"
+              ColumnDefinitions="*,*,*"
+              ColumnSpacing="8"
+              Padding="0,8,0,0">
+            <Button x:Name="EditButton"
+                    Text="Muuda"
+                    Clicked="EditButton_Clicked"
+                    BackgroundColor="#C0392B"
+                    TextColor="White"
+                    CornerRadius="22" />
+            <Button x:Name="DeleteButton"
+                    Grid.Column="1"
+                    Text="Kustuta"
+                    Clicked="DeleteButton_Clicked"
+                    BackgroundColor="#C0392B"
+                    TextColor="White"
+                    CornerRadius="22" />
+            <Button x:Name="CloseButton"
+                    Grid.Column="2"
+                    Text="Sulge"
+                    Clicked="CloseButton_Clicked"
+                    BackgroundColor="#FDFCFB"
+                    TextColor="#C0392B"
+                    BorderColor="#E0E0E0"
+                    BorderWidth="1"
+                    CornerRadius="22" />
+        </Grid>
+    </Grid>
+</ContentPage>

@@ -67,7 +67,7 @@
             <CollectionView.GroupHeaderTemplate>
                 <DataTemplate>
                     <Grid Padding="18,10" BackgroundColor="#E2D1C3">
-                        <Label Text="{Binding Title}"
+                        <Label Text="{Binding Key}"
                                FontSize="19"
                                FontAttributes="Bold"
                                TextColor="#C0392B" />

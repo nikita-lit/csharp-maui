@@ -1,26 +1,27 @@
+using Example.RecipeBook.Models;
+
 namespace Example.RecipeBook.Pages;
 
 public partial class RecipeEditPage
 {
     private Recipe? _selectedRecipe;
-    public event Action? OnRecipeSaved;
 
     public RecipeEditPage()
     {
         InitializeComponent();
     }
 
-    public void Refresh(List<Category> categories)
+    public void Refresh()
     {
-        EditRecipeCategoryPicker.ItemsSource = categories;
+        EditRecipeCategoryPicker.ItemsSource = RecipesManager.ReadCategories();
         ClearForm();
     }
 
-    public void SetForEditing(Recipe recipe, List<Category> categories)
+    public void SetForEditing(Recipe recipe)
     {
         _selectedRecipe = recipe;
         FillForm(recipe);
-        EditRecipeCategoryPicker.ItemsSource = categories;
+        EditRecipeCategoryPicker.ItemsSource = RecipesManager.ReadCategories();
         SetFormMode(isEditing: true);
     }
 
@@ -53,25 +54,22 @@ public partial class RecipeEditPage
         RecipeFormTitleLabel.Text = isEditing ? "Muuda retsepti" : "Uus retsept";
     }
 
+    // Lisa uus
     private void NewRecipeButton_Clicked(object sender, EventArgs e)
         => ClearForm();
 
-    private void EditRecipeImageUrlEntry_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        var url = e.NewTextValue?.Trim() ?? string.Empty;
-        EditRecipeImagePreview.Source = string.IsNullOrWhiteSpace(url) ? null : url;
-    }
-
+    // Vali foto
     private async void PickEditRecipeImageButton_Clicked(object sender, EventArgs e)
     {
         var imagePath = await PickAndSaveImageAsync();
-        if (imagePath is not null)
-        {
-            EditRecipeImageUrlEntry.Text = imagePath;
-            EditRecipeImagePreview.Source = imagePath;
-        }
+        if (imagePath is null) 
+            return;
+        
+        EditRecipeImageUrlEntry.Text = imagePath;
+        EditRecipeImagePreview.Source = imagePath;
     }
 
+    // Lisa
     private async void AddRecipeButton_Clicked(object sender, EventArgs e)
     {
         if (!ValidateForm())
@@ -82,6 +80,7 @@ public partial class RecipeEditPage
         await DisplayAlertAsync("Salvestatud", "Retsept lisati retseptiraamatusse.", "OK");
     }
 
+    // Salvesta
     private async void UpdateRecipeButton_Clicked(object sender, EventArgs e)
     {
         if (_selectedRecipe is null || !ValidateForm())
@@ -92,13 +91,19 @@ public partial class RecipeEditPage
 
         if (recipeToUpdate is null) 
             return;
+
+        var recipeForm = GetRecipeFromForm();
+        recipeToUpdate.Name = recipeForm.Name;
+        recipeToUpdate.Category = recipeForm.Category;
+        recipeToUpdate.Description = recipeForm.Description;
+        recipeToUpdate.ImageUrl = recipeForm.ImageUrl;
         
-        CopyRecipe(GetRecipeFromForm(), recipeToUpdate);
         RecipesManager.SaveAllRecipes(recipes);
         SaveDone();
         await DisplayAlertAsync("Salvestatud", "Retsepti muudatused salvestati.", "OK");
     }
 
+    // Kustuta
     private async void DeleteSelectedRecipeButton_Clicked(object sender, EventArgs e)
     {
         if (_selectedRecipe is null)
@@ -125,17 +130,16 @@ public partial class RecipeEditPage
         await DisplayAlertAsync("Kustutatud", "Retsept kustutati.", "OK");
     }
 
+    // Tühista
     private void CancelRecipeButton_Clicked(object sender, EventArgs e)
         => ClearForm();
 
     private bool ValidateForm()
     {
-        var (name, category, imageUrl) = (
-            EditRecipeNameEntry.Text?.Trim() ?? string.Empty,
-            (EditRecipeCategoryPicker.SelectedItem as Category)?.Name ?? string.Empty,
-            EditRecipeImageUrlEntry.Text?.Trim() ?? string.Empty
-        );
-
+        var name = EditRecipeNameEntry.Text.Trim();
+        var category = (EditRecipeCategoryPicker.SelectedItem as Category)?.Name;
+        var imageUrl = EditRecipeImageUrlEntry.Text.Trim();
+        
         if (!string.IsNullOrWhiteSpace(name) && !string.IsNullOrWhiteSpace(category) &&
             !string.IsNullOrWhiteSpace(imageUrl)) 
             return true;
@@ -151,19 +155,11 @@ public partial class RecipeEditPage
         Description = EditRecipeDescriptionEditor.Text?.Trim() ?? string.Empty,
         ImageUrl = EditRecipeImageUrlEntry.Text!.Trim()
     };
-
-    private static void CopyRecipe(Recipe source, Recipe target)
-    {
-        target.Name = source.Name;
-        target.Category = source.Category;
-        target.Description = source.Description;
-        target.ImageUrl = source.ImageUrl;
-    }
-
+    
     private void SaveDone()
     {
         ClearForm();
-        OnRecipeSaved?.Invoke();
+        RecipeBookPage.Page.RefreshAll();
     }
     
     private static async Task<string?> PickAndSaveImageAsync()
@@ -176,10 +172,8 @@ public partial class RecipeEditPage
         Directory.CreateDirectory(imageDirectory);
 
         var extension = Path.GetExtension(photo.FileName);
-        if (string.IsNullOrWhiteSpace(extension))
-            extension = ".jpg";
-
         var imagePath = Path.Combine(imageDirectory, $"{Guid.NewGuid():N}{extension}");
+        
         await using var sourceStream = await photo.OpenReadAsync();
         await using var targetStream = File.OpenWrite(imagePath);
         await sourceStream.CopyToAsync(targetStream);

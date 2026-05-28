@@ -1,4 +1,5 @@
 using System.Text.Json;
+using Example.RecipeBook.Models;
 
 namespace Example.RecipeBook;
 
@@ -28,9 +29,8 @@ public static class RecipesManager
             var json = File.ReadAllText(RecipesFilePath);
             return JsonSerializer.Deserialize<List<Recipe>>(json, JsonOptions) ?? [];
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            Console.WriteLine($"Viga JSON lugemisel: {ex.Message}");
             return [];
         }
     }
@@ -42,9 +42,8 @@ public static class RecipesManager
             var json = File.ReadAllText(CategoriesFilePath);
             return JsonSerializer.Deserialize<List<Category>>(json, JsonOptions) ?? [];
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            Console.WriteLine($"Viga JSON lugemisel: {ex.Message}");
             return [];
         }
     }

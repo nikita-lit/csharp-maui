@@ -1,9 +1,10 @@
+using Example.RecipeBook.Models;
+
 namespace Example.RecipeBook.Pages;
 
 public partial class CategoriesPage
 {
     private Category? _selectedCategory;
-    public event Action? OnDataChanged;
 
     public CategoriesPage()
     {
@@ -25,6 +26,7 @@ public partial class CategoriesPage
         SetFormMode(isEditing: _selectedCategory is not null, isVisible: _selectedCategory is not null);
     }
 
+    // Lisa uus
     private void NewCategoryButton_Clicked(object sender, EventArgs e)
     {
         _selectedCategory = null;
@@ -32,6 +34,7 @@ public partial class CategoriesPage
         SetFormMode(isEditing: false, isVisible: true);
     }
 
+    // Lisa
     private void AddCategoryButton_Clicked(object sender, EventArgs e)
     {
         var name = CategoryNameEntry.Text?.Trim() ?? string.Empty;
@@ -50,6 +53,7 @@ public partial class CategoriesPage
         SaveDone();
     }
 
+    // Muuda
     private void UpdateCategoryButton_Clicked(object sender, EventArgs e)
     {
         if (!HasSelectedCategory())
@@ -79,6 +83,7 @@ public partial class CategoriesPage
         SaveDone();
     }
 
+    // Kustuta
     private async void DeleteCategoryButton_Clicked(object sender, EventArgs e)
     {
         if (!HasSelectedCategory())
@@ -108,6 +113,7 @@ public partial class CategoriesPage
         SaveDone();
     }
 
+    // Tühista
     private void CancelCategoryButton_Clicked(object sender, EventArgs e)
     {
         _selectedCategory = null;
@@ -159,6 +165,6 @@ public partial class CategoriesPage
     private void SaveDone()
     {
         Refresh();
-        OnDataChanged?.Invoke();
+        RecipeBookPage.Page.RefreshRecipes();
     }
 }

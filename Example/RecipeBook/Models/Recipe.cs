@@ -1,4 +1,4 @@
-namespace Example.RecipeBook;
+namespace Example.RecipeBook.Models;
 
 public class Recipe
 {

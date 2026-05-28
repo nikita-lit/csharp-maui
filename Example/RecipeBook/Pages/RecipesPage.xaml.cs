@@ -1,22 +1,14 @@
+using Example.RecipeBook.Models;
+
 namespace Example.RecipeBook.Pages;
 
-public partial class RecipesPage : ContentPage
+public partial class RecipesPage
 {
     private string _searchText = string.Empty;
-    private Func<Recipe, Task>? _onRecipeEditRequested;
-    private Func<Task>? _onDataRefreshRequested;
-    
-    public event Action? OnAddNewRecipe;
 
     public RecipesPage()
     {
         InitializeComponent();
-    }
-
-    public void SetCallbacks(Func<Recipe, Task>? onEdit, Func<Task>? onRefresh)
-    {
-        _onRecipeEditRequested = onEdit;
-        _onDataRefreshRequested = onRefresh;
     }
 
     public void Refresh()
@@ -30,12 +22,14 @@ public partial class RecipesPage : ContentPage
         IEnumerable<Recipe> recipes = allRecipes.OrderBy(r => r.Category).ThenBy(r => r.Name);
 
         if (!string.IsNullOrWhiteSpace(_searchText))
-            recipes = recipes.Where(r => ContainsSearchText(r.Name) || ContainsSearchText(r.Category) || ContainsSearchText(r.Description));
+            recipes = recipes.Where(r => 
+                ContainsSearchText(r.Name) || 
+                ContainsSearchText(r.Category) || 
+                ContainsSearchText(r.Description));
 
         var filteredRecipes = recipes.ToList();
         var groups = filteredRecipes
             .GroupBy(r => r.Category)
-            .Select(g => new RecipeCategory(g.Key, g))
             .ToList();
 
         RecipesCollectionView.ItemsSource = groups;
@@ -57,13 +51,13 @@ public partial class RecipesPage : ContentPage
         if (recipe is null) 
             return;
         
-        var detailsPage = new RecipeDetailsPage(recipe, _onRecipeEditRequested, _onDataRefreshRequested);
+        var detailsPage = new RecipeDetailsPage(recipe);
         await Navigation.PushModalAsync(detailsPage);
     }
 
     private void OpenNewRecipeButton_Clicked(object sender, EventArgs e)
     {
-        OnAddNewRecipe?.Invoke();
+        RecipeBookPage.Page.OpenRecipeEdit();
     }
 
     private bool ContainsSearchText(string value) => 
@@ -71,8 +65,10 @@ public partial class RecipesPage : ContentPage
 
     private void UpdateRecipeCount(int visibleCount, int totalCount)
     {
-        RecipeCountLabel.Text = string.IsNullOrWhiteSpace(_searchText)
-            ? RecipesManager.FormatCount(totalCount, "retsept", "retsepti")
-            : $"{visibleCount} / {RecipesManager.FormatCount(totalCount, "retsept", "retsepti")}";
+        var text = RecipesManager.FormatCount(totalCount, "retsept", "retsepti");
+        if (!string.IsNullOrWhiteSpace(_searchText))
+            text = $"{visibleCount} / {RecipesManager.FormatCount(totalCount, "retsept", "retsepti")}";
+
+        RecipeCountLabel.Text = text;
     }
 }

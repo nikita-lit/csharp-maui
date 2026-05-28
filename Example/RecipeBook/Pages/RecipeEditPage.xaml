@@ -53,7 +53,6 @@
                 <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
                     <Entry x:Name="EditRecipeImageUrlEntry"
                            Placeholder="Pildi aadress"
-                           TextChanged="EditRecipeImageUrlEntry_TextChanged"
                            BackgroundColor="White"
                            IsReadOnly="True"
                            TextColor="#4A4A4A" />

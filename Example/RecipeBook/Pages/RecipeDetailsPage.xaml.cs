@@ -1,17 +1,15 @@
+using Example.RecipeBook.Models;
+
 namespace Example.RecipeBook.Pages;
 
-public partial class RecipeDetailsPage : ContentPage
+public partial class RecipeDetailsPage
 {
     private readonly Recipe _recipe;
-    private readonly Func<Recipe, Task>? _onEditClicked;
-    private readonly Func<Task>? _onDeleteClicked;
 
-    public RecipeDetailsPage(Recipe recipe, Func<Recipe, Task>? onEdit = null, Func<Task>? onDelete = null)
+    public RecipeDetailsPage(Recipe recipe)
     {
         InitializeComponent();
         _recipe = recipe;
-        _onEditClicked = onEdit;
-        _onDeleteClicked = onDelete;
         ShowRecipe();
     }
 
@@ -23,12 +21,14 @@ public partial class RecipeDetailsPage : ContentPage
         RecipeDescription.Text = string.IsNullOrWhiteSpace(_recipe.Description) ? "Kirjeldus puudub." : _recipe.Description;
     }
 
+    // Muuda
     private async void EditButton_Clicked(object sender, EventArgs e)
     {
         await Navigation.PopModalAsync();
-        if (_onEditClicked is not null) await _onEditClicked(_recipe);
+        RecipeBookPage.Page.EditRecipeFromDetails(_recipe);
     }
 
+    // Kustuta
     private async void DeleteButton_Clicked(object sender, EventArgs e)
     {
         var remove = await DisplayAlertAsync("Kinnitus", $"Kas soovid retsepti \"{_recipe.Name}\" kustutada?", "Jah", "Ei");
@@ -36,14 +36,14 @@ public partial class RecipeDetailsPage : ContentPage
             return;
         
         var recipes = RecipesManager.ReadRecipes();
-        if (recipes.RemoveAll(RecipesManager.IsSameRecipeTo(_recipe)) == 0)
+        if (recipes.RemoveAll(x => RecipesManager.IsSameRecipe(x, _recipe)) == 0)
             return;
         
         RecipesManager.SaveAllRecipes(recipes);
         await Navigation.PopModalAsync();
         await DisplayAlertAsync("Kustutatud", "Retsept kustutati.", "OK");
-        
-        if (_onDeleteClicked is not null) await _onDeleteClicked();
+
+        RecipeBookPage.Page.RefreshAll();
     }
 
     private async void CloseButton_Clicked(object sender, EventArgs e) 

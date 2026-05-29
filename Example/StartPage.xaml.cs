@@ -1,3 +1,4 @@
+using Example.CityExplorer;
 using Example.TicTacToe;
 using Example.SnakeGame;
 using Example.RecipeBook;
@@ -30,6 +31,7 @@ public partial class StartPage : ContentPage
             new() { Title = "Trips Traps Trull", PageType = typeof(TicTacToeStart) },
             new() { Title = "Snake mäng", PageType = typeof(SnakeGameStart) },
             new() { Title = "Retseptid", PageType = typeof(RecipeBookPage) },
+            new() { Title = "CityExplorer", PageType = typeof(CityExplorerPage) },
         };
 
         var grid = new Grid

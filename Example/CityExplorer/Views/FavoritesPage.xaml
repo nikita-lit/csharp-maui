@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Example.CityExplorer.Views.FavoritesPage"
+             x:Name="Root"
+             Title="{Binding FavoritesTitle}"
+             BackgroundColor="#F7FBFF">
+    <Grid RowDefinitions="Auto,*" Padding="0,12,0,0" RowSpacing="10">
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Color="#F7FBFF" Offset="0.0" />
+                <GradientStop Color="#D6E8F8" Offset="1.0" />
+            </LinearGradientBrush>
+        </Grid.Background>
+
+        <Label Text="{Binding PageHeading}"
+               Padding="22,6,22,4"
+               FontSize="28"
+               FontAttributes="Bold"
+               TextColor="#1F6FB2" />
+
+        <Grid Grid.Row="1" RowDefinitions="Auto,Auto,*" RowSpacing="10">
+            <SearchBar Grid.Row="0"
+                       Text="{Binding SearchText, Mode=TwoWay}"
+                       Placeholder="{Binding SearchPlaceholder}"
+                       BackgroundColor="White"
+                       TextColor="#243B53" />
+
+            <Label Grid.Row="1"
+                   Text="{Binding HintText}"
+                   FontSize="13"
+                   TextColor="#6B7C93"
+                   HorizontalTextAlignment="Center" />
+
+            <CollectionView Grid.Row="2"
+                            ItemsSource="{Binding FavoriteGroups}"
+                            BackgroundColor="Transparent"
+                            SelectionMode="None"
+                            IsGrouped="True">
+                <CollectionView.EmptyView>
+                    <VerticalStackLayout Padding="24,70"
+                                         Spacing="10">
+                        <Label Text="{Binding EmptyText}"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="#1F6FB2"
+                               HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                </CollectionView.EmptyView>
+                <CollectionView.GroupHeaderTemplate>
+                    <DataTemplate>
+                        <Grid Padding="18,10"
+                              BackgroundColor="#D6E8F8">
+                            <Label Text="{Binding Key}"
+                                   FontSize="19"
+                                   FontAttributes="Bold"
+                                   TextColor="#1F6FB2" />
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.GroupHeaderTemplate>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="14,4"
+                                Padding="12"
+                                BackgroundColor="White"
+                                Stroke="#D6E2F0"
+                                StrokeThickness="1"
+                                StrokeShape="RoundRectangle 8">
+                            <Grid ColumnDefinitions="72,*,Auto"
+                                  ColumnSpacing="12">
+                                <Image Source="{Binding ImagePath}"
+                                       WidthRequest="72"
+                                       HeightRequest="72"
+                                       Aspect="AspectFill" />
+                                <VerticalStackLayout Grid.Column="1"
+                                                     VerticalOptions="Center"
+                                                     Spacing="4">
+                                    <Label Text="{Binding Name}"
+                                           FontSize="18"
+                                           FontAttributes="Bold"
+                                           TextColor="#243B53" />
+                                    <Label Text="{Binding ShortDescription}"
+                                           FontSize="13"
+                                           TextColor="#6B7C93"
+                                           MaxLines="2" />
+                                </VerticalStackLayout>
+                                <Button Grid.Column="2"
+                                        Text="{Binding Source={x:Reference Root}, Path=BindingContext.RemoveText}"
+                                        Command="{Binding Source={x:Reference Root}, Path=BindingContext.RemoveFavoriteCommand}"
+                                        CommandParameter="{Binding .}"
+                                        BackgroundColor="#1F6FB2"
+                                        TextColor="White"
+                                        CornerRadius="18"
+                                        Padding="14,8"
+                                        VerticalOptions="Center" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+    </Grid>
+</ContentPage>

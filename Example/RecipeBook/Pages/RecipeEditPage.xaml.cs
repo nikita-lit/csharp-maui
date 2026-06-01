@@ -1,4 +1,5 @@
 using Example.RecipeBook.Models;
+using Example.RecipeBook.Services;
 
 namespace Example.RecipeBook.Pages;
 
@@ -13,7 +14,7 @@ public partial class RecipeEditPage
 
     public void Refresh()
     {
-        EditRecipeCategoryPicker.ItemsSource = RecipesManager.ReadCategories();
+        EditRecipeCategoryPicker.ItemsSource = RecipesService.ReadCategories();
         ClearForm();
     }
 
@@ -21,7 +22,7 @@ public partial class RecipeEditPage
     {
         _selectedRecipe = recipe;
         FillForm(recipe);
-        EditRecipeCategoryPicker.ItemsSource = RecipesManager.ReadCategories();
+        EditRecipeCategoryPicker.ItemsSource = RecipesService.ReadCategories();
         SetFormMode(isEditing: true);
     }
 
@@ -75,7 +76,7 @@ public partial class RecipeEditPage
         if (!ValidateForm())
             return;
 
-        RecipesManager.SaveRecipe(GetRecipeFromForm());
+        RecipesService.SaveRecipe(GetRecipeFromForm());
         SaveDone();
         await DisplayAlertAsync("Salvestatud", "Retsept lisati retseptiraamatusse.", "OK");
     }
@@ -86,8 +87,8 @@ public partial class RecipeEditPage
         if (_selectedRecipe is null || !ValidateForm())
             return;
 
-        var recipes = RecipesManager.ReadRecipes();
-        var recipeToUpdate = recipes.FirstOrDefault(r => RecipesManager.IsSameRecipe(r, _selectedRecipe));
+        var recipes = RecipesService.ReadRecipes();
+        var recipeToUpdate = recipes.FirstOrDefault(r => RecipesService.IsSameRecipe(r, _selectedRecipe));
 
         if (recipeToUpdate is null) 
             return;
@@ -98,7 +99,7 @@ public partial class RecipeEditPage
         recipeToUpdate.Description = recipeForm.Description;
         recipeToUpdate.ImageUrl = recipeForm.ImageUrl;
         
-        RecipesManager.SaveAllRecipes(recipes);
+        RecipesService.SaveAllRecipes(recipes);
         SaveDone();
         await DisplayAlertAsync("Salvestatud", "Retsepti muudatused salvestati.", "OK");
     }
@@ -118,14 +119,14 @@ public partial class RecipeEditPage
         if (!delete) 
             return;
         
-        var recipes = RecipesManager.ReadRecipes();
-        var recipeToDelete = recipes.FirstOrDefault(r => RecipesManager.IsSameRecipe(r, _selectedRecipe));
+        var recipes = RecipesService.ReadRecipes();
+        var recipeToDelete = recipes.FirstOrDefault(r => RecipesService.IsSameRecipe(r, _selectedRecipe));
 
         if (recipeToDelete is null) 
             return;
         
         recipes.Remove(recipeToDelete);
-        RecipesManager.SaveAllRecipes(recipes);
+        RecipesService.SaveAllRecipes(recipes);
         SaveDone();
         await DisplayAlertAsync("Kustutatud", "Retsept kustutati.", "OK");
     }

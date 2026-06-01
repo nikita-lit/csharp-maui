@@ -36,9 +36,8 @@
         
         <CollectionView x:Name="CategoriesCollectionView"
                         Grid.Row="1"
-                        SelectionMode="Single"
-                        BackgroundColor="Transparent"
-                        SelectionChanged="CategoriesCollectionView_SelectionChanged">
+                        SelectionMode="None"
+                        BackgroundColor="Transparent">
             <CollectionView.EmptyView>
                 <VerticalStackLayout Padding="22,40" Spacing="8">
                     <Label Text="Kategooriaid ei ole"
@@ -58,6 +57,9 @@
                             Stroke="#E0E0E0"
                             StrokeThickness="1"
                             StrokeShape="RoundRectangle 8">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="CategoryCard_Tapped" CommandParameter="{Binding .}" />
+                        </Border.GestureRecognizers>
                         <Grid Padding="14">
                             <Label Text="{Binding Name}"
                                    FontSize="17"

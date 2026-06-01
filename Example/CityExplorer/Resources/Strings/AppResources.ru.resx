@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="ExploreTitle" xml:space="preserve"><value>Исследовать</value></data>
+  <data name="FavoritesTitle" xml:space="preserve"><value>Избранное</value></data>
+  <data name="SettingsTitle" xml:space="preserve"><value>Настройки</value></data>
+  <data name="ExploreHeading" xml:space="preserve"><value>Гид по Таллину</value></data>
+  <data name="ExploreSubtitle" xml:space="preserve"><value>Листайте карточки и выбирайте категорию снизу.</value></data>
+  <data name="FavoritesHeading" xml:space="preserve"><value>Сохраненные места</value></data>
+  <data name="FavoritesEmpty" xml:space="preserve"><value>Избранных мест пока нет.</value></data>
+  <data name="FavoritesSearchPlaceholder" xml:space="preserve"><value>Поиск по названию, категории или описанию</value></data>
+  <data name="FavoritesHint" xml:space="preserve"><value>Выберите место, чтобы удалить его.</value></data>
+  <data name="SettingsHeading" xml:space="preserve"><value>Настройки</value></data>
+  <data name="LanguageLabel" xml:space="preserve"><value>Язык приложения</value></data>
+  <data name="CategoryHistorical" xml:space="preserve"><value>История</value></data>
+  <data name="CategoryParks" xml:space="preserve"><value>Парки</value></data>
+  <data name="CategoryRestaurants" xml:space="preserve"><value>Еда</value></data>
+  <data name="AddToFavorites" xml:space="preserve"><value>Добавить в избранное</value></data>
+  <data name="FavoriteSaved" xml:space="preserve"><value>Место сохранено в избранном.</value></data>
+  <data name="Remove" xml:space="preserve"><value>Удалить</value></data>
+  <data name="Ok" xml:space="preserve"><value>OK</value></data>
+  <data name="ToompeaName" xml:space="preserve"><value>Замок Тоомпеа</value></data>
+  <data name="ToompeaShort" xml:space="preserve"><value>Крепостной комплекс над Старым городом Таллина.</value></data>
+  <data name="ToompeaDescription" xml:space="preserve"><value>Замок Тоомпеа является символом эстонской государственности и одной из старейших оборонительных точек Таллина. С обзорных площадок рядом хорошо видны башни Старого города и порт.</value></data>
+  <data name="NevskyName" xml:space="preserve"><value>Собор Александра Невского</value></data>
+  <data name="NevskyShort" xml:space="preserve"><value>Выразительный православный собор в центре Тоомпеа.</value></data>
+  <data name="NevskyDescription" xml:space="preserve"><value>Собор Александра Невского известен куполами, мозаиками и звучным интерьером. Это одна из самых узнаваемых достопримечательностей холма Тоомпеа.</value></data>
+  <data name="KadriorgName" xml:space="preserve"><value>Парк Кадриорг</value></data>
+  <data name="KadriorgShort" xml:space="preserve"><value>Исторический парк с дворцом, аллеями и прудами.</value></data>
+  <data name="KadriorgDescription" xml:space="preserve"><value>Парк Кадриорг объединяет барочный дворец, художественные музеи, фонтаны и спокойные дорожки. Он подходит и для короткой паузы, и для долгой прогулки.</value></data>
+  <data name="JapaneseGardenName" xml:space="preserve"><value>Японский сад</value></data>
+  <data name="JapaneseGardenShort" xml:space="preserve"><value>Спокойный сад с камнем, водой и сезонными растениями.</value></data>
+  <data name="JapaneseGardenDescription" xml:space="preserve"><value>Японский сад в Кадриорге создан для неспешных прогулок и созерцания. Особенно выразительно он выглядит во время весеннего цветения и осенних красок.</value></data>
+  <data name="OldeHansaName" xml:space="preserve"><value>Olde Hansa</value></data>
+  <data name="OldeHansaShort" xml:space="preserve"><value>Ресторан со средневековой атмосферой в Старом городе.</value></data>
+  <data name="OldeHansaDescription" xml:space="preserve"><value>Olde Hansa предлагает блюда, вдохновленные средневековым Таллином, свечи и исторический стиль обслуживания. Место подходит для ужина с яркой атмосферой.</value></data>
+  <data name="RataskaevuName" xml:space="preserve"><value>Rataskaevu 16</value></data>
+  <data name="RataskaevuShort" xml:space="preserve"><value>Уютный ресторан в Старом городе с местной кухней.</value></data>
+  <data name="RataskaevuDescription" xml:space="preserve"><value>Rataskaevu 16 известен дружелюбным сервисом, сезонным меню и простой качественной кухней. Расположение удобно для паузы во время прогулки по Старому городу.</value></data>
+</root>

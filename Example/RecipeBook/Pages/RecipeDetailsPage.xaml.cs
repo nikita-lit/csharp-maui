@@ -1,4 +1,5 @@
 using Example.RecipeBook.Models;
+using Example.RecipeBook.Services;
 
 namespace Example.RecipeBook.Pages;
 
@@ -35,11 +36,11 @@ public partial class RecipeDetailsPage
         if (!remove) 
             return;
         
-        var recipes = RecipesManager.ReadRecipes();
-        if (recipes.RemoveAll(x => RecipesManager.IsSameRecipe(x, _recipe)) == 0)
+        var recipes = RecipesService.ReadRecipes();
+        if (recipes.RemoveAll(x => RecipesService.IsSameRecipe(x, _recipe)) == 0)
             return;
         
-        RecipesManager.SaveAllRecipes(recipes);
+        RecipesService.SaveAllRecipes(recipes);
         await Navigation.PopModalAsync();
         await DisplayAlertAsync("Kustutatud", "Retsept kustutati.", "OK");
 

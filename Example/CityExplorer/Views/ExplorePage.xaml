@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Example.CityExplorer.Views.ExplorePage"
+             x:Name="Root"
+             Title="{Binding ExploreTitle}"
+             BackgroundColor="#F7FBFF">
+    <Grid RowDefinitions="Auto,*" Padding="0,12,0,0" RowSpacing="10">
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Color="#F7FBFF" Offset="0.0" />
+                <GradientStop Color="#D6E8F8" Offset="1.0" />
+            </LinearGradientBrush>
+        </Grid.Background>
+
+        <VerticalStackLayout Padding="22,6,22,4" Spacing="8">
+            <Label Text="{Binding PageHeading}"
+                   FontSize="28"
+                   FontAttributes="Bold"
+                   TextColor="#1F6FB2" />
+            <Label Text="{Binding PageSubtitle}"
+                   FontSize="13"
+                   TextColor="#6B7C93" />
+        </VerticalStackLayout>
+
+        <VerticalStackLayout Grid.Row="1"
+                             Spacing="12"
+                             Padding="14,0,14,12"
+                             VerticalOptions="Center">
+            <VerticalStackLayout Spacing="12"
+                                 VerticalOptions="Center">
+                <CarouselView x:Name="AttractionsCarousel"
+                              ItemsSource="{Binding Places}"
+                              IndicatorView="AttractionsIndicator"
+                              PeekAreaInsets="18"
+                              Loop="True"
+                              HeightRequest="430">
+                    <CarouselView.ItemTemplate>
+                        <DataTemplate>
+                            <Border Margin="8,8,8,14"
+                                    BackgroundColor="White"
+                                    Stroke="#D6E2F0"
+                                    StrokeThickness="1"
+                                    StrokeShape="RoundRectangle 8">
+                                <Border.Shadow>
+                                    <Shadow Brush="#000000"
+                                            Offset="0,4"
+                                            Radius="8"
+                                            Opacity="0.08" />
+                                </Border.Shadow>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="PlaceCard_Tapped"
+                                                          CommandParameter="{Binding .}" />
+                                </Border.GestureRecognizers>
+
+                                <Grid RowDefinitions="240,*">
+                                    <Image Source="{Binding ImagePath}"
+                                           Aspect="AspectFill"
+                                           HeightRequest="240" />
+                                    <VerticalStackLayout Grid.Row="1"
+                                                         Padding="18,16"
+                                                         Spacing="8">
+                                        <Label Text="{Binding Name}"
+                                               FontSize="24"
+                                               FontAttributes="Bold"
+                                               TextColor="#243B53" />
+                                        <Label Text="{Binding ShortDescription}"
+                                               FontSize="15"
+                                               TextColor="#6B7C93"
+                                               LineBreakMode="WordWrap"
+                                               MaxLines="4" />
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CarouselView.ItemTemplate>
+                </CarouselView>
+
+                <IndicatorView x:Name="AttractionsIndicator"
+                               HorizontalOptions="Center"
+                               IndicatorColor="#AFCBE3"
+                               SelectedIndicatorColor="#1F6FB2" />
+            </VerticalStackLayout>
+
+            <CollectionView ItemsSource="{Binding Categories}"
+                            SelectionMode="None"
+                            HeightRequest="94"
+                            BackgroundColor="Transparent">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Horizontal"
+                                       ItemSpacing="10" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Padding="12,10"
+                                BackgroundColor="White"
+                                Stroke="#D6E2F0"
+                                StrokeThickness="1"
+                                StrokeShape="RoundRectangle 8"
+                                WidthRequest="116">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="CategoryCard_Tapped"
+                                                      CommandParameter="{Binding .}" />
+                            </Border.GestureRecognizers>
+                            <Border.Triggers>
+                                <DataTrigger TargetType="Border"
+                                             Binding="{Binding IsSelected}"
+                                             Value="True">
+                                    <Setter Property="BackgroundColor" Value="#EAF4FF" />
+                                    <Setter Property="Stroke" Value="#1F6FB2" />
+                                    <Setter Property="StrokeThickness" Value="2" />
+                                </DataTrigger>
+                            </Border.Triggers>
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="{Binding Emoji}"
+                                       FontSize="28"
+                                       HorizontalTextAlignment="Center" />
+                                <Label Text="{Binding Title}"
+                                       FontSize="12"
+                                       TextColor="#243B53"
+                                       HorizontalTextAlignment="Center"
+                                       LineBreakMode="WordWrap" />
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

@@ -1,10 +1,12 @@
 using Example.RecipeBook.Models;
+using Example.RecipeBook.Services;
 
 namespace Example.RecipeBook.Pages;
 
 public partial class CategoriesPage
 {
     private Category? _selectedCategory;
+    private Border? _selectedCategoryCard;
 
     public CategoriesPage()
     {
@@ -13,17 +15,28 @@ public partial class CategoriesPage
 
     public void Refresh()
     {
-        var categories = RecipesManager.ReadCategories().OrderBy(c => c.Name).ToList();
+        var categories = RecipesService.ReadCategories().OrderBy(c => c.Name).ToList();
         CategoriesCollectionView.ItemsSource = categories;
-        CategoryCountLabel.Text = RecipesManager.FormatCount(categories.Count, "kategooria", "kategooriat");
+        CategoryCountLabel.Text = RecipesService.FormatCount(categories.Count, "kategooria", "kategooriat");
+        _selectedCategoryCard = null;
         ClearForm();
     }
 
-    private void CategoriesCollectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private async void CategoryCard_Tapped(object sender, TappedEventArgs e)
     {
-        _selectedCategory = e.CurrentSelection.FirstOrDefault() as Category;
-        CategoryNameEntry.Text = _selectedCategory?.Name ?? string.Empty;
-        SetFormMode(isEditing: _selectedCategory is not null, isVisible: _selectedCategory is not null);
+        if (e.Parameter is not Category category || sender is not Border selectedCard)
+            return;
+
+        ResetSelectedCategoryCard();
+        _selectedCategory = category;
+        _selectedCategoryCard = selectedCard;
+        HighlightSelectedCategoryCard(selectedCard);
+
+        CategoryNameEntry.Text = category.Name;
+        SetFormMode(isEditing: true);
+
+        await selectedCard.ScaleTo(0.985, 70, Easing.CubicOut);
+        await selectedCard.ScaleTo(1, 90, Easing.CubicOut);
     }
 
     // Lisa uus
@@ -41,7 +54,7 @@ public partial class CategoriesPage
         if (!ValidateName(name))
             return;
 
-        var categories = RecipesManager.ReadCategories();
+        var categories = RecipesService.ReadCategories();
         if (CategoryExists(categories, name))
         {
             _ = DisplayAlertAsync("Viga", "Selline kategooria on juba olemas.", "OK");
@@ -49,7 +62,7 @@ public partial class CategoriesPage
         }
 
         categories.Add(new Category { Name = name });
-        RecipesManager.SaveCategories(categories);
+        RecipesService.SaveCategories(categories);
         SaveDone();
     }
 
@@ -63,14 +76,14 @@ public partial class CategoriesPage
         if (!ValidateName(newName))
             return;
 
-        var categories = RecipesManager.ReadCategories();
+        var categories = RecipesService.ReadCategories();
         if (CategoryExists(categories, newName, _selectedCategory!.Name))
         {
             _ = DisplayAlertAsync("Viga", "Selline kategooria on juba olemas.", "OK");
             return;
         }
 
-        var recipes = RecipesManager.ReadRecipes();
+        var recipes = RecipesService.ReadRecipes();
         foreach (var recipe in recipes.Where(r => r.Category == _selectedCategory.Name))
             recipe.Category = newName;
 
@@ -78,8 +91,8 @@ public partial class CategoriesPage
         if (categoryToUpdate is not null)
             categoryToUpdate.Name = newName;
 
-        RecipesManager.SaveCategories(categories);
-        RecipesManager.SaveAllRecipes(recipes);
+        RecipesService.SaveCategories(categories);
+        RecipesService.SaveAllRecipes(recipes);
         SaveDone();
     }
 
@@ -90,7 +103,7 @@ public partial class CategoriesPage
             return;
 
         var selected = _selectedCategory!;
-        var recipeCount = RecipesManager.ReadRecipes()
+        var recipeCount = RecipesService.ReadRecipes()
             .Count(r => r.Category.Equals(selected.Name, StringComparison.OrdinalIgnoreCase));
 
         if (recipeCount > 0)
@@ -105,11 +118,11 @@ public partial class CategoriesPage
         if (!remove) 
             return;
         
-        var categories = RecipesManager.ReadCategories()
+        var categories = RecipesService.ReadCategories()
             .Where(c => !c.Name.Equals(selected.Name, StringComparison.OrdinalIgnoreCase))
             .ToList();
 
-        RecipesManager.SaveCategories(categories);
+        RecipesService.SaveCategories(categories);
         SaveDone();
     }
 
@@ -124,7 +137,27 @@ public partial class CategoriesPage
     {
         CategoryNameEntry.Text = string.Empty;
         CategoriesCollectionView.SelectedItem = null;
+        ResetSelectedCategoryCard();
         SetFormMode(isEditing: false, isVisible: false);
+    }
+
+    private void HighlightSelectedCategoryCard(Border card)
+    {
+        card.BackgroundColor = Color.FromArgb("#FFF4EF");
+        card.Stroke = new SolidColorBrush(Color.FromArgb("#C0392B"));
+        card.StrokeThickness = 2;
+    }
+
+    private void ResetSelectedCategoryCard()
+    {
+        if (_selectedCategoryCard is null)
+            return;
+
+        _selectedCategoryCard.BackgroundColor = Colors.White;
+        _selectedCategoryCard.Stroke = new SolidColorBrush(Color.FromArgb("#E0E0E0"));
+        _selectedCategoryCard.StrokeThickness = 1;
+        _selectedCategoryCard.Scale = 1;
+        _selectedCategoryCard = null;
     }
 
     private void SetFormMode(bool isEditing, bool isVisible = true)

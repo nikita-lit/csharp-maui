@@ -1,0 +1,372 @@
+# Generate .NET MAUI Project: CityExplorer
+
+Create a complete production-ready **.NET MAUI mobile application** named **CityExplorer**.
+
+## General Requirements
+
+Build the project using:
+
+* **C#**
+* **.NET MAUI**
+* **MVVM architecture**
+* **OOP principles**
+* **SQLite local database**
+* **Dependency Injection**
+* **XAML UI**
+
+The app must be cleanly structured, compilable, and runnable without additional manual restructuring.
+
+---
+
+# Project Goal
+
+Build a smart Tallinn city guide mobile app that helps users discover attractions, save favorites, and switch application language dynamically.
+
+The app should support:
+
+* Browsing Tallinn attractions
+* Filtering by category
+* Saving/removing favorites
+* Multilingual interface
+* Persistent local storage
+
+---
+
+# Required Project Structure
+
+Generate exactly this structure:
+
+```plaintext
+CityExplorer/
+│
+├── Models/
+│   ├── Place.cs
+│   └── Category.cs
+│
+├── ViewModels/
+│   ├── BaseViewModel.cs
+│   ├── ExploreViewModel.cs
+│   ├── FavoritesViewModel.cs
+│   └── SettingsViewModel.cs
+│
+├── Views/
+│   ├── MainTabbedPage.xaml
+│   ├── ExplorePage.xaml
+│   ├── FavoritesPage.xaml
+│   └── SettingsPage.xaml
+│
+├── Services/
+│   └── DatabaseService.cs
+│
+├── Resources/
+│   ├── Strings/
+│   │   ├── AppResources.resx
+│   │   ├── AppResources.en.resx
+│   │   └── AppResources.ru.resx
+│   │
+│   └── Images/
+│
+├── App.xaml
+├── App.xaml.cs
+└── MauiProgram.cs
+```
+
+---
+
+# Functional Requirements
+
+## 1. Explore Tab
+
+Create a tab named:
+
+**"Avasta" / "Explore" / "Исследовать"**
+
+Features:
+
+### CarouselView
+
+Centered on page.
+
+Display attraction cards containing:
+
+* Image
+* Name
+* Short description
+
+Must support:
+
+* Smooth scrolling
+* Swipe gestures
+* Auto-scroll every few seconds
+
+Include:
+
+* `IndicatorView`
+
+---
+
+### Category Emoji Menu
+
+Vertical emoji menu on right side.
+
+Categories:
+
+* 🏰 Historical places
+* 🌳 Parks
+* 🍽️ Restaurants
+
+When category is selected:
+
+* Carousel content updates via MVVM binding
+
+---
+
+### Card Interaction
+
+When user taps a card:
+
+Show `DisplayAlert` with:
+
+* Full attraction description
+* Button:
+
+**"Add to Favorites"**
+
+This saves item into SQLite database.
+
+---
+
+## 2. Favorites Tab
+
+Create tab:
+
+**"Minu Lemmikud" / "Favorites" / "Избранное"**
+
+Features:
+
+* Load favorite places from SQLite
+* Display using CollectionView
+
+Each item must have:
+
+* Image
+* Name
+* Remove button
+
+Delete must:
+
+* Remove from database
+* Refresh UI immediately
+
+Handle empty database gracefully.
+
+---
+
+## 3. Settings Tab
+
+Create tab:
+
+**"Seaded" / "Settings" / "Настройки"**
+
+Include:
+
+### Language Picker
+
+Options:
+
+* Eesti
+* English
+* Русский
+
+Changing language must dynamically update:
+
+* Tab titles
+* Buttons
+* Labels
+* Descriptions
+
+Use:
+
+* `.resx` localization files
+
+Implement real-time UI refresh.
+
+---
+
+# Database Requirements
+
+Use SQLite.
+
+Create `DatabaseService` with async CRUD methods:
+
+```csharp
+InitializeAsync()
+AddFavoriteAsync(Place place)
+GetFavoritesAsync()
+RemoveFavoriteAsync(int id)
+IsFavoriteAsync(int id)
+```
+
+Persist data locally.
+
+---
+
+# Models
+
+## Place.cs
+
+Properties:
+
+```csharp
+Id
+Name
+Description
+ImagePath
+Category
+IsFavorite
+```
+
+Use SQLite attributes.
+
+---
+
+## Category.cs
+
+Properties:
+
+```csharp
+Emoji
+Title
+```
+
+---
+
+# MVVM Requirements
+
+## BaseViewModel
+
+Implement:
+
+* `INotifyPropertyChanged`
+
+Reusable property setter helper.
+
+---
+
+## ExploreViewModel
+
+Must contain:
+
+* ObservableCollection<Place>
+* ObservableCollection<Category>
+* SelectedCategory
+* LoadPlacesCommand
+* AddToFavoritesCommand
+
+---
+
+## FavoritesViewModel
+
+Must contain:
+
+* ObservableCollection<Place>
+* LoadFavoritesCommand
+* RemoveFavoriteCommand
+
+---
+
+## SettingsViewModel
+
+Must contain:
+
+* CurrentLanguage
+* ChangeLanguageCommand
+
+---
+
+# UI Requirements
+
+Use:
+
+* `TabbedPage`
+* `CarouselView`
+* `IndicatorView`
+* `CollectionView`
+* `DataTemplate`
+* Modern mobile-friendly styling
+
+Design should be visually attractive.
+
+Use rounded cards, padding, spacing, subtle shadows.
+
+---
+
+# Dependency Injection
+
+Configure all services/pages/viewmodels in:
+
+`MauiProgram.cs`
+
+Example registrations:
+
+```csharp
+builder.Services.AddSingleton<DatabaseService>();
+
+builder.Services.AddTransient<ExploreViewModel>();
+builder.Services.AddTransient<FavoritesViewModel>();
+builder.Services.AddTransient<SettingsViewModel>();
+
+builder.Services.AddTransient<ExplorePage>();
+builder.Services.AddTransient<FavoritesPage>();
+builder.Services.AddTransient<SettingsPage>();
+```
+
+---
+
+# Seed Data
+
+Preload Tallinn attractions:
+
+### Historical
+
+* Toompea Castle
+* Alexander Nevsky Cathedral
+
+### Parks
+
+* Kadriorg Park
+* Japanese Garden
+
+### Restaurants
+
+* Olde Hansa
+* Rataskaevu 16
+
+Include realistic descriptions and image placeholders.
+
+---
+
+# Error Handling
+
+Implement:
+
+* Safe database initialization
+* Null checks
+* Empty-state UI
+* Exception handling for DB operations
+
+---
+
+# Output Format
+
+Generate:
+
+1. Full source code for every file
+2. Complete XAML
+3. All C# classes
+4. Localization resource examples
+5. Ready-to-build project
+
+The code must compile without missing references.
+
+Use best practices for .NET MAUI MVVM.

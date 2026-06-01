@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="ExploreTitle" xml:space="preserve"><value>Explore</value></data>
+  <data name="FavoritesTitle" xml:space="preserve"><value>Favorites</value></data>
+  <data name="SettingsTitle" xml:space="preserve"><value>Settings</value></data>
+  <data name="ExploreHeading" xml:space="preserve"><value>Tallinn city guide</value></data>
+  <data name="ExploreSubtitle" xml:space="preserve"><value>Swipe the cards and choose a category below.</value></data>
+  <data name="FavoritesHeading" xml:space="preserve"><value>Saved places</value></data>
+  <data name="FavoritesEmpty" xml:space="preserve"><value>No favorite places yet.</value></data>
+  <data name="FavoritesSearchPlaceholder" xml:space="preserve"><value>Search by name, category, or description</value></data>
+  <data name="FavoritesHint" xml:space="preserve"><value>Pick a place to remove it.</value></data>
+  <data name="SettingsHeading" xml:space="preserve"><value>Settings</value></data>
+  <data name="LanguageLabel" xml:space="preserve"><value>Application language</value></data>
+  <data name="CategoryHistorical" xml:space="preserve"><value>History</value></data>
+  <data name="CategoryParks" xml:space="preserve"><value>Parks</value></data>
+  <data name="CategoryRestaurants" xml:space="preserve"><value>Food</value></data>
+  <data name="AddToFavorites" xml:space="preserve"><value>Add to Favorites</value></data>
+  <data name="FavoriteSaved" xml:space="preserve"><value>The place was saved to favorites.</value></data>
+  <data name="Remove" xml:space="preserve"><value>Remove</value></data>
+  <data name="Ok" xml:space="preserve"><value>OK</value></data>
+  <data name="ToompeaName" xml:space="preserve"><value>Toompea Castle</value></data>
+  <data name="ToompeaShort" xml:space="preserve"><value>A powerful castle complex above Tallinn Old Town.</value></data>
+  <data name="ToompeaDescription" xml:space="preserve"><value>Toompea Castle is a symbol of Estonian statehood and one of Tallinn's oldest defensive landmarks. Nearby viewing platforms give a clear view of Old Town towers and the harbor.</value></data>
+  <data name="NevskyName" xml:space="preserve"><value>Alexander Nevsky Cathedral</value></data>
+  <data name="NevskyShort" xml:space="preserve"><value>A striking Orthodox cathedral in the heart of Toompea.</value></data>
+  <data name="NevskyDescription" xml:space="preserve"><value>Alexander Nevsky Cathedral is known for its onion domes, mosaics, and resonant interior. It remains one of the most recognizable landmarks on Toompea Hill.</value></data>
+  <data name="KadriorgName" xml:space="preserve"><value>Kadriorg Park</value></data>
+  <data name="KadriorgShort" xml:space="preserve"><value>A historic park with a palace, alleys, and ponds.</value></data>
+  <data name="KadriorgDescription" xml:space="preserve"><value>Kadriorg Park brings together a baroque palace, art museums, fountains, and quiet walking paths. It works well for both a short pause and a longer walk.</value></data>
+  <data name="JapaneseGardenName" xml:space="preserve"><value>Japanese Garden</value></data>
+  <data name="JapaneseGardenShort" xml:space="preserve"><value>A calm garden shaped by stone, water, and seasonal plants.</value></data>
+  <data name="JapaneseGardenDescription" xml:space="preserve"><value>The Japanese Garden in Kadriorg is designed for slow walks and composed views. It is especially expressive during spring blooming and autumn color.</value></data>
+  <data name="OldeHansaName" xml:space="preserve"><value>Olde Hansa</value></data>
+  <data name="OldeHansaShort" xml:space="preserve"><value>A medieval-style restaurant in Tallinn Old Town.</value></data>
+  <data name="OldeHansaDescription" xml:space="preserve"><value>Olde Hansa serves dishes inspired by medieval Tallinn, with candlelight and historical service style. It suits visitors looking for dinner with a distinctive atmosphere.</value></data>
+  <data name="RataskaevuName" xml:space="preserve"><value>Rataskaevu 16</value></data>
+  <data name="RataskaevuShort" xml:space="preserve"><value>A cozy Old Town restaurant with local food and warm service.</value></data>
+  <data name="RataskaevuDescription" xml:space="preserve"><value>Rataskaevu 16 is known for friendly service, a seasonal menu, and simple quality cooking. Its location makes it a natural pause while exploring Old Town.</value></data>
+</root>

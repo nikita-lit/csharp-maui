@@ -1,10 +1,13 @@
 using Example.RecipeBook.Models;
+using Example.RecipeBook.Services;
+using Microsoft.Maui.Controls.Shapes;
 
 namespace Example.RecipeBook.Pages;
 
 public partial class RecipesPage
 {
     private string _searchText = string.Empty;
+    private bool _isOpeningRecipe;
 
     public RecipesPage()
     {
@@ -18,7 +21,7 @@ public partial class RecipesPage
 
     private void RefreshRecipeList()
     {
-        var allRecipes = RecipesManager.ReadRecipes();
+        var allRecipes = RecipesService.ReadRecipes();
         IEnumerable<Recipe> recipes = allRecipes.OrderBy(r => r.Category).ThenBy(r => r.Name);
 
         if (!string.IsNullOrWhiteSpace(_searchText))
@@ -44,15 +47,40 @@ public partial class RecipesPage
 
     private async void RecipeCard_Tapped(object sender, TappedEventArgs e)
     {
-        var recipe = e.Parameter as Recipe;
-        if (recipe is null && sender is TapGestureRecognizer tapGesture)
-            recipe = tapGesture.CommandParameter as Recipe;
-
-        if (recipe is null) 
+        if (_isOpeningRecipe)
             return;
-        
-        var detailsPage = new RecipeDetailsPage(recipe);
-        await Navigation.PushModalAsync(detailsPage);
+
+        var recipe = e.Parameter as Recipe;
+        var selectedCard = sender as Border;
+        if (recipe is null)
+            return;
+
+        _isOpeningRecipe = true;
+        try
+        {
+            if (selectedCard is not null)
+            {
+                selectedCard.BackgroundColor = Color.FromArgb("#FFF4EF");
+                selectedCard.Stroke = new SolidColorBrush(Color.FromArgb("#C0392B"));
+                selectedCard.StrokeThickness = 2;
+                await selectedCard.ScaleTo(0.985, 70, Easing.CubicOut);
+                await selectedCard.ScaleTo(1, 90, Easing.CubicOut);
+            }
+
+            await Navigation.PushModalAsync(new RecipeDetailsPage(recipe));
+        }
+        finally
+        {
+            if (selectedCard is not null)
+            {
+                selectedCard.BackgroundColor = Colors.White;
+                selectedCard.Stroke = new SolidColorBrush(Color.FromArgb("#E0E0E0"));
+                selectedCard.StrokeThickness = 1;
+                selectedCard.Scale = 1;
+            }
+
+            _isOpeningRecipe = false;
+        }
     }
 
     private void OpenNewRecipeButton_Clicked(object sender, EventArgs e)
@@ -65,9 +93,9 @@ public partial class RecipesPage
 
     private void UpdateRecipeCount(int visibleCount, int totalCount)
     {
-        var text = RecipesManager.FormatCount(totalCount, "retsept", "retsepti");
+        var text = RecipesService.FormatCount(totalCount, "retsept", "retsepti");
         if (!string.IsNullOrWhiteSpace(_searchText))
-            text = $"{visibleCount} / {RecipesManager.FormatCount(totalCount, "retsept", "retsepti")}";
+            text = $"{visibleCount} / {RecipesService.FormatCount(totalCount, "retsept", "retsepti")}";
 
         RecipeCountLabel.Text = text;
     }

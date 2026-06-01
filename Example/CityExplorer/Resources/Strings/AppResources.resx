@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <data name="ExploreTitle" xml:space="preserve"><value>Avasta</value></data>
+  <data name="FavoritesTitle" xml:space="preserve"><value>Minu Lemmikud</value></data>
+  <data name="SettingsTitle" xml:space="preserve"><value>Seaded</value></data>
+  <data name="ExploreHeading" xml:space="preserve"><value>Tallinna avastaja</value></data>
+  <data name="ExploreSubtitle" xml:space="preserve"><value>Libista kaarte ja vali all kategooria.</value></data>
+  <data name="FavoritesHeading" xml:space="preserve"><value>Minu lemmikkohad</value></data>
+  <data name="FavoritesEmpty" xml:space="preserve"><value>Lemmikuid pole veel lisatud.</value></data>
+  <data name="FavoritesSearchPlaceholder" xml:space="preserve"><value>Otsi nime, kategooria või kirjelduse järgi</value></data>
+  <data name="FavoritesHint" xml:space="preserve"><value>Vali koht, et see eemaldada.</value></data>
+  <data name="SettingsHeading" xml:space="preserve"><value>Seaded</value></data>
+  <data name="LanguageLabel" xml:space="preserve"><value>Rakenduse keel</value></data>
+  <data name="CategoryHistorical" xml:space="preserve"><value>Ajalugu</value></data>
+  <data name="CategoryParks" xml:space="preserve"><value>Pargid</value></data>
+  <data name="CategoryRestaurants" xml:space="preserve"><value>Restoranid</value></data>
+  <data name="AddToFavorites" xml:space="preserve"><value>Lisa lemmikutesse</value></data>
+  <data name="FavoriteSaved" xml:space="preserve"><value>Koht salvestati lemmikutesse.</value></data>
+  <data name="Remove" xml:space="preserve"><value>Eemalda</value></data>
+  <data name="Ok" xml:space="preserve"><value>OK</value></data>
+  <data name="ToompeaName" xml:space="preserve"><value>Toompea loss</value></data>
+  <data name="ToompeaShort" xml:space="preserve"><value>Võimas linnusekompleks Tallinna vanalinna kohal.</value></data>
+  <data name="ToompeaDescription" xml:space="preserve"><value>Toompea loss on Eesti riigivõimu sümbol ja üks Tallinna vanemaid kaitserajatisi. Vaateplatvormidelt avaneb selge ülevaade vanalinna tornidest ja sadamast.</value></data>
+  <data name="NevskyName" xml:space="preserve"><value>Aleksander Nevski katedraal</value></data>
+  <data name="NevskyShort" xml:space="preserve"><value>Silmapaistev õigeusu katedraal Toompea südames.</value></data>
+  <data name="NevskyDescription" xml:space="preserve"><value>Aleksander Nevski katedraal paistab silma oma sibulkuplite, mosaiikide ja tugeva akustikaga. See on Toompea üks äratuntavamaid vaatamisväärsusi.</value></data>
+  <data name="KadriorgName" xml:space="preserve"><value>Kadrioru park</value></data>
+  <data name="KadriorgShort" xml:space="preserve"><value>Ajalooline park palee, alleede ja tiikidega.</value></data>
+  <data name="KadriorgDescription" xml:space="preserve"><value>Kadrioru park ühendab barokse palee, kunstimuuseumid, purskkaevud ja rahulikud jalutusrajad. See on hea koht nii lühikeseks pausiks kui pikemaks jalutuskäiguks.</value></data>
+  <data name="JapaneseGardenName" xml:space="preserve"><value>Jaapani aed</value></data>
+  <data name="JapaneseGardenShort" xml:space="preserve"><value>Rahulik aed kivide, vee ja hooajaliste taimedega.</value></data>
+  <data name="JapaneseGardenDescription" xml:space="preserve"><value>Kadrioru Jaapani aed on kujundatud vaikseks jalutamiseks ja vaadete nautimiseks. Aed muutub eriti ilmekaks kevadise õitsemise ja sügisvärvide ajal.</value></data>
+  <data name="OldeHansaName" xml:space="preserve"><value>Olde Hansa</value></data>
+  <data name="OldeHansaShort" xml:space="preserve"><value>Keskaegse atmosfääriga restoran vanalinnas.</value></data>
+  <data name="OldeHansaDescription" xml:space="preserve"><value>Olde Hansa pakub keskaegsest Tallinnast inspireeritud roogasid, küünlavalgust ja ajaloolist teenindusstiili. Sobib külalistele, kes otsivad erilise miljööga õhtusööki.</value></data>
+  <data name="RataskaevuName" xml:space="preserve"><value>Rataskaevu 16</value></data>
+  <data name="RataskaevuShort" xml:space="preserve"><value>Hubane vanalinna restoran kohaliku toidu ja sooja teenindusega.</value></data>
+  <data name="RataskaevuDescription" xml:space="preserve"><value>Rataskaevu 16 on tuntud sõbraliku teeninduse, hooajalise menüü ja lihtsa, kvaliteetse köögi poolest. Asukoht sobib hästi vanalinna avastamise vahepeatuseks.</value></data>
+</root>

@@ -1,9 +1,9 @@
 using System.Text.Json;
 using Example.RecipeBook.Models;
 
-namespace Example.RecipeBook;
+namespace Example.RecipeBook.Services;
 
-public static class RecipesManager
+public static class RecipesService
 {
     private static readonly JsonSerializerOptions JsonOptions = new();
     private static readonly string RecipesFilePath = Path.Combine(FileSystem.AppDataDirectory, "recipes.json");

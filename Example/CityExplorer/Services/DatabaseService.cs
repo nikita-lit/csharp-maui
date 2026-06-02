@@ -21,7 +21,7 @@ public class DatabaseService
         _database = new SQLiteAsyncConnection(databasePath);
     }
 
-    public async Task InitializeAsync()
+    private async Task InitializeAsync()
     {
         if (_isInitialized)
             return;
@@ -33,11 +33,11 @@ public class DatabaseService
         }
         catch (Exception ex)
         {
-            System.Diagnostics.Debug.WriteLine($"CityExplorer DB init failed: {ex.Message}");
+            Console.WriteLine($"CityExplorer DB init failed: {ex.Message}");
         }
     }
 
-    public async Task AddFavoriteAsync(Place place)
+    public async Task AddFavoriteAsync(Place? place)
     {
         if (place is null)
             return;
@@ -81,22 +81,6 @@ public class DatabaseService
         catch (Exception ex)
         {
             System.Diagnostics.Debug.WriteLine($"Remove favorite failed: {ex.Message}");
-        }
-    }
-
-    public async Task<bool> IsFavoriteAsync(int id)
-    {
-        await InitializeAsync();
-
-        try
-        {
-            var count = await _database.Table<Place>().Where(place => place.Id == id).CountAsync();
-            return count > 0;
-        }
-        catch (Exception ex)
-        {
-            System.Diagnostics.Debug.WriteLine($"Favorite check failed: {ex.Message}");
-            return false;
         }
     }
 }

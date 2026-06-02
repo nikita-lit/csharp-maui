@@ -1,5 +1,4 @@
 using System.Collections.ObjectModel;
-using System.Windows.Input;
 using Example.CityExplorer.Models;
 using Example.CityExplorer.Services;
 
@@ -10,7 +9,6 @@ public class ExploreViewModel : BaseViewModel
     private readonly DatabaseService _databaseService;
     private readonly LocalizationService _localizationService;
     private readonly List<Place> _allPlaces;
-    private Category? _selectedCategory;
 
     public ExploreViewModel(DatabaseService databaseService, LocalizationService localizationService)
     {
@@ -20,39 +18,40 @@ public class ExploreViewModel : BaseViewModel
 
         Places = [];
         Categories = [];
-        LoadPlacesCommand = new Command(LoadPlaces);
-        AddToFavoritesCommand = new Command<Place>(async place => await AddToFavoritesAsync(place));
-
-        _localizationService.LanguageChanged += (_, _) => RefreshLocalizedText();
-        LoadCategories();
-        SelectedCategory = Categories.FirstOrDefault();
+        _localizationService.LanguageChanged += (_, _) => Load();
+        Load();
     }
 
     public ObservableCollection<Place> Places { get; }
     public ObservableCollection<Category> Categories { get; }
-    public ICommand LoadPlacesCommand { get; }
-    public ICommand AddToFavoritesCommand { get; }
-
-    public string ExploreTitle => _localizationService["ExploreTitle"];
-    public string PageHeading => _localizationService["ExploreHeading"];
-    public string PageSubtitle => _localizationService["ExploreSubtitle"];
+    public string ExploreTitle { get; private set; } = string.Empty;
+    public string PageHeading { get; private set; } = string.Empty;
+    public string PageSubtitle { get; private set; } = string.Empty;
 
     public Category? SelectedCategory
     {
-        get => _selectedCategory;
+        get;
         set
         {
-            if (SetProperty(ref _selectedCategory, value))
-            {
-                UpdateCategorySelection();
-                LoadPlaces();
-            }
+            if (field == value)
+                return;
+
+            field = value;
+            UpdateCategorySelection();
+            LoadPlaces();
+            OnPropertyChanged();
         }
     }
 
-    public string AddFavoriteText => _localizationService["AddToFavorites"];
-    public string FavoriteSavedText => _localizationService["FavoriteSaved"];
-    public string OkText => _localizationService["Ok"];
+    public string AddFavoriteText { get; private set; } = string.Empty;
+    public string FavoriteSavedText { get; private set; } = string.Empty;
+    public string OkText { get; private set; } = string.Empty;
+
+    public void Load()
+    {
+        RefreshLocalizedText();
+        LoadCategories();
+    }
 
     private void LoadCategories()
     {
@@ -62,7 +61,6 @@ public class ExploreViewModel : BaseViewModel
         Categories.Add(new Category { Emoji = "🌳", Key = "Parks", Title = _localizationService["CategoryParks"] });
         Categories.Add(new Category { Emoji = "🍽️", Key = "Restaurants", Title = _localizationService["CategoryRestaurants"] });
         SelectedCategory = Categories.FirstOrDefault(category => category.Key == selectedKey) ?? Categories.FirstOrDefault();
-        UpdateCategorySelection();
     }
 
     private void UpdateCategorySelection()
@@ -80,7 +78,7 @@ public class ExploreViewModel : BaseViewModel
             Places.Add(PlaceCatalog.LocalizePlace(place, _localizationService));
     }
 
-    private async Task AddToFavoritesAsync(Place? place)
+    public async Task AddToFavoritesAsync(Place? place)
     {
         if (place is null)
             return;
@@ -90,8 +88,13 @@ public class ExploreViewModel : BaseViewModel
 
     private void RefreshLocalizedText()
     {
-        LoadCategories();
-        LoadPlaces();
+        ExploreTitle = _localizationService["ExploreTitle"];
+        PageHeading = _localizationService["ExploreHeading"];
+        PageSubtitle = _localizationService["ExploreSubtitle"];
+        AddFavoriteText = _localizationService["AddToFavorites"];
+        FavoriteSavedText = _localizationService["FavoriteSaved"];
+        OkText = _localizationService["Ok"];
+
         OnPropertyChanged(nameof(ExploreTitle));
         OnPropertyChanged(nameof(PageHeading));
         OnPropertyChanged(nameof(PageSubtitle));

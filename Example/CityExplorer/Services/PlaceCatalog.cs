@@ -16,12 +16,12 @@ public static class PlaceCatalog
 
     public static Place LocalizePlace(Place place, LocalizationService localizationService) => place.Id switch
     {
-        1 => place.WithLocalized(localizationService["ToompeaName"], localizationService["ToompeaShort"], localizationService["ToompeaDescription"]),
-        2 => place.WithLocalized(localizationService["NevskyName"], localizationService["NevskyShort"], localizationService["NevskyDescription"]),
-        3 => place.WithLocalized(localizationService["KadriorgName"], localizationService["KadriorgShort"], localizationService["KadriorgDescription"]),
-        4 => place.WithLocalized(localizationService["JapaneseGardenName"], localizationService["JapaneseGardenShort"], localizationService["JapaneseGardenDescription"]),
-        5 => place.WithLocalized(localizationService["OldeHansaName"], localizationService["OldeHansaShort"], localizationService["OldeHansaDescription"]),
-        6 => place.WithLocalized(localizationService["RataskaevuName"], localizationService["RataskaevuShort"], localizationService["RataskaevuDescription"]),
+        1 => place.WithLocalized(localizationService, localizationService["ToompeaName"], localizationService["ToompeaShort"], localizationService["ToompeaDescription"]),
+        2 => place.WithLocalized(localizationService, localizationService["NevskyName"], localizationService["NevskyShort"], localizationService["NevskyDescription"]),
+        3 => place.WithLocalized(localizationService, localizationService["KadriorgName"], localizationService["KadriorgShort"], localizationService["KadriorgDescription"]),
+        4 => place.WithLocalized(localizationService, localizationService["JapaneseGardenName"], localizationService["JapaneseGardenShort"], localizationService["JapaneseGardenDescription"]),
+        5 => place.WithLocalized(localizationService, localizationService["OldeHansaName"], localizationService["OldeHansaShort"], localizationService["OldeHansaDescription"]),
+        6 => place.WithLocalized(localizationService, localizationService["RataskaevuName"], localizationService["RataskaevuShort"], localizationService["RataskaevuDescription"]),
         _ => place
     };
 
@@ -33,7 +33,7 @@ public static class PlaceCatalog
         _ => categoryKey
     };
 
-    private static Place WithLocalized(this Place place, string name, string shortDescription, string description) =>
+    private static Place WithLocalized(this Place place, LocalizationService localizationService, string name, string shortDescription, string description) =>
         new()
         {
             Id = place.Id,
@@ -42,6 +42,7 @@ public static class PlaceCatalog
             Description = description,
             ImagePath = place.ImagePath,
             Category = place.Category,
+            CategoryTitle = GetCategoryTitle(place.Category, localizationService),
             IsFavorite = place.IsFavorite
         };
 }

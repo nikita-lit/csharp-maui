@@ -51,7 +51,7 @@
                     <DataTemplate>
                         <Grid Padding="18,10"
                               BackgroundColor="#D6E8F8">
-                            <Label Text="{Binding Key}"
+                            <Label Text="{Binding [0].CategoryTitle}"
                                    FontSize="19"
                                    FontAttributes="Bold"
                                    TextColor="#1F6FB2" />
@@ -86,8 +86,7 @@
                                 </VerticalStackLayout>
                                 <Button Grid.Column="2"
                                         Text="{Binding Source={x:Reference Root}, Path=BindingContext.RemoveText}"
-                                        Command="{Binding Source={x:Reference Root}, Path=BindingContext.RemoveFavoriteCommand}"
-                                        CommandParameter="{Binding .}"
+                                        Clicked="RemoveFavorite_Clicked"
                                         BackgroundColor="#1F6FB2"
                                         TextColor="White"
                                         CornerRadius="18"

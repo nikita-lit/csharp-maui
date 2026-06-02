@@ -5,7 +5,7 @@ namespace Example.CityExplorer.Services;
 
 public class LocalizationService
 {
-    private readonly ResourceManager _resourceManager = new("Example.CityExplorer.Resources.Strings.AppResources", typeof(LocalizationService).Assembly);
+    private readonly ResourceManager _resourceManager = new("Example.Resources.Localization.CityExplorer.AppResources", typeof(LocalizationService).Assembly);
     private CultureInfo _currentCulture = new("et");
 
     public event EventHandler? LanguageChanged;
@@ -14,7 +14,7 @@ public class LocalizationService
 
     public string this[string key] => GetString(key);
 
-    public string GetString(string key) =>
+    private string GetString(string key) =>
         _resourceManager.GetString(key, _currentCulture) ?? key;
 
     public void SetLanguage(string languageName)

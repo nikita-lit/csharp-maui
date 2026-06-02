@@ -5,8 +5,6 @@ namespace Example.CityExplorer.Models;
 
 public class Category : INotifyPropertyChanged
 {
-    private bool _isSelected;
-
     public event PropertyChangedEventHandler? PropertyChanged;
 
     public string Emoji { get; set; } = string.Empty;
@@ -15,13 +13,13 @@ public class Category : INotifyPropertyChanged
 
     public bool IsSelected
     {
-        get => _isSelected;
+        get;
         set
         {
-            if (_isSelected == value)
+            if (field == value)
                 return;
 
-            _isSelected = value;
+            field = value;
             OnPropertyChanged();
         }
     }

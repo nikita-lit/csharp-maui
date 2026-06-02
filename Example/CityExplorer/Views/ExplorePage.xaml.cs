@@ -18,7 +18,7 @@ public partial class ExplorePage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        _viewModel.LoadPlacesCommand.Execute(null);
+        _viewModel.Load();
         StartAutoScroll();
     }
 
@@ -53,7 +53,7 @@ public partial class ExplorePage
         if (!add)
             return;
 
-        _viewModel.AddToFavoritesCommand.Execute(place);
+        await _viewModel.AddToFavoritesAsync(place);
         await DisplayAlertAsync(place.Name, _viewModel.FavoriteSavedText, _viewModel.OkText);
     }
 

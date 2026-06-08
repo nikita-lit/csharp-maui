@@ -23,8 +23,6 @@ namespace Example
     		builder.Logging.AddDebug();
 #endif
 
-            builder.Services.AddSingleton<LocalizationService>();
-            builder.Services.AddSingleton<DatabaseService>();
             builder.Services.AddTransient<ExploreViewModel>();
             builder.Services.AddTransient<FavoritesViewModel>();
             builder.Services.AddTransient<SettingsViewModel>();

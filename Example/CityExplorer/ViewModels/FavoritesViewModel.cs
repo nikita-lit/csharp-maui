@@ -6,20 +6,16 @@ namespace Example.CityExplorer.ViewModels;
 
 public class FavoritesViewModel : BaseViewModel
 {
-    private readonly DatabaseService _databaseService;
-    private readonly LocalizationService _localizationService;
-
-    public FavoritesViewModel(DatabaseService databaseService, LocalizationService localizationService)
+    public FavoritesViewModel()
     {
-        _databaseService = databaseService;
-        _localizationService = localizationService;
         Favorites = [];
         FavoriteGroups = [];
-        _localizationService.LanguageChanged += (_, _) => _ = ReloadAsync();
+        LocalizationService.LanguageChanged += ( _, _ ) => { _ = Reload(); };
     }
 
     public ObservableCollection<Place> Favorites { get; }
     public ObservableCollection<List<Place>> FavoriteGroups { get; }
+
     public string FavoritesTitle { get; private set; } = string.Empty;
     public string PageHeading { get; private set; } = string.Empty;
     public string EmptyText { get; private set; } = string.Empty;
@@ -32,7 +28,7 @@ public class FavoritesViewModel : BaseViewModel
         get;
         set
         {
-            if (field == value)
+            if ( field == value )
                 return;
 
             field = value;
@@ -41,75 +37,89 @@ public class FavoritesViewModel : BaseViewModel
         }
     } = string.Empty;
 
-    public void Load()
+    public async Task Load()
     {
-        FavoritesTitle = _localizationService["FavoritesTitle"];
-        PageHeading = _localizationService["FavoritesHeading"];
-        EmptyText = _localizationService["FavoritesEmpty"];
-        RemoveText = _localizationService["Remove"];
-        SearchPlaceholder = _localizationService["FavoritesSearchPlaceholder"];
-        HintText = _localizationService["FavoritesHint"];
+        FavoritesTitle = LocalizationService.Get( "FavoritesTitle" );
+        PageHeading = LocalizationService.Get( "FavoritesHeading" );
+        EmptyText = LocalizationService.Get( "FavoritesEmpty" );
+        RemoveText = LocalizationService.Get( "Remove" );
+        SearchPlaceholder = LocalizationService.Get( "FavoritesSearchPlaceholder" );
+        HintText = LocalizationService.Get( "FavoritesHint" );
 
-        OnPropertyChanged(nameof(FavoritesTitle));
-        OnPropertyChanged(nameof(PageHeading));
-        OnPropertyChanged(nameof(EmptyText));
-        OnPropertyChanged(nameof(RemoveText));
-        OnPropertyChanged(nameof(SearchPlaceholder));
-        OnPropertyChanged(nameof(HintText));
+        OnPropertyChanged( nameof(FavoritesTitle) );
+        OnPropertyChanged( nameof(PageHeading) );
+        OnPropertyChanged( nameof(EmptyText) );
+        OnPropertyChanged( nameof(RemoveText) );
+        OnPropertyChanged( nameof(SearchPlaceholder) );
+        OnPropertyChanged( nameof(HintText) );
+
+        await LoadFavorites();
     }
 
-    public async Task LoadFavoritesAsync()
+    public async Task LoadFavorites()
     {
-        var favorites = await _databaseService.GetFavoritesAsync();
+        var favorites = await DatabaseService.GetFavorites();
         Favorites.Clear();
 
-        foreach (var place in favorites)
-            Favorites.Add(PlaceCatalog.LocalizePlace(place, _localizationService));
+        foreach ( var place in favorites )
+        {
+            var localized = new Place
+            {
+                Id = place.Id,
+                Name = LocalizationService.Get( place.Name ),
+                ShortDescription = LocalizationService.Get( place.ShortDescription ),
+                Description = LocalizationService.Get( place.Description ),
+                ImagePath = place.ImagePath,
+                Category = place.Category,
+                IsFavorite = place.IsFavorite
+            };
+
+            Favorites.Add( localized );
+        }
 
         RefreshFavoriteGroups();
     }
 
-    public async Task RemoveFavoriteAsync(Place? place)
+    public async Task RemoveFavorite( Place place )
     {
-        if (place is null)
-            return;
-
-        await _databaseService.RemoveFavoriteAsync(place.Id);
-        await LoadFavoritesAsync();
+        await DatabaseService.RemoveFavorite( place.Id );
+        await LoadFavorites();
     }
 
-    private async Task ReloadAsync()
+    private async Task Reload()
     {
         Load();
-        await LoadFavoritesAsync();
+        await LoadFavorites();
     }
 
     private void RefreshFavoriteGroups()
     {
         var filteredFavorites = Favorites
-            .Where(place => MatchesSearch(place))
-            .OrderBy(place => place.Category)
-            .ThenBy(place => place.Name)
+            .Where( MatchesSearch )
+            .OrderBy( place => place.Category )
+            .ThenBy( place => place.Name )
             .ToList();
 
         var groupedFavorites = filteredFavorites
-            .GroupBy(place => PlaceCatalog.GetCategoryTitle(place.Category, _localizationService))
+            .GroupBy( place => place.Category )
             .ToList();
 
         FavoriteGroups.Clear();
 
-        foreach (var group in groupedFavorites)
-        {
-            FavoriteGroups.Add(group.ToList());
-        }
+        foreach ( var group in groupedFavorites )
+            FavoriteGroups.Add( group.ToList() );
     }
 
-    private bool MatchesSearch(Place place) =>
-        string.IsNullOrWhiteSpace(SearchText) ||
-        ContainsSearchText(place.Name) ||
-        ContainsSearchText(place.Description) ||
-        ContainsSearchText(place.Category);
+    private bool MatchesSearch( Place place )
+    {
+        return string.IsNullOrWhiteSpace( SearchText ) ||
+               ContainsSearchText( place.Name ) ||
+               ContainsSearchText( place.Description ) ||
+               ContainsSearchText( place.Category );
+    }
 
-    private bool ContainsSearchText(string value) =>
-        value.Contains(SearchText, StringComparison.OrdinalIgnoreCase);
+    private bool ContainsSearchText( string value )
+    {
+        return value.Contains( SearchText, StringComparison.OrdinalIgnoreCase );
+    }
 }

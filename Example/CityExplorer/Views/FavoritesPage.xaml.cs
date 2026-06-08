@@ -7,25 +7,23 @@ public partial class FavoritesPage
 {
     private readonly FavoritesViewModel _viewModel;
 
-    public FavoritesPage(FavoritesViewModel viewModel)
+    public FavoritesPage()
     {
         InitializeComponent();
-        _viewModel = viewModel;
+        _viewModel = new FavoritesViewModel();
         BindingContext = _viewModel;
     }
 
     protected override async void OnAppearing()
     {
-        base.OnAppearing();
-        _viewModel.Load();
-        await _viewModel.LoadFavoritesAsync();
+        await _viewModel.Load();
     }
 
-    private async void RemoveFavorite_Clicked(object sender, EventArgs e)
+    private async void RemoveFavorite_Clicked( object sender, EventArgs e )
     {
-        if (sender is not Button button || button.BindingContext is not Place place)
+        if ( sender is not Button button || button.BindingContext is not Place place )
             return;
 
-        await _viewModel.RemoveFavoriteAsync(place);
+        await _viewModel.RemoveFavorite( place );
     }
 }

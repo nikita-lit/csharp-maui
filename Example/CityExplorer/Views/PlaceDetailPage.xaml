@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Example.CityExplorer.Views.PlaceDetailPage"
+             Title="{Binding Place.Name}"
+             BackgroundColor="#F7FBFF">
+    <Grid RowDefinitions="Auto,*" Padding="0" RowSpacing="0">
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Color="#F7FBFF" Offset="0.0" />
+                <GradientStop Color="#D6E8F8" Offset="1.0" />
+            </LinearGradientBrush>
+        </Grid.Background>
+
+        <Image Source="{Binding Place.ImagePath}"
+               Aspect="AspectFill"
+               HeightRequest="300" />
+
+        <Grid Grid.Row="1"
+              RowDefinitions="*,Auto"
+              RowSpacing="16"
+              Padding="20,24">
+            <ScrollView Grid.Row="0">
+                <VerticalStackLayout Spacing="16">
+                    <Label Text="{Binding Place.Name}"
+                           FontSize="28"
+                           FontAttributes="Bold"
+                           TextColor="#243B53" />
+
+                    <Border Padding="12,6"
+                            BackgroundColor="#EAF4FF"
+                            Stroke="#1F6FB2"
+                            StrokeThickness="1"
+                            StrokeShape="RoundRectangle 12"
+                            HorizontalOptions="Start">
+                        <Label Text="{Binding Place.Category}"
+                               FontSize="13"
+                               TextColor="#1F6FB2"
+                               FontAttributes="Bold" />
+                    </Border>
+
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Description"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="#243B53" />
+                        <Label Text="{Binding Place.Description}"
+                               FontSize="14"
+                               TextColor="#6B7C93"
+                               LineBreakMode="WordWrap" />
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </ScrollView>
+
+            <Button Grid.Row="1"
+                    Text="{Binding FavoritesButtonText}"
+                    Command="{Binding ToggleFavoriteCommand}"
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    TextColor="White"
+                    BackgroundColor="{Binding ButtonBackgroundColor}"
+                    CornerRadius="12"
+                    Padding="16,12"
+                    Margin="0,8,0,0" />
+        </Grid>
+    </Grid>
+</ContentPage>

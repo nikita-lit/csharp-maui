@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
+
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Example.CityExplorer.Views.FavoritesPage"
@@ -51,7 +52,7 @@
                     <DataTemplate>
                         <Grid Padding="18,10"
                               BackgroundColor="#D6E8F8">
-                            <Label Text="{Binding [0].CategoryTitle}"
+                            <Label Text="{Binding Category}"
                                    FontSize="19"
                                    FontAttributes="Bold"
                                    TextColor="#1F6FB2" />

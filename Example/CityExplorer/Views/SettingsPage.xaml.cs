@@ -6,11 +6,11 @@ public partial class SettingsPage
 {
     private readonly SettingsViewModel _viewModel;
 
-    public SettingsPage(SettingsViewModel viewModel)
+    public SettingsPage()
     {
         InitializeComponent();
-        _viewModel = viewModel;
-        BindingContext = viewModel;
+        _viewModel = new SettingsViewModel();
+        BindingContext = _viewModel;
     }
 
     protected override void OnAppearing()

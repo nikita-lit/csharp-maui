@@ -3,21 +3,23 @@ using System.Resources;
 
 namespace Example.CityExplorer.Services;
 
-public class LocalizationService
+public static class LocalizationService
 {
-    private readonly ResourceManager _resourceManager = new("Example.Resources.Localization.CityExplorer.AppResources", typeof(LocalizationService).Assembly);
-    private CultureInfo _currentCulture = new("et");
+    private static readonly ResourceManager ResourceManager =
+        new("Example.Resources.Localization.CityExplorer.AppResources", typeof(LocalizationService).Assembly);
 
-    public event EventHandler? LanguageChanged;
+    private static CultureInfo _currentCulture = new("et");
 
-    public string CurrentLanguage => _currentCulture.TwoLetterISOLanguageName;
+    public static string CurrentLanguage => _currentCulture.TwoLetterISOLanguageName;
 
-    public string this[string key] => GetString(key);
+    public static event EventHandler? LanguageChanged;
 
-    private string GetString(string key) =>
-        _resourceManager.GetString(key, _currentCulture) ?? key;
+    public static string Get( string key )
+    {
+        return ResourceManager.GetString( key, _currentCulture ) ?? key;
+    }
 
-    public void SetLanguage(string languageName)
+    public static void SetLanguage( string languageName )
     {
         var cultureName = languageName switch
         {
@@ -26,9 +28,9 @@ public class LocalizationService
             _ => "et"
         };
 
-        _currentCulture = new CultureInfo(cultureName);
+        _currentCulture = new CultureInfo( cultureName );
         CultureInfo.DefaultThreadCurrentCulture = _currentCulture;
         CultureInfo.DefaultThreadCurrentUICulture = _currentCulture;
-        LanguageChanged?.Invoke(this, EventArgs.Empty);
+        LanguageChanged?.Invoke( null, EventArgs.Empty );
     }
 }

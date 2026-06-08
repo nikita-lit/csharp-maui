@@ -5,14 +5,12 @@ namespace Example.CityExplorer.ViewModels;
 
 public class SettingsViewModel : BaseViewModel
 {
-    private readonly LocalizationService _localizationService;
     private string _currentLanguage = "Eesti";
 
-    public SettingsViewModel(LocalizationService localizationService)
+    public SettingsViewModel()
     {
-        _localizationService = localizationService;
         Languages = ["Eesti", "English", "Русский"];
-        _localizationService.LanguageChanged += (_, _) => RefreshLocalizedText();
+        LocalizationService.LanguageChanged += ( _, _ ) => RefreshLocalizedText();
         Load();
     }
 
@@ -26,39 +24,39 @@ public class SettingsViewModel : BaseViewModel
         get => _currentLanguage;
         set
         {
-            if (_currentLanguage == value)
+            if ( _currentLanguage == value )
                 return;
 
             _currentLanguage = value;
             OnPropertyChanged();
-            ChangeLanguage(value);
+            ChangeLanguage( value );
         }
     }
 
     public void Load()
     {
-        SettingsTitle = _localizationService["SettingsTitle"];
-        PageHeading = _localizationService["SettingsHeading"];
-        LanguageLabel = _localizationService["LanguageLabel"];
-        _currentLanguage = _localizationService.CurrentLanguage switch
+        SettingsTitle = LocalizationService.Get( "SettingsTitle" );
+        PageHeading = LocalizationService.Get( "SettingsHeading" );
+        LanguageLabel = LocalizationService.Get( "LanguageLabel" );
+        _currentLanguage = LocalizationService.CurrentLanguage switch
         {
             "en" => "English",
             "ru" => "Русский",
             _ => "Eesti"
         };
 
-        OnPropertyChanged(nameof(SettingsTitle));
-        OnPropertyChanged(nameof(PageHeading));
-        OnPropertyChanged(nameof(LanguageLabel));
-        OnPropertyChanged(nameof(CurrentLanguage));
+        OnPropertyChanged( nameof(SettingsTitle) );
+        OnPropertyChanged( nameof(PageHeading) );
+        OnPropertyChanged( nameof(LanguageLabel) );
+        OnPropertyChanged( nameof(CurrentLanguage) );
     }
 
-    private void ChangeLanguage(string? language)
+    private static void ChangeLanguage( string language )
     {
-        if (string.IsNullOrWhiteSpace(language))
+        if ( string.IsNullOrWhiteSpace( language ) )
             return;
 
-        _localizationService.SetLanguage(language);
+        LocalizationService.SetLanguage( language );
     }
 
     private void RefreshLocalizedText()

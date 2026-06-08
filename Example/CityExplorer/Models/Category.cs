@@ -1,13 +1,14 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using SQLite;
 
 namespace Example.CityExplorer.Models;
 
 public class Category : INotifyPropertyChanged
 {
-    public event PropertyChangedEventHandler? PropertyChanged;
-
     public string Emoji { get; set; } = string.Empty;
+
+    [PrimaryKey]
     public string Key { get; set; } = string.Empty;
     public string Title { get; set; } = string.Empty;
 
@@ -16,7 +17,7 @@ public class Category : INotifyPropertyChanged
         get;
         set
         {
-            if (field == value)
+            if ( field == value )
                 return;
 
             field = value;
@@ -24,6 +25,10 @@ public class Category : INotifyPropertyChanged
         }
     }
 
-    private void OnPropertyChanged([CallerMemberName] string propertyName = "") =>
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    private void OnPropertyChanged( [CallerMemberName] string propertyName = "" )
+    {
+        PropertyChanged?.Invoke( this, new PropertyChangedEventArgs( propertyName ) );
+    }
 }

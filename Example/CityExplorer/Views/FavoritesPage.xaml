@@ -67,6 +67,10 @@
                                 Stroke="#D6E2F0"
                                 StrokeThickness="1"
                                 StrokeShape="RoundRectangle 8">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="PlaceCard_Tapped"
+                                                      CommandParameter="{Binding .}" />
+                            </Border.GestureRecognizers>
                             <Grid ColumnDefinitions="72,*,Auto"
                                   ColumnSpacing="12">
                                 <Image Source="{Binding ImagePath}"
@@ -85,14 +89,6 @@
                                            TextColor="#6B7C93"
                                            MaxLines="2" />
                                 </VerticalStackLayout>
-                                <Button Grid.Column="2"
-                                        Text="{Binding Source={x:Reference Root}, Path=BindingContext.RemoveText}"
-                                        Clicked="RemoveFavorite_Clicked"
-                                        BackgroundColor="#1F6FB2"
-                                        TextColor="White"
-                                        CornerRadius="18"
-                                        Padding="14,8"
-                                        VerticalOptions="Center" />
                             </Grid>
                         </Border>
                     </DataTemplate>

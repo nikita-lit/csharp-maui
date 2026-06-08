@@ -53,4 +53,7 @@
     <data name="RataskaevuName" xml:space="preserve"><value>Rataskaevu 16</value></data>
     <data name="RataskaevuShort" xml:space="preserve"><value>A cozy Old Town restaurant with local food and warm service.</value></data>
     <data name="RataskaevuDescription" xml:space="preserve"><value>Rataskaevu 16 is known for friendly service, a seasonal menu, and simple quality cooking. Its location makes it a natural pause while exploring Old Town.</value></data>
+    <data name="DescriptionLabel" xml:space="preserve">
+        <value>Description</value>
+    </data>
 </root>

@@ -1,4 +1,5 @@
 using Example.CityExplorer.Models;
+using Example.CityExplorer.Services;
 using Example.CityExplorer.ViewModels;
 
 namespace Example.CityExplorer.Views;
@@ -48,7 +49,10 @@ public partial class ExplorePage
         if ( e.Parameter is not Place place )
             return;
 
-        await Navigation.PushAsync( new PlaceDetailPage( place ) );
+        var dbPlaces = await DatabaseService.GetAllPlaces();
+        var dbPlace = dbPlaces.First(p => p.Id == place.Id);
+        
+        await Navigation.PushAsync( new PlaceDetailPage( dbPlace ) );
     }
 
     // Select category

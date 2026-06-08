@@ -1,4 +1,5 @@
 using Example.CityExplorer.Models;
+using Example.CityExplorer.Services;
 using Example.CityExplorer.ViewModels;
 
 namespace Example.CityExplorer.Views;
@@ -19,11 +20,14 @@ public partial class FavoritesPage
         await _viewModel.Load();
     }
 
-    private async void RemoveFavorite_Clicked( object sender, EventArgs e )
+    private async void PlaceCard_Tapped( object sender, TappedEventArgs e )
     {
-        if ( sender is not Button button || button.BindingContext is not Place place )
+        if ( e.Parameter is not Place place )
             return;
 
-        await _viewModel.RemoveFavorite( place );
+        var dbPlaces = await DatabaseService.GetAllPlaces();
+        var dbPlace = dbPlaces.First(p => p.Id == place.Id);
+        
+        await Navigation.PushAsync( new PlaceDetailPage( dbPlace ) );
     }
 }

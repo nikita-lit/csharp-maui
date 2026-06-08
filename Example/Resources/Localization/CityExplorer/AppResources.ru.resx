@@ -53,4 +53,7 @@
     <data name="RataskaevuName" xml:space="preserve"><value>Rataskaevu 16</value></data>
     <data name="RataskaevuShort" xml:space="preserve"><value>Уютный ресторан в Старом городе с местной кухней.</value></data>
     <data name="RataskaevuDescription" xml:space="preserve"><value>Rataskaevu 16 известен дружелюбным сервисом, сезонным меню и простой качественной кухней. Расположение удобно для паузы во время прогулки по Старому городу.</value></data>
+    <data name="DescriptionLabel" xml:space="preserve">
+        <value>Описание</value>
+    </data>
 </root>

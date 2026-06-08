@@ -1,3 +1,4 @@
+using Android.OS;
 using Example.CityExplorer.Models;
 using Example.CityExplorer.Services;
 using Example.CityExplorer.ViewModels;
@@ -24,7 +25,7 @@ public partial class PlaceDetailPage
             Category = LocalizationService.Get( place.Category ),
             IsFavorite = place.IsFavorite
         };
-
+        
         _viewModel.Place = localizedPlace;
     }
 

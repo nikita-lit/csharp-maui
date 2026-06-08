@@ -53,4 +53,7 @@
     <data name="RataskaevuName" xml:space="preserve"><value>Rataskaevu 16</value></data>
     <data name="RataskaevuShort" xml:space="preserve"><value>Hubane vanalinna restoran kohaliku toidu ja sooja teenindusega.</value></data>
     <data name="RataskaevuDescription" xml:space="preserve"><value>Rataskaevu 16 on tuntud sõbraliku teeninduse, hooajalise menüü ja lihtsa, kvaliteetse köögi poolest. Asukoht sobib hästi vanalinna avastamise vahepeatuseks.</value></data>
+    <data name="DescriptionLabel" xml:space="preserve">
+        <value>Kirjeldus</value>
+    </data>
 </root>

@@ -41,7 +41,7 @@
                     </Border>
 
                     <VerticalStackLayout Spacing="8">
-                        <Label Text="Description"
+                        <Label Text="{Binding DescriptionLabel}"
                                FontSize="16"
                                FontAttributes="Bold"
                                TextColor="#243B53" />

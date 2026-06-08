@@ -11,7 +11,8 @@ public class PlaceDetailViewModel : BaseViewModel
     private bool _isSaving;
     private Place _place = null!;
     private string _removeFromFavoritesText = string.Empty;
-
+    private string _descriptionLabel = string.Empty;
+    
     public PlaceDetailViewModel()
     {
         ToggleFavoriteCommand = new Command( async void () => await ToggleFavorite() );
@@ -65,6 +66,18 @@ public class PlaceDetailViewModel : BaseViewModel
             OnPropertyChanged();
         }
     }
+    
+    public string DescriptionLabel
+    {
+        get => _descriptionLabel;
+        private set
+        {
+            if ( _descriptionLabel == value ) 
+                return;
+            _descriptionLabel = value;
+            OnPropertyChanged();
+        }
+    }
 
     public Color ButtonBackgroundColor
     {
@@ -84,19 +97,17 @@ public class PlaceDetailViewModel : BaseViewModel
 
     public async Task Load()
     {
-        RefreshLocalizedText();
+        AddToFavoritesText = LocalizationService.Get( "AddToFavorites" );
+        RemoveFromFavoritesText = LocalizationService.Get( "RemoveFromFavorites" );
+        DescriptionLabel = LocalizationService.Get( "DescriptionLabel" );
+        
+        OnPropertyChanged( nameof(FavoritesButtonText) );
+        
         if ( Place != null )
         {
             Place.IsFavorite = await DatabaseService.IsFavorite( Place.Id );
             UpdateFavoritesButton();
         }
-    }
-
-    private void RefreshLocalizedText()
-    {
-        AddToFavoritesText = LocalizationService.Get( "AddToFavorites" );
-        RemoveFromFavoritesText = LocalizationService.Get( "RemoveFromFavorites" );
-        OnPropertyChanged( nameof(FavoritesButtonText) );
     }
 
     private void UpdateFavoritesButton()

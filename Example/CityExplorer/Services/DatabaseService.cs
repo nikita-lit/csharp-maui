@@ -8,20 +8,20 @@ namespace Example.CityExplorer.Services;
 public static class DatabaseService
 {
     private static SQLiteAsyncConnection _database = null!;
-    private static bool _initialized = false;
-    private static readonly SemaphoreSlim Semaphore = new(1, 1);
+    
+    private static Task? _initTask;
 
-    public static async Task Initialize()
+    public static Task Initialize()
     {
-        if ( _initialized )
-            return;
-
-        await Semaphore.WaitAsync();
+        return _initTask ??= InitializeDb();
+    }
+    
+    private static async Task InitializeDb()
+    {
+        await ClearDatabase();
+        
         try
         {
-            if ( _initialized )
-                return;
-
             Batteries_V2.Init();
 
             var databasePath = Path.Combine( FileSystem.AppDataDirectory, "city_explorer.db" );
@@ -31,39 +31,45 @@ public static class DatabaseService
             await _database.CreateTableAsync<Category>();
 
             var categoryCount = await _database.Table<Category>().CountAsync();
-            if ( categoryCount == 0 )
-            {
-                var defaultCategories = CreateDefaultCategoriesForDb();
-                await _database.InsertAllAsync( defaultCategories );
-            }
+            if (categoryCount == 0)
+                await _database.InsertAllAsync(CreateDefaultCategoriesForDb());
 
             var placeCount = await _database.Table<Place>().CountAsync();
-            if ( placeCount == 0 )
-            {
-                var defaultPlaces = CreateDefaultPlacesForDb();
-                await _database.InsertAllAsync( defaultPlaces );
-            }
+            if (placeCount == 0)
+                await _database.InsertAllAsync(CreateDefaultPlacesForDb());
 
-            _initialized = true;
             Debug.WriteLine( "Database initialized successfully" );
         }
         catch ( Exception ex )
         {
+            _initTask = null;
             Debug.WriteLine( $"CityExplorer DB init failed: {ex.Message}" );
+            throw;
         }
-        finally
+    }
+    
+    public static async Task ClearDatabase()
+    {
+        _initTask = null;
+        
+        if (_database != null)
         {
-            Semaphore.Release();
+            await _database.CloseAsync();
+            _database = null!;
         }
+
+        var databasePath = Path.Combine(FileSystem.AppDataDirectory, "city_explorer.db");
+        if (File.Exists(databasePath))
+            File.Delete(databasePath);
     }
 
     private static List<Category> CreateDefaultCategoriesForDb()
     {
         return
         [
-            new Category { Emoji = "🏰", Key = "Historical", Title = "CategoryHistorical" },
-            new Category { Emoji = "🌳", Key = "Parks", Title = "CategoryParks" },
-            new Category { Emoji = "🍽️", Key = "Restaurants", Title = "CategoryRestaurants" }
+            new Category { Emoji = "🏰", Key = "CategoryHistorical", Title = "CategoryHistorical" },
+            new Category { Emoji = "🌳", Key = "CategoryParks", Title = "CategoryParks" },
+            new Category { Emoji = "🍽️", Key = "CategoryRestaurants", Title = "CategoryRestaurants" }
         ];
     }
 
@@ -73,32 +79,32 @@ public static class DatabaseService
         [
             new Place
             {
-                Id = 1, Category = "Historical", ImagePath = "estonia.png", Name = "ToompeaName",
+                Id = 1, Category = "CategoryHistorical", ImagePath = "estonia.png", Name = "ToompeaName",
                 ShortDescription = "ToompeaShort", Description = "ToompeaDescription"
             },
             new Place
             {
-                Id = 2, Category = "Historical", ImagePath = "germany.png", Name = "NevskyName",
+                Id = 2, Category = "CategoryHistorical", ImagePath = "germany.png", Name = "NevskyName",
                 ShortDescription = "NevskyShort", Description = "NevskyDescription"
             },
             new Place
             {
-                Id = 3, Category = "Parks", ImagePath = "snow_forest_day.png", Name = "KadriorgName",
+                Id = 3, Category = "CategoryParks", ImagePath = "snow_forest_day.png", Name = "KadriorgName",
                 ShortDescription = "KadriorgShort", Description = "KadriorgDescription"
             },
             new Place
             {
-                Id = 4, Category = "Parks", ImagePath = "snow_forest_night.png", Name = "JapaneseGardenName",
+                Id = 4, Category = "CategoryParks", ImagePath = "snow_forest_night.png", Name = "JapaneseGardenName",
                 ShortDescription = "JapaneseGardenShort", Description = "JapaneseGardenDescription"
             },
             new Place
             {
-                Id = 5, Category = "Restaurants", ImagePath = "lasagne.jpg", Name = "OldeHansaName",
+                Id = 5, Category = "CategoryRestaurants", ImagePath = "lasagne.jpg", Name = "OldeHansaName",
                 ShortDescription = "OldeHansaShort", Description = "OldeHansaDescription"
             },
             new Place
             {
-                Id = 6, Category = "Restaurants", ImagePath = "pizza.jpg", Name = "RataskaevuName",
+                Id = 6, Category = "CategoryRestaurants", ImagePath = "pizza.jpg", Name = "RataskaevuName",
                 ShortDescription = "RataskaevuShort", Description = "RataskaevuDescription"
             }
         ];
@@ -145,11 +151,6 @@ public static class DatabaseService
             {
                 dbPlace.IsFavorite = true;
                 await _database.UpdateAsync( dbPlace );
-            }
-            else
-            {
-                place.IsFavorite = true;
-                await _database.InsertOrReplaceAsync( place );
             }
 
             Debug.WriteLine( $"Added favorite: {place.Id}" );

@@ -11,8 +11,8 @@ public class ExploreViewModel : BaseViewModel
     public ExploreViewModel()
     {
         _allPlaces = [];
-        Places = new ObservableCollection<Place>();
-        Categories = new ObservableCollection<Category>();
+        Places = [];
+        Categories = [];
         LocalizationService.LanguageChanged += ( _, _ ) => { _ = Load(); };
         _ = Load();
     }
@@ -23,15 +23,17 @@ public class ExploreViewModel : BaseViewModel
     public string PageHeading { get; private set; } = string.Empty;
     public string PageSubtitle { get; private set; } = string.Empty;
 
+    private Category? _selectedCategory;
+
     public Category? SelectedCategory
     {
-        get;
+        get => _selectedCategory;
         set
         {
-            if ( field == value )
+            if (_selectedCategory == value) 
                 return;
-
-            field = value;
+            
+            _selectedCategory = value;
             UpdateCategorySelection();
             _ = LoadPlaces();
             OnPropertyChanged();
@@ -71,20 +73,20 @@ public class ExploreViewModel : BaseViewModel
         var selectedKey = SelectedCategory?.Key ?? "Historical";
         Categories.Clear();
 
-        var dbCategories = await DatabaseService.GetAllCategories();
-        foreach ( var category in dbCategories )
+        var categories = await DatabaseService.GetAllCategories();
+        foreach (var category in categories)
         {
-            var localizedCategory = new Category
+            Categories.Add(new Category
             {
                 Emoji = category.Emoji,
                 Key = category.Key,
-                Title = LocalizationService.Get( category.Title )
-            };
-            Categories.Add( localizedCategory );
+                Title = LocalizationService.Get(category.Title)
+            });
         }
-
-        SelectedCategory = Categories.FirstOrDefault( category => category.Key == selectedKey ) ??
-                           Categories.FirstOrDefault();
+        
+        _selectedCategory = Categories.FirstOrDefault(c => c.Key == selectedKey) ?? Categories.FirstOrDefault();
+        UpdateCategorySelection();
+        OnPropertyChanged(nameof(SelectedCategory));
     }
 
     private async Task LoadPlaces()

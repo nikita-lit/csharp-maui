@@ -6,12 +6,12 @@ namespace Example.CityExplorer.Models;
 
 public class Category : INotifyPropertyChanged
 {
-    public string Emoji { get; set; } = string.Empty;
-
     [PrimaryKey]
     public string Key { get; set; } = string.Empty;
     public string Title { get; set; } = string.Empty;
+    public string Emoji { get; set; } = string.Empty;
 
+    [Ignore]
     public bool IsSelected
     {
         get;

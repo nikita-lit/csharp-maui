@@ -29,7 +29,7 @@
     <data name="LanguageLabel" xml:space="preserve"><value>Язык</value></data>
     <data name="CategoryHistorical" xml:space="preserve"><value>История</value></data>
     <data name="CategoryParks" xml:space="preserve"><value>Парки</value></data>
-    <data name="CategoryRestaurants" xml:space="preserve"><value>Еда</value></data>
+    <data name="CategoryNature" xml:space="preserve"><value>Природа</value></data>
     <data name="AddToFavorites" xml:space="preserve"><value>Добавить в избранное</value></data>
     <data name="RemoveFromFavorites" xml:space="preserve"><value>Удалить из избранного</value></data>
     <data name="FavoriteSaved" xml:space="preserve"><value>Место сохранено в избранном.</value></data>
@@ -47,6 +47,21 @@
     <data name="JapaneseGardenName" xml:space="preserve"><value>Японский сад</value></data>
     <data name="JapaneseGardenShort" xml:space="preserve"><value>Спокойный сад с камнем, водой и сезонными растениями.</value></data>
     <data name="JapaneseGardenDescription" xml:space="preserve"><value>Японский сад в Кадриорге создан для неспешных прогулок и созерцания. Особенно выразительно он выглядит во время весеннего цветения и осенних красок.</value></data>
+    <data name="OpenAirMuseumName" xml:space="preserve"><value>Эстонский музей под открытым небом</value></data>
+    <data name="OpenAirMuseumShort" xml:space="preserve"><value>Отличный музей под открытым небом с традиционными эстонскими усадьбами и природой.</value></data>
+    <data name="OpenAirMuseumDescription" xml:space="preserve"><value>Эстонский музей под открытым небом показывает сельскую жизнь и архитектуру Эстонии на протяжении веков. Здесь представлены исторические деревенские постройки, парковые зоны и культурные события.</value></data>
+    <data name="NarvaCastleName" xml:space="preserve"><value>Нарвский замок</value></data>
+    <data name="NarvaCastleShort" xml:space="preserve"><value>Древняя крепость на реке Нарва, на границе между Эстонией и Россией.</value></data>
+    <data name="NarvaCastleDescription" xml:space="preserve"><value>Нарвский замок — одна из старейших и стратегически важнейших крепостей Эстонии. Возрастом более 800 лет, замок предоставляет вид на реку Нарву и противоположный берег.</value></data>
+    <data name="KumuName" xml:space="preserve"><value>Музей искусства Кumu</value></data>
+    <data name="KumuShort" xml:space="preserve"><value>Современный музей искусства в Кадриорге, центре эстонского искусства.</value></data>
+    <data name="KumuDescription" xml:space="preserve"><value>Музей искусства Кumu представляет эстонское искусство от XVIII века до современности. Само здание музея является произведением искусства в сердце парка Кадриорг.</value></data>
+    <data name="LahemaaName" xml:space="preserve"><value>Национальный парк Лахемаа</value></data>
+    <data name="LahemaaShort" xml:space="preserve"><value>Красивый национальный парк с береговой линией, лесами и болотами.</value></data>
+    <data name="LahemaaDescription" xml:space="preserve"><value>Национальный парк Лахемаа — крупнейший и один из старейших парков Эстонии, известный лесами, побережьем и поместьями. Отлично подходит для походов и прогулок у моря.</value></data>
+    <data name="ParnuBeachName" xml:space="preserve"><value>Пярнуский пляж</value></data>
+    <data name="ParnuBeachShort" xml:space="preserve"><value>Популярный песчаный пляж и курортный район на юге Эстонии.</value></data>
+    <data name="ParnuBeachDescription" xml:space="preserve"><value>Пярнуский пляж известен мягким песком, живой набережной и бурной летней атмосферой. Здесь много развлечений и возможностей для отдыха.</value></data>
     <data name="OldeHansaName" xml:space="preserve"><value>Olde Hansa</value></data>
     <data name="OldeHansaShort" xml:space="preserve"><value>Ресторан со средневековой атмосферой в Старом городе.</value></data>
     <data name="OldeHansaDescription" xml:space="preserve"><value>Olde Hansa предлагает блюда, вдохновленные средневековым Таллином, свечи и исторический стиль обслуживания. Место подходит для ужина с яркой атмосферой.</value></data>

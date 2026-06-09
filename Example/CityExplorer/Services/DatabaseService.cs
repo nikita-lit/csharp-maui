@@ -9,13 +9,6 @@ public static class DatabaseService
 {
     private static SQLiteAsyncConnection _database = null!;
     
-    private static Task? _initTask;
-
-    public static Task Initialize()
-    {
-        return _initTask ??= InitializeDb();
-    }
-    
     private static async Task InitializeDb()
     {
         await ClearDatabase();
@@ -47,29 +40,14 @@ public static class DatabaseService
             throw;
         }
     }
-    
-    public static async Task ClearDatabase()
-    {
-        _initTask = null;
-        
-        if (_database != null)
-        {
-            await _database.CloseAsync();
-            _database = null!;
-        }
-
-        var databasePath = Path.Combine(FileSystem.AppDataDirectory, "city_explorer.db");
-        if (File.Exists(databasePath))
-            File.Delete(databasePath);
-    }
 
     private static List<Category> CreateDefaultCategoriesForDb()
     {
         return
         [
-            new Category { Emoji = "🏰", Key = "CategoryHistorical", Title = "CategoryHistorical" },
-            new Category { Emoji = "🌳", Key = "CategoryParks", Title = "CategoryParks" },
-            new Category { Emoji = "🍽️", Key = "CategoryRestaurants", Title = "CategoryRestaurants" }
+            new Category { Emoji = "🏰", Id = "CategoryHistorical", Title = "CategoryHistorical" },
+            new Category { Emoji = "🌳", Id = "CategoryParks", Title = "CategoryParks" },
+            new Category { Emoji = "🌿", Id = "CategoryNature", Title = "CategoryNature" }
         ];
     }
 
@@ -79,33 +57,48 @@ public static class DatabaseService
         [
             new Place
             {
-                Id = 1, Category = "CategoryHistorical", ImagePath = "estonia.png", Name = "ToompeaName",
+                Id = 1, Category = "CategoryHistorical", ImagePath = "CityExplorer/toompea.jpg", Name = "ToompeaName",
                 ShortDescription = "ToompeaShort", Description = "ToompeaDescription"
             },
             new Place
             {
-                Id = 2, Category = "CategoryHistorical", ImagePath = "germany.png", Name = "NevskyName",
+                Id = 2, Category = "CategoryHistorical", ImagePath = "CityExplorer/nevsky.jpg", Name = "NevskyName",
                 ShortDescription = "NevskyShort", Description = "NevskyDescription"
             },
             new Place
             {
-                Id = 3, Category = "CategoryParks", ImagePath = "snow_forest_day.png", Name = "KadriorgName",
+                Id = 3, Category = "CategoryParks", ImagePath = "CityExplorer/kadrioru.jpg", Name = "KadriorgName",
                 ShortDescription = "KadriorgShort", Description = "KadriorgDescription"
             },
             new Place
             {
-                Id = 4, Category = "CategoryParks", ImagePath = "snow_forest_night.png", Name = "JapaneseGardenName",
+                Id = 4, Category = "CategoryParks", ImagePath = "CityExplorer/aed.jpg", Name = "JapaneseGardenName",
                 ShortDescription = "JapaneseGardenShort", Description = "JapaneseGardenDescription"
             },
             new Place
             {
-                Id = 5, Category = "CategoryRestaurants", ImagePath = "lasagne.jpg", Name = "OldeHansaName",
-                ShortDescription = "OldeHansaShort", Description = "OldeHansaDescription"
+                Id = 5, Category = "CategoryParks", ImagePath = "CityExplorer/air.jpg", Name = "OpenAirMuseumName",
+                ShortDescription = "OpenAirMuseumShort", Description = "OpenAirMuseumDescription"
             },
             new Place
             {
-                Id = 6, Category = "CategoryRestaurants", ImagePath = "pizza.jpg", Name = "RataskaevuName",
-                ShortDescription = "RataskaevuShort", Description = "RataskaevuDescription"
+                Id = 6, Category = "CategoryHistorical", ImagePath = "CityExplorer/narva.jpg", Name = "NarvaCastleName",
+                ShortDescription = "NarvaCastleShort", Description = "NarvaCastleDescription"
+            },
+            new Place
+            {
+                Id = 7, Category = "CategoryHistorical", ImagePath = "CityExplorer/kumu.jpg", Name = "KumuName",
+                ShortDescription = "KumuShort", Description = "KumuDescription"
+            },
+            new Place
+            {
+                Id = 8, Category = "CategoryNature", ImagePath = "CityExplorer/lahemaa.jpg", Name = "LahemaaName",
+                ShortDescription = "LahemaaShort", Description = "LahemaaDescription"
+            },
+            new Place
+            {
+                Id = 9, Category = "CategoryNature", ImagePath = "CityExplorer/parnu.jpg", Name = "ParnuBeachName",
+                ShortDescription = "ParnuBeachShort", Description = "ParnuBeachDescription"
             }
         ];
     }
@@ -144,16 +137,14 @@ public static class DatabaseService
             return;
 
         await Initialize();
+
         try
         {
-            var dbPlace = await _database.Table<Place>().FirstOrDefaultAsync( p => p.Id == place.Id );
-            if ( dbPlace != null )
-            {
-                dbPlace.IsFavorite = true;
-                await _database.UpdateAsync( dbPlace );
-            }
+            var dbPlace = await _database.Table<Place>()
+                .FirstOrDefaultAsync( p => p.Id == place.Id );
 
-            Debug.WriteLine( $"Added favorite: {place.Id}" );
+            dbPlace.IsFavorite = true;
+            await _database.UpdateAsync( dbPlace );
         }
         catch ( Exception ex )
         {
@@ -164,9 +155,11 @@ public static class DatabaseService
     public static async Task<List<Place>> GetFavorites()
     {
         await Initialize();
+
         try
         {
-            return await _database.Table<Place>().Where( p => p.IsFavorite ).OrderBy( place => place.Name )
+            return await _database.Table<Place>().Where( p => p.IsFavorite )
+                .OrderBy( place => place.Name )
                 .ToListAsync();
         }
         catch ( Exception ex )
@@ -179,15 +172,14 @@ public static class DatabaseService
     public static async Task RemoveFavorite( int id )
     {
         await Initialize();
+
         try
         {
-            var dbPlace = await _database.Table<Place>().FirstOrDefaultAsync( p => p.Id == id );
-            if ( dbPlace != null )
-            {
-                dbPlace.IsFavorite = false;
-                await _database.UpdateAsync( dbPlace );
-                Debug.WriteLine( $"Removed favorite: {id}" );
-            }
+            var dbPlace = await _database.Table<Place>()
+            .FirstOrDefaultAsync( p => p.Id == id );
+            dbPlace.IsFavorite = false;
+
+            await _database.UpdateAsync( dbPlace );
         }
         catch ( Exception ex )
         {
@@ -198,15 +190,38 @@ public static class DatabaseService
     public static async Task<bool> IsFavorite( int placeId )
     {
         await Initialize();
+
         try
         {
             var favorite = await _database.Table<Place>().FirstOrDefaultAsync( p => p.Id == placeId );
-            return favorite != null && favorite.IsFavorite;
+            return favorite.IsFavorite;
         }
         catch ( Exception ex )
         {
             Debug.WriteLine( $"IsFavorite check failed: {ex.Message}" );
             return false;
         }
+    }
+    
+    public static async Task ClearDatabase()
+    {
+        _initTask = null;
+        
+        if (_database != null)
+        {
+            await _database.CloseAsync();
+            _database = null!;
+        }
+
+        var databasePath = Path.Combine(FileSystem.AppDataDirectory, "city_explorer.db");
+        if (File.Exists(databasePath))
+            File.Delete(databasePath);
+    }
+    
+    private static Task? _initTask;
+
+    public static Task Initialize()
+    {
+        return _initTask ??= InitializeDb();
     }
 }

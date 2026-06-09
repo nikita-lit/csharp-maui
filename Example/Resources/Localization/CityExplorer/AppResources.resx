@@ -29,7 +29,7 @@
     <data name="LanguageLabel" xml:space="preserve"><value>Keel</value></data>
     <data name="CategoryHistorical" xml:space="preserve"><value>Ajalugu</value></data>
     <data name="CategoryParks" xml:space="preserve"><value>Pargid</value></data>
-    <data name="CategoryRestaurants" xml:space="preserve"><value>Restoranid</value></data>
+    <data name="CategoryNature" xml:space="preserve"><value>Loodus</value></data>
     <data name="AddToFavorites" xml:space="preserve"><value>Lisa lemmikutesse</value></data>
     <data name="RemoveFromFavorites" xml:space="preserve"><value>Eemalda lemmikutest</value></data>
     <data name="FavoriteSaved" xml:space="preserve"><value>Koht salvestati lemmikutesse.</value></data>
@@ -47,6 +47,21 @@
     <data name="JapaneseGardenName" xml:space="preserve"><value>Jaapani aed</value></data>
     <data name="JapaneseGardenShort" xml:space="preserve"><value>Rahulik aed kivide, vee ja hooajaliste taimedega.</value></data>
     <data name="JapaneseGardenDescription" xml:space="preserve"><value>Kadrioru Jaapani aed on kujundatud vaikseks jalutamiseks ja vaadete nautimiseks. Aed muutub eriti ilmekaks kevadise õitsemise ja sügisvärvide ajal.</value></data>
+    <data name="OpenAirMuseumName" xml:space="preserve"><value>Eesti Vabaõhumuuseum</value></data>
+    <data name="OpenAirMuseumShort" xml:space="preserve"><value>Suurepärane välimuuseum traditsiooniliste Eesti talumajade ja maastiku keskel.</value></data>
+    <data name="OpenAirMuseumDescription" xml:space="preserve"><value>Eesti Vabaõhumuuseum tutvustab tuhandeid aastaid Eesti maapiirkonna elu ja arhitektuuri. Siin on vana talude küla, park ja sündmused, mis näitavad rahvakultuuri.</value></data>
+    <data name="NarvaCastleName" xml:space="preserve"><value>Narva linnus</value></data>
+    <data name="NarvaCastleShort" xml:space="preserve"><value>Iidne kaitserajatis Narva jõe kaldal, piiril Venemaaga.</value></data>
+    <data name="NarvaCastleDescription" xml:space="preserve"><value>Narva linnus on üks Eesti iidseimaid ja olulisemaid kaitserajatisi. Üle 800 aasta vanust linnust avaneb vaade Narva jõele ja vastaskaldale.</value></data>
+    <data name="KumuName" xml:space="preserve"><value>Kumu kunstimuuseum</value></data>
+    <data name="KumuShort" xml:space="preserve"><value>Kaasaegne kunstimuuseum Kadriorus, eesti kunsti keskus.</value></data>
+    <data name="KumuDescription" xml:space="preserve"><value>Kumu kunstimuuseum esitleb Eesti kunsti 18. sajandist tänapäevani. Muuseumi arkhitektuur ise on kunstiteos Kadrioru parkide keskel.</value></data>
+    <data name="LahemaaName" xml:space="preserve"><value>Lahemaa rahvuspark</value></data>
+    <data name="LahemaaShort" xml:space="preserve"><value>Väga looduskaunis rahvuspark rannikuala, metsade ja rabadega.</value></data>
+    <data name="LahemaaDescription" xml:space="preserve"><value>Lahemaa rahvuspark on Eesti suurim ja üks vanimaid rahvusparke, tuntud metsade, rannikuala ja ajalooliste mõisate poolest. Sobib loodusmatkamiseks ja mererannas jalutamiseks.</value></data>
+    <data name="ParnuBeachName" xml:space="preserve"><value>Pärnu rand</value></data>
+    <data name="ParnuBeachShort" xml:space="preserve"><value>Populaarne liivarand ning puhkusepiirkond Lõuna-Eestis.</value></data>
+    <data name="ParnuBeachDescription" xml:space="preserve"><value>Pärnu rand on tuntud oma pehme liiva, rannapromenaadi ja elava suveelu poolest. Suvel pakub see palju tegevusi ja vaba aja veetmise võimalusi.</value></data>
     <data name="OldeHansaName" xml:space="preserve"><value>Olde Hansa</value></data>
     <data name="OldeHansaShort" xml:space="preserve"><value>Keskaegse atmosfääriga restoran vanalinnas.</value></data>
     <data name="OldeHansaDescription" xml:space="preserve"><value>Olde Hansa pakub keskaegsest Tallinnast inspireeritud roogasid, küünlavalgust ja ajaloolist teenindusstiili. Sobib külalistele, kes otsivad erilise miljööga õhtusööki.</value></data>

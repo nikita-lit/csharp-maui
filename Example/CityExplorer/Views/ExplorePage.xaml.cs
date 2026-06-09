@@ -33,7 +33,7 @@ public partial class ExplorePage
             return;
 
         _autoScroll = true;
-        Dispatcher.StartTimer( TimeSpan.FromSeconds( 4 ), () =>
+        Dispatcher.StartTimer( TimeSpan.FromSeconds( 5 ), () =>
         {
             if ( !_autoScroll || _viewModel.Places.Count == 0 )
                 return false;

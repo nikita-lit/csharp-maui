@@ -29,7 +29,7 @@
     <data name="LanguageLabel" xml:space="preserve"><value>Language</value></data>
     <data name="CategoryHistorical" xml:space="preserve"><value>History</value></data>
     <data name="CategoryParks" xml:space="preserve"><value>Parks</value></data>
-    <data name="CategoryRestaurants" xml:space="preserve"><value>Food</value></data>
+    <data name="CategoryNature" xml:space="preserve"><value>Nature</value></data>
     <data name="AddToFavorites" xml:space="preserve"><value>Add to Favorites</value></data>
     <data name="RemoveFromFavorites" xml:space="preserve"><value>Remove from Favorites</value></data>
     <data name="FavoriteSaved" xml:space="preserve"><value>The place was saved to favorites.</value></data>
@@ -47,6 +47,21 @@
     <data name="JapaneseGardenName" xml:space="preserve"><value>Japanese Garden</value></data>
     <data name="JapaneseGardenShort" xml:space="preserve"><value>A calm garden shaped by stone, water, and seasonal plants.</value></data>
     <data name="JapaneseGardenDescription" xml:space="preserve"><value>The Japanese Garden in Kadriorg is designed for slow walks and composed views. It is especially expressive during spring blooming and autumn color.</value></data>
+    <data name="OpenAirMuseumName" xml:space="preserve"><value>Estonian Open Air Museum</value></data>
+    <data name="OpenAirMuseumShort" xml:space="preserve"><value>An excellent open-air museum showcasing traditional Estonian farmhouses and landscapes.</value></data>
+    <data name="OpenAirMuseumDescription" xml:space="preserve"><value>The Estonian Open Air Museum presents centuries of rural Estonian life and architecture. It features historic village buildings, parkland, and cultural events that celebrate folk traditions.</value></data>
+    <data name="NarvaCastleName" xml:space="preserve"><value>Narva Castle</value></data>
+    <data name="NarvaCastleShort" xml:space="preserve"><value>An ancient fortress on the Narva River, standing at the Estonian-Russian border.</value></data>
+    <data name="NarvaCastleDescription" xml:space="preserve"><value>Narva Castle is one of Estonia's oldest and most strategically important fortifications. Over 800 years old, the castle offers views of the Narva River and the opposite shore.</value></data>
+    <data name="KumuName" xml:space="preserve"><value>Kumu Art Museum</value></data>
+    <data name="KumuShort" xml:space="preserve"><value>A contemporary art museum in Kadriorg, the heart of Estonian art.</value></data>
+    <data name="KumuDescription" xml:space="preserve"><value>Kumu Art Museum showcases Estonian art from the 18th century to the present day. The museum building itself is a work of art set in the heart of Kadriorg Park.</value></data>
+    <data name="LahemaaName" xml:space="preserve"><value>Lahemaa National Park</value></data>
+    <data name="LahemaaShort" xml:space="preserve"><value>A beautiful national park with coastline, forests, and bogs.</value></data>
+    <data name="LahemaaDescription" xml:space="preserve"><value>Lahemaa National Park is Estonia's largest and one of its oldest national parks, known for forests, coastal landscapes, and manor houses. It is ideal for nature hikes and seaside walks.</value></data>
+    <data name="ParnuBeachName" xml:space="preserve"><value>Pärnu Beach</value></data>
+    <data name="ParnuBeachShort" xml:space="preserve"><value>A popular sandy beach and holiday destination in southern Estonia.</value></data>
+    <data name="ParnuBeachDescription" xml:space="preserve"><value>Pärnu Beach is known for soft sand, a lively promenade, and vibrant summer atmosphere. It offers many activities and leisure options during the season.</value></data>
     <data name="OldeHansaName" xml:space="preserve"><value>Olde Hansa</value></data>
     <data name="OldeHansaShort" xml:space="preserve"><value>A medieval-style restaurant in Tallinn Old Town.</value></data>
     <data name="OldeHansaDescription" xml:space="preserve"><value>Olde Hansa serves dishes inspired by medieval Tallinn, with candlelight and historical service style. It suits visitors looking for dinner with a distinctive atmosphere.</value></data>

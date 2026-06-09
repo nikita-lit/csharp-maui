@@ -70,7 +70,7 @@ public class ExploreViewModel : BaseViewModel
 
     private async Task LoadCategories()
     {
-        var selectedKey = SelectedCategory?.Key ?? "Historical";
+        var selectedKey = SelectedCategory?.Id ?? "Historical";
         Categories.Clear();
 
         var categories = await DatabaseService.GetAllCategories();
@@ -79,12 +79,12 @@ public class ExploreViewModel : BaseViewModel
             Categories.Add(new Category
             {
                 Emoji = category.Emoji,
-                Key = category.Key,
+                Id = category.Id,
                 Title = LocalizationService.Get(category.Title)
             });
         }
         
-        _selectedCategory = Categories.FirstOrDefault(c => c.Key == selectedKey) ?? Categories.FirstOrDefault();
+        _selectedCategory = Categories.FirstOrDefault(c => c.Id == selectedKey) ?? Categories.FirstOrDefault();
         UpdateCategorySelection();
         OnPropertyChanged(nameof(SelectedCategory));
     }
@@ -101,15 +101,15 @@ public class ExploreViewModel : BaseViewModel
     private void UpdateCategorySelection()
     {
         foreach ( var category in Categories )
-            category.IsSelected = category.Key == SelectedCategory?.Key;
+            category.IsSelected = category.Id == SelectedCategory?.Id;
     }
 
     private void AddPlaces()
     {
         Places.Clear();
-        var categoryKey = SelectedCategory?.Key ?? "Historical";
+        var categoryId = SelectedCategory?.Id ?? "Historical";
 
-        foreach ( var place in _allPlaces.Where( place => place.Category == categoryKey ) )
+        foreach ( var place in _allPlaces.Where( place => place.Category == categoryId ) )
         {
             var localized = new Place
             {
